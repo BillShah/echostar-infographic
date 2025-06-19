@@ -100,6 +100,24 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        /* Custom styles for summary modal content */
+        #summaryText h4 {
+            font-weight: bold;
+            color: #00A9E0; /* Teal color for main headings */
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        #summaryText ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 1em;
+        }
+        #summaryText li {
+            margin-bottom: 0.5em;
+        }
+        #summaryText em {
+            color: #00A9E0; /* Teal color for emphasis */
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -143,12 +161,12 @@
                     <p class="font-semibold text-gray-600">SPM Modules</p>
                 </div>
                 <div class="bg-white rounded-lg shadow-md p-4 text-center">
-                    <p class="text-5xl font-bold teal-text">2</p>
-                    <p class="font-semibold text-gray-600">Key Workshop Groups</p>
+                    <p class="text-5xl font-bold teal-text">4</p>
+                    <p class="font-semibold text-gray-600">Workshows</p>
                 </div>
                  <div class="col-span-2 bg-white rounded-lg shadow-md p-4 text-center">
-                    <p class="text-5xl font-bold teal-text">July 21</p>
-                    <p class="font-semibold text-gray-600">Requirements Gathering Complete</p>
+                    <p class="text-5xl font-bold teal-text">8</p>
+                    <p class="font-semibold text-gray-600">Workshops</p>
                 </div>
             </div>
 
@@ -255,7 +273,7 @@
         <section id="strategy-details" class="mb-12">
              <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
                 <div class="lg:col-span-3 bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-2xl font-bold text-center mb-6">Workshop & Workshot Structure</h3>
+                    <h3 class="text-2xl font-bold text-center mb-6">Workshows & Workshops Structure</h3>
                     <p class="text-center text-gray-500 text-sm mb-6">Our structured engagement process ensures alignment, demonstrates value, and captures detailed needs through an iterative cycle.</p>
                     <div class="flex flex-col md:flex-row items-center justify-around space-y-4 md:space-y-0 md:space-x-4">
                         <div class="text-center p-4 border-2 border-dashed border-gray-300 rounded-lg">
@@ -265,13 +283,13 @@
                         </div>
                         <div class="flow-arrow transform md:rotate-0">↓</div>
                         <div class="text-center p-4 border-2 border-dashed border-teal-400 rounded-lg">
-                            <h4 class="font-bold">2. Workshops</h4>
+                            <h4 class="font-bold">2. Workshows</h4>
                             <p class="text-xs text-gray-500">Stakeholders (2hr)</p>
                             <p class="text-sm mt-1">"See what you're getting" with OOTB demos.</p>
                         </div>
                         <div class="flow-arrow transform md:rotate-0">↓</div>
                         <div class="text-center p-4 border-2 border-dashed border-orange-400 rounded-lg">
-                            <h4 class="font-bold">3. Workshots</h4>
+                            <h4 class="font-bold">3. Workshops</h4>
                             <p class="text-xs text-gray-500">Stakeholders</p>
                             <p class="text-sm mt-1">Capture gaps & configuration requirements.</p>
                         </div>
@@ -288,7 +306,7 @@
         </section>
 
         <section id="implementation-phases" class="mb-12 bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-2xl font-bold text-center mb-6">Phased Implementation Strategy</h3>
+            <h3 class="text-2xl font-bold text-center mb-6">Long Term (18 Months) Implementation Strategy</h3>
             <p class="text-center text-gray-500 text-sm mb-8 max-w-2xl mx-auto">We are building momentum with receptive divisions first, creating a showcase of success to encourage enterprise-wide adoption before approaching more resistant areas.</p>
             <div class="flex flex-col md:flex-row justify-between items-center text-center space-y-6 md:space-y-0 md:space-x-4">
                 <div class="flex-1 p-4">
@@ -460,17 +478,106 @@
             const mitigationOutput = document.getElementById('mitigationOutput');
             const mitigationLoadingSpinner = document.getElementById('mitigationLoadingSpinner');
 
+            // Helper function to convert simple Markdown to HTML with specific styling
+            function markdownToHtml(markdownText) {
+                let htmlContent = markdownText;
+
+                // Escape HTML characters to prevent XSS issues when using innerHTML later
+                htmlContent = htmlContent.replace(/&/g, '&amp;')
+                                     .replace(/</g, '&lt;')
+                                     .replace(/>/g, '&gt;')
+                                     .replace(/"/g, '&quot;')
+                                     .replace(/'/g, '&#039;');
+
+                // 1. Convert main headings `**Heading Text:**` to <h4> with bold and teal-text classes
+                // This targets the specific heading style from the prompt.
+                htmlContent = htmlContent.replace(/\*\*([^*]+?):\*\*/g, '<h4>$1:</h4>');
+
+                // 2. Convert italic `*text*` to <em class="teal-text">text</em>
+                htmlContent = htmlContent.replace(/\*([^*]+?)\*/g, '<em class="teal-text">$1</em>');
+
+                // 3. Convert general bold `**text**` to <strong>text</strong> (after headings and italics)
+                htmlContent = htmlContent.replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>');
+
+
+                // 4. Handle bullet points `* Item` to <ul><li>Item</li></ul>
+                // This is a more robust approach for list items.
+                const lines = htmlContent.split('\n');
+                let processedLines = [];
+                let inListBlock = false;
+
+                lines.forEach(line => {
+                    const trimmedLine = line.trim();
+                    if (trimmedLine.startsWith('&lt;li')) { // If it's already an <li> tag from previous processing
+                        if (!inListBlock) {
+                            processedLines.push('<ul>');
+                            inListBlock = true;
+                        }
+                        processedLines.push(line);
+                    }
+                    else if (trimmedLine.startsWith('* ')) {
+                        if (!inListBlock) {
+                            processedLines.push('<ul>');
+                            inListBlock = true;
+                        }
+                        // Convert markdown list item to HTML <li>
+                        processedLines.push(`<li>${trimmedLine.substring(2).trim()}</li>`);
+                    } else {
+                        if (inListBlock) {
+                            processedLines.push('</ul>');
+                            inListBlock = false;
+                        }
+                        // Add non-list lines. Add <br> for newlines in general text blocks.
+                        // Only add <br> if the line is not empty and not an already processed HTML tag.
+                        if (trimmedLine !== '') {
+                            if (!trimmedLine.startsWith('<h4') && !trimmedLine.startsWith('<ul') && !trimmedLine.startsWith('<li')) {
+                                processedLines.push(line);
+                            } else {
+                                processedLines.push(line);
+                            }
+                        }
+                    }
+                });
+
+                if (inListBlock) { // Close any pending ul tag at the end of content
+                    processedLines.push('</ul>');
+                }
+
+                // Join lines and then replace remaining newlines with <br> tags.
+                // Replace double newlines with double <br> for paragraph breaks.
+                // Replace single newlines with single <br> for line breaks within text, ensuring no conflict with list tags.
+                let finalHtml = processedLines.join('\n');
+                finalHtml = finalHtml.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+
+                // Decode HTML entities that were escaped at the beginning for proper display
+                finalHtml = finalHtml.replace(/&amp;/g, '&')
+                                     .replace(/&lt;/g, '<')
+                                     .replace(/&gt;/g, '>')
+                                     .replace(/&quot;/g, '"')
+                                     .replace(/&#039;/g, "'");
+
+                return finalHtml;
+            }
+
+
             summarizeInfographicBtn.addEventListener('click', async () => {
                 summaryLoadingSpinner.classList.remove('hidden');
-                summaryText.textContent = 'Generating summary...';
+                summaryText.innerHTML = 'Generating summary...'; 
 
-                const prompt = `Please provide a concise summary of the EchoStar ServiceNow SPM Implementation Stakeholder Engagement Strategy infographic. Focus on the main goals, organizational scope, key stakeholder groups, the timeline of engagement activities (pre-implementation to Week 4), the workshop/workshot structure, the phased implementation approach, and critical risks. The summary should be clear and professional, suitable for a high-level overview.`;
+                // Modified prompt to reduce length and focus on initial sections
+                const prompt = `Please provide a concise summary of the EchoStar ServiceNow SPM Implementation Stakeholder Engagement Strategy infographic. Focus only on the main goals and the organizational landscape/scope. Absolutely do NOT include any information related to: Key Stakeholder Groups, Engagement Timeline, Workshop Structure, Phased Implementation Approach, or Critical Risks. The summary should be clear and professional, suitable for a high-level overview.
+
+                Please use the following Markdown formatting guidelines:
+                -   For main sub-headings (like "Main Goals", "Organizational Scope"), use \`**Heading Text:**\` (e.g., \`**Main Goals:**\`).
+                -   For other strong emphasis within sentences, use \`**bold text**\`.
+                -   For gentle emphasis within sentences that should be italicized, use \`*italic text*\`.
+                -   For bullet points, use \`* Item text\` at the start of each list item.`;
                 
                 try {
                     let chatHistory = [];
                     chatHistory.push({ role: "user", parts: [{ text: prompt }] });
                     const payload = { contents: chatHistory };
-                    const apiKey = "";
+                    const apiKey = ""; 
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
                     
                     const response = await fetch(apiUrl, {
@@ -483,13 +590,14 @@
                     if (result.candidates && result.candidates.length > 0 &&
                         result.candidates[0].content && result.candidates[0].content.parts &&
                         result.candidates[0].content.parts.length > 0) {
-                        summaryText.textContent = result.candidates[0].content.parts[0].text;
+                        const rawText = result.candidates[0].content.parts[0].text;
+                        summaryText.innerHTML = markdownToHtml(rawText);
                     } else {
-                        summaryText.textContent = 'Failed to generate summary. Please try again.';
+                        summaryText.innerHTML = 'Failed to generate summary. Please try again.';
                         console.error('Gemini API response structure unexpected:', result);
                     }
                 } catch (error) {
-                    summaryText.textContent = 'Error generating summary: ' + error.message;
+                    summaryText.innerHTML = 'Error generating summary: ' + error.message;
                     console.error('Error calling Gemini API for summary:', error);
                 } finally {
                     summaryLoadingSpinner.classList.add('hidden');
@@ -539,7 +647,7 @@
                     let chatHistory = [];
                     chatHistory.push({ role: "user", parts: [{ text: prompt }] });
                     const payload = { contents: chatHistory };
-                    const apiKey = "";
+                    const apiKey = ""; 
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
                     
                     const response = await fetch(apiUrl, {
@@ -590,7 +698,7 @@
                     let chatHistory = [];
                     chatHistory.push({ role: "user", parts: [{ text: prompt }] });
                     const payload = { contents: chatHistory };
-                    const apiKey = "";
+                    const apiKey = ""; 
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
                     
                     const response = await fetch(apiUrl, {
@@ -634,7 +742,7 @@
                     let chatHistory = [];
                     chatHistory.push({ role: "user", parts: [{ text: prompt }] });
                     const payload = { contents: chatHistory };
-                    const apiKey = "";
+                    const apiKey = ""; 
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
                     
                     const response = await fetch(apiUrl, {
