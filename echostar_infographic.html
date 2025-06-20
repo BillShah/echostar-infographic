@@ -50,73 +50,164 @@
             height: 300px;
             max-height: 350px;
         }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-            justify-content: center;
-            align-items: center;
+        /* Tooltip styles */
+        .tooltip-container {
+            position: relative;
+            display: inline-block; /* Or block, depending on parent */
         }
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            max-width: 80%;
-            max-height: 80%;
-            overflow-y: auto;
+        .tooltip {
+            visibility: hidden;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 100; /* Increased z-index */
+            bottom: 125%; /* Position the tooltip above the text */
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            min-width: 150px;
+            max-width: 250px;
+            font-size: 0.875rem;
+            line-height: 1.2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            pointer-events: none; /* Allows clicks on elements behind it */
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%; /* At the bottom of the tooltip */
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+        }
+
+        .tooltip-container:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Specific tooltip background colors */
+        .tooltip.tooltip-dark-blue {
+            background-color: #1A202C; /* Tailwind's gray-900 or a custom dark blue */
+        }
+        .tooltip.tooltip-dark-blue::after {
+            border-color: #1A202C transparent transparent transparent;
+        }
+        
+        .tooltip.tooltip-dark-green {
+            background-color: #2F4F4F; /* Dark Slate Gray (similar to some dark greens) */
+        }
+        .tooltip.tooltip-dark-green::after {
+            border-color: #2F4F4F transparent transparent transparent;
+        }
+
+        .tooltip.tooltip-purple {
+            background-color: #5B21B6; /* Tailwind's violet-800 */
+        }
+        .tooltip.tooltip-purple::after {
+            border-color: #5B21B6 transparent transparent transparent;
+        }
+
+        .tooltip.tooltip-dark-brown {
+            background-color: #5C4033; /* A deep brown */
+        }
+        .tooltip.tooltip-dark-brown::after {
+            border-color: #5C4033 transparent transparent transparent;
+        }
+
+        .tooltip.tooltip-dark-gray {
+            background-color: #4A5568; /* Original dark gray */
+        }
+        .tooltip.tooltip-dark-gray::after {
+            border-color: #4A5568 transparent transparent transparent;
+        }
+
+        /* Specific styles for the timeline cards */
+        .timeline-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem;
+            margin-bottom: 1rem;
             position: relative;
         }
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
+        .timeline-card::before {
+            content: '';
+            position: absolute;
+            left: -1.75rem; /* Adjust to align with the vertical line */
+            top: 1.5rem;
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 9999px;
+            background-color: #00A9E0; /* Teal dot */
+            border: 2px solid white;
+        }
+        .timeline-group-title {
             font-weight: bold;
+            font-size: 1.25rem;
+            color: #00A9E0; /* Teal */
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: left;
+            padding-left: 2rem; /* Align with the vertical line */
+            position: relative;
         }
-        .close-button:hover,
-        .close-button:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+        .timeline-group-title::before {
+             content: '';
+            position: absolute;
+            left: -1.75rem; /* Adjust to align with the vertical line */
+            top: 1.25rem;
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 9999px;
+            background-color: #00A9E0; /* Teal dot */
+            border: 2px solid white;
         }
-        .loading-spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left-color: #00A9E0;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: 8px;
+        /* Collapsible specific styles */
+        .collapsible-content {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 1;
+            max-height: 2000px; /* A large enough value to accommodate content when open */
+            overflow: visible; /* Default to visible when open, allowing tooltips to escape */
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .collapsible-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden; /* Apply hidden only when collapsed to clip content */
         }
-        /* Custom styles for summary modal content */
-        #summaryText h4 {
-            font-weight: bold;
-            color: #00A9E0; /* Teal color for main headings */
-            margin-top: 1em;
-            margin-bottom: 0.5em;
+        .collapsible-toggle .collapsible-icon {
+            transition: transform 0.3s ease-in-out;
         }
-        #summaryText ul {
-            list-style-type: disc;
-            margin-left: 20px;
-            margin-bottom: 1em;
+        .collapsible-toggle.collapsed .collapsible-icon {
+            transform: rotate(-90deg); /* Rotate up when collapsed */
         }
-        #summaryText li {
-            margin-bottom: 0.5em;
+        /* Adjustments for nested collapsible titles */
+        .sub-collapsible-toggle {
+            padding-left: 0; /* Remove default padding from timeline-group-title */
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.125rem; /* Slightly smaller heading for sub-sections */
         }
-        #summaryText em {
-            color: #00A9E0; /* Teal color for emphasis */
+        .sub-collapsible-toggle .collapsible-icon {
+            font-size: 1.5rem; /* Smaller icon for sub-sections */
+        }
+        .sub-collapsible-content {
+            padding-left: 0; /* Remove default padding for content */
+        }
+        /* Sticky header styles */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 20; /* Ensure it stays on top of other content */
+            background-color: #f0f4f8; /* Match body background or slightly different */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -124,178 +215,282 @@
 
     <div class="container mx-auto p-4 md:p-8 max-w-7xl">
         
-        <header class="text-center mb-10">
+        <header class="text-center mb-10 sticky-header">
+            <img src="EchoStar-Logo.wine.png" alt="EchoStar Logo" class="mx-auto h-12 mb-4" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo';">
             <h1 class="text-3xl md:text-5xl font-bold teal-text mb-2">EchoStar ServiceNow SPM Implementation</h1>
             <h2 class="text-xl md:text-2xl font-semibold text-gray-600">Stakeholder Engagement Strategy</h2>
             <p class="mt-4 max-w-4xl mx-auto text-gray-500">
-                A visual narrative of our deliberate strategy to unify diverse business units under a single ServiceNow SPM instance. This infographic outlines the phased rollout, structured engagement, and proactive risk management driving this transformation.
+                A visual narrative of our deliberate strategy to unify diverse business units under a single ServiceNow SPM instance. Aligning under the unified 'EchoStar' identity. This infographic outlines the phased rollout, structured engagement, and proactive risk management driving this transformation.
             </p>
-            <button id="summarizeInfographicBtn" class="mt-6 bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                Summarize Infographic ✨
-                <span id="summaryLoadingSpinner" class="loading-spinner hidden"></span>
-            </button>
         </header>
 
-        <section id="organization" class="mb-12">
-            <h3 class="text-2xl font-bold text-center mb-6">Organizational Landscape</h3>
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <div class="flex justify-center items-center mb-4">
+        <section id="organization-section" class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="organization-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Organizational Landscape</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="organization-content" class="collapsible-content collapsed">
+                <div class="flex justify-center items-center mb-4 mt-6">
                      <p class="text-center font-bold text-lg text-gray-700">Single SPM Instance Goal - Phased Approach</p>
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4 text-white text-center">
-                    <div class="teal-bg p-3 rounded-lg shadow"><strong>DISH</strong><br><span class="text-sm opacity-80">Primary Focus</span></div>
-                    <div class="teal-bg p-3 rounded-lg shadow"><strong>Sling</strong><br><span class="text-sm opacity-80">Video Streaming</span></div>
-                    <div class="teal-bg p-3 rounded-lg shadow"><strong>Video Services</strong><br><span class="text-sm opacity-80">Marketing</span></div>
-                    <div class="teal-bg p-3 rounded-lg shadow"><strong>Shared Services</strong><br><span class="text-sm opacity-80">CXO Functions</span></div>
-                    <div class="teal-bg p-3 rounded-lg shadow"><strong>Corporate</strong><br><span class="text-sm opacity-80">Legal, HR, CFO</span></div>
-                    <div class="orange-bg p-3 rounded-lg shadow"><strong>Wireless</strong><br><span class="text-sm opacity-80">Most Resistant</span></div>
-                    <div class="lightblue-bg p-3 rounded-lg shadow"><strong>Hughes</strong><br><span class="text-sm opacity-80">Legacy EchoStar</span></div>
+                    <div class="teal-bg p-3 rounded-lg shadow tooltip-container">
+                        <strong>DISH</strong><br><span class="text-sm opacity-80">Primary Focus</span>
+                        <span class="tooltip tooltip-dark-blue">Traditional satellite TV business, primary focus for initial SPM implementation.</span>
+                    </div>
+                    <div class="teal-bg p-3 rounded-lg shadow tooltip-container">
+                        <strong>Sling</strong><br><span class="text-sm opacity-80">Video Streaming</span>
+                        <span class="tooltip tooltip-dark-green">Video streaming services, aligned with DISH for implementation.</span>
+                    </div>
+                    <div class="teal-bg p-3 rounded-lg shadow tooltip-container">
+                        <strong>Video Services</strong><br><span class="text-sm opacity-80">Marketing</span>
+                        <span class="tooltip tooltip-purple">Marketing & retention, part of core video business implementation scope.</span>
+                    </div>
+                    <div class="teal-bg p-3 rounded-lg shadow tooltip-container">
+                        <strong>Shared Services</strong><br><span class="text-sm opacity-80">CXO Functions</span>
+                        <span class="tooltip tooltip-dark-brown">Centralized CXO functions, included in the foundational phase.</span>
+                    </div>
+                    <div class="teal-bg p-3 rounded-lg shadow tooltip-container">
+                        <strong>Corporate</strong><br><span class="text-sm opacity-80">Legal, HR, CFO</span>
+                        <span class="tooltip tooltip-dark-gray">Legal, HR, CFO functions, part of the initial receptive group.</span>
+                    </div>
+                    <div class="orange-bg p-3 rounded-lg shadow tooltip-container">
+                        <strong>Wireless</strong><br><span class="text-sm opacity-80">Most Resistant</span>
+                        <span class="tooltip tooltip-dark-blue">Retail & M&L divisions, characterized by 'startup mentality', 'fast-moving', and 'most resistant' to unified approach.</span>
+                    </div>
+                    <div class="lightblue-bg p-3 rounded-lg shadow tooltip-container">
+                        <strong>Hughes</strong><br><span class="text-sm opacity-80">Legacy EchoStar</span>
+                        <span class="tooltip tooltip-dark-green">Rockets, military, Delta Wi-Fi; has own instance, targeted for later integration.</span>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-            <div class="lg:col-span-1 grid grid-cols-2 md:grid-cols-2 gap-4">
-                <div class="bg-white rounded-lg shadow-md p-4 text-center">
-                    <p class="text-5xl font-bold teal-text">4</p>
-                    <p class="font-semibold text-gray-600">SPM Modules</p>
-                </div>
-                <div class="bg-white rounded-lg shadow-md p-4 text-center">
-                    <p class="text-5xl font-bold teal-text">4</p>
-                    <p class="font-semibold text-gray-600">Workshows</p>
-                </div>
-                 <div class="col-span-2 bg-white rounded-lg shadow-md p-4 text-center">
-                    <p class="text-5xl font-bold teal-text">8</p>
-                    <p class="font-semibold text-gray-600">Workshops</p>
-                </div>
+        <section id="metrics-stakeholders-section" class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="metrics-stakeholders-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Key Metrics & Stakeholder Overview</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
             </div>
-
-            <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
-                <h3 class="text-2xl font-bold text-center mb-4">Stakeholder Groups</h3>
-                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="text-center md:text-left">
-                        <h4 class="font-bold text-lg mb-2">👤 Core Project Team</h4>
-                        <ul class="text-sm text-gray-600 list-inside">
-                            <li><strong>Sarah</strong> (IT PMO Lead)</li>
-                            <li><strong>Laura</strong> (IT PMO)</li>
-                            <li>IT Managers</li>
-                            <li>Business Managers</li>
-                        </ul>
+            <div id="metrics-stakeholders-content" class="collapsible-content collapsed">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
+                    <div class="lg:col-span-1 grid grid-cols-2 md:grid-cols-2 gap-4">
+                        <div class="bg-white rounded-lg shadow-md p-4 text-center tooltip-container">
+                            <p class="text-5xl font-bold teal-text">4</p>
+                            <p class="font-semibold text-gray-600">SPM Modules</p>
+                            <span class="tooltip tooltip-purple">Demand, Project, Resource, and Time Cards are the core functionalities.</span>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md p-4 text-center tooltip-container">
+                            <p class="text-5xl font-bold teal-text">4</p>
+                            <p class="font-semibold text-gray-600">Workshows</p>
+                            <span class="tooltip tooltip-dark-brown">Workshows are demonstrations of out-of-the-box functionality.</span>
+                        </div>
+                        <div class="col-span-2 bg-white rounded-lg shadow-md p-4 text-center tooltip-container">
+                            <p class="text-5xl font-bold teal-text">8</p>
+                            <p class="font-semibold text-gray-600">Workshops</p>
+                            <span class="tooltip tooltip-dark-gray">Workshops are detailed requirements gathering sessions where specific needs are captured.</span>
+                        </div>
                     </div>
-                    <div class="text-center md:text-left">
-                        <h4 class="font-bold text-lg mb-2">👤 IT Stakeholders</h4>
-                        <ul class="text-sm text-gray-600 list-inside">
-                            <li>IT Product Owners</li>
-                            <li><strong>Pierre's Team</strong> (SN SMEs)</li>
-                            <li>IT Delivery Teams</li>
-                        </ul>
+                    <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-2xl font-bold text-center mb-4">Stakeholder Groups</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="text-center md:text-left">
+                                <h4 class="font-bold text-lg mb-2 tooltip-container">👤 Core Project Team
+                                    <span class="tooltip tooltip-dark-blue">Central driving force, responsible for strategic direction and project management.</span>
+                                </h4>
+                                <ul class="text-sm text-gray-600 list-inside">
+                                    <li><strong>Sarah</strong> (IT PMO Lead)</li>
+                                    <li><strong>Laura</strong> (IT PMO)</li>
+                                    <li>IT Managers</li>
+                                    <li>Business Managers</li>
+                                </ul>
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h4 class="font-bold text-lg mb-2 tooltip-container">👤 IT Stakeholders
+                                    <span class="tooltip tooltip-dark-green">Responsible for technical implementation, support, and alignment of new SPM processes.</span>
+                                </h4>
+                                <ul class="text-sm text-gray-600 list-inside">
+                                    <li>IT Product Owners</li>
+                                    <li><strong>Pierre's Team</strong> (SN SMEs)</li>
+                                    <li>IT Delivery Teams</li>
+                                </ul>
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h4 class="font-bold text-lg mb-2 tooltip-container">👤 Business Stakeholders
+                                    <span class="tooltip tooltip-purple">Key business leaders and PMO members who will utilize SPM for demand, project, and portfolio management.</span>
+                                </h4>
+                                <ul class="text-sm text-gray-600 list-inside">
+                                    <li>Business PMO (90% ID'd)</li>
+                                    <li>Line of Business Leaders</li>
+                                    <li>Portfolio Owners</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-center md:text-left">
-                        <h4 class="font-bold text-lg mb-2">👤 Business Stakeholders</h4>
-                        <ul class="text-sm text-gray-600 list-inside">
-                            <li>Business PMO (90% ID'd)</li>
-                            <li>Line of Business Leaders</li>
-                            <li>Portfolio Owners</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <section id="stakeholder-tips" class="mb-12 bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-2xl font-bold text-center mb-6">Stakeholder Engagement Tips ✨</h3>
-            <p class="text-center text-gray-500 text-sm mb-4 max-w-2xl mx-auto">Get AI-driven tips for engaging specific stakeholder groups based on their characteristics.</p>
-            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 mb-6">
-                <select id="stakeholderSelect" class="form-select border border-gray-300 rounded-md p-2 shadow-sm focus:ring-teal-500 focus:border-teal-500 block w-full md:w-auto">
-                    <option value="">Select Stakeholder Group</option>
-                    <option value="Core Project Team: Sarah (IT PMO Lead), Laura (IT PMO), IT Managers, Business Managers">Core Project Team</option>
-                    <option value="IT Product Owners, Pierre's Team (ServiceNow SMEs), IT Delivery Teams">IT Stakeholders</option>
-                    <option value="Business PMO (90% identified), Line of Business Leaders, Portfolio Owners">Business Stakeholders</option>
-                    <option value="Wireless division: Retail & M&L divisions, known for 'Startup mentality, fast-moving, most resistant'">Wireless Division</option>
-                    <option value="Hughes/Legacy EchoStar: Rockets, military, Delta Wi-Fi">Hughes/Legacy EchoStar</option>
-                    <option value="DISH (Teal), Sling (Teal), Video Services (Teal), Shared Services (Teal), Corporate (Teal)">Primary Focus Divisions</option>
-                </select>
-                <button id="getTipsBtn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    Get Tips
-                    <span id="tipsLoadingSpinner" class="loading-spinner hidden"></span>
-                </button>
-            </div>
-            <textarea id="tipsOutput" rows="6" class="w-full border border-gray-300 rounded-md p-3 focus:ring-teal-500 focus:border-teal-500 resize-y" placeholder="Engagement tips will appear here..." readonly></textarea>
-        </section>
-
-
-        <section id="timeline" class="mb-12">
-            <h3 class="text-2xl font-bold text-center mb-8">Engagement Timeline</h3>
-            <div class="relative pl-8 border-l-4 border-gray-200">
-                
-                <div class="timeline-item yellow mb-10 pl-8">
-                    <h4 class="font-bold text-lg">Pre-Implementation Phase</h4>
-                    <p class="text-sm text-gray-500 mb-2">(Current - June 18)</p>
-                    <ul class="text-sm list-disc list-outside ml-5 text-gray-600 space-y-1">
-                        <li>Standing biweekly cadences established with stakeholders.</li>
-                        <li>Stakeholder identification is 90% complete.</li>
-                        <li>Acknowledged momentum concerns due to SOW delays.</li>
-                    </ul>
-                </div>
-
-                <div class="timeline-item green mb-10 pl-8">
-                    <h4 class="font-bold text-lg">Week 1: Kickoff & Workshops</h4>
-                    <p class="text-sm text-gray-500 mb-2">(June 23 - 27)</p>
-                    <ul class="text-sm list-disc list-outside ml-5 text-gray-600 space-y-1">
-                        <li><strong>Mon 6/23 🗓️:</strong> Preview Session 1 (Demand & Project) for Core Team.</li>
-                        <li><strong>Wed 6/25 🗓️:</strong> Demand Module Workshop for IT Product Owners.</li>
-                        <li><strong>Thu 6/26 🗓️:</strong> Demand Module Workshop for Business PMO.</li>
-                    </ul>
-                </div>
-
-                <div class="timeline-item green mb-10 pl-8">
-                    <h4 class="font-bold text-lg">Week 2: Continued Engagement</h4>
-                    <p class="text-sm text-gray-500 mb-2">(June 30 - July 4)</p>
-                    <ul class="text-sm list-disc list-outside ml-5 text-gray-600 space-y-1">
-                        <li><strong>Mon 6/30 🗓️:</strong> Preview Session 2 (Resource & Time Cards) for Core Team.</li>
-                        <li>Project Module Workshops scheduled based on availability.</li>
-                        <li>July 4 Holiday consideration for scheduling.</li>
-                    </ul>
-                </div>
-
-                <div class="timeline-item green mb-10 pl-8">
-                    <h4 class="font-bold text-lg">Weeks 3-4: Final Workshops & Requirements</h4>
-                     <p class="text-sm text-gray-500 mb-2">(July 7 - 21)</p>
-                    <ul class="text-sm list-disc list-outside ml-5 text-gray-600 space-y-1">
-                        <li>Resource Management & Time Card (IT only) workshops held.</li>
-                        <li><strong>Goal:</strong> Complete all module workshops by July 7.</li>
-                        <li><strong>Goal:</strong> Begin requirements gathering (Workshots) and complete by July 21.</li>
-                    </ul>
                 </div>
             </div>
         </section>
 
-        <section id="strategy-details" class="mb-12">
-             <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                <div class="lg:col-span-3 bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-2xl font-bold text-center mb-6">Workshows & Workshops Structure</h3>
-                    <p class="text-center text-gray-500 text-sm mb-6">Our structured engagement process ensures alignment, demonstrates value, and captures detailed needs through an iterative cycle.</p>
-                    <div class="flex flex-col md:flex-row items-center justify-around space-y-4 md:space-y-0 md:space-x-4">
-                        <div class="text-center p-4 border-2 border-dashed border-gray-300 rounded-lg">
-                            <h4 class="font-bold">1. Preview Sessions</h4>
-                            <p class="text-xs text-gray-500">Core Team Only (1hr)</p>
-                            <p class="text-sm mt-1">High-level overview & content filtering.</p>
+        <section id="technical-readiness-section" class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="technical-readiness-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Technical Environment Readiness</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="technical-readiness-content" class="collapsible-content collapsed">
+                <p class="text-center text-gray-500 text-sm mb-6 mt-6">Essential technical steps required to support the planned Workshows and Workshops.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg mb-2">Clone Production Instance</h4>
+                        <p class="text-sm text-gray-700">Ensure pre-production environment is a fresh clone of production, at the same patch level.</p>
+                    </div>
+                    <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg mb-2">SPM Plugin Installation</h4>
+                        <p class="text-sm text-gray-700">Install the SDM Pro plugin. Requires coordination with Pierre's team for entitlement/support.</p>
+                    </div>
+                    <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg mb-2">Upgrade Analyzer Run</h4>
+                        <p class="text-sm text-gray-700">Run an upgrade analyzer to identify divergent objects and assess customization impact.</p>
+                    </div>
+                    <!-- Removed "On-Standby Technical Support" section as requested -->
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline-section" class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="timeline-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Engagement Timeline</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="timeline-content" class="collapsible-content collapsed">
+                <p class="text-center text-gray-500 text-sm mb-6 mt-6">All times are listed in Mountain Time (MT).</p>
+                <div class="relative pl-8 border-l-4 border-gray-200">
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="previews-content">
+                            <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Planning Previews (2 sessions)</h4>
+                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
                         </div>
-                        <div class="flow-arrow transform md:rotate-0">↓</div>
-                        <div class="text-center p-4 border-2 border-dashed border-teal-400 rounded-lg">
-                            <h4 class="font-bold">2. Workshows</h4>
-                            <p class="text-xs text-gray-500">Stakeholders (2hr)</p>
-                            <p class="text-sm mt-1">"See what you're getting" with OOTB demos.</p>
-                        </div>
-                        <div class="flow-arrow transform md:rotate-0">↓</div>
-                        <div class="text-center p-4 border-2 border-dashed border-orange-400 rounded-lg">
-                            <h4 class="font-bold">3. Workshops</h4>
-                            <p class="text-xs text-gray-500">Stakeholders</p>
-                            <p class="text-sm mt-1">Capture gaps & configuration requirements.</p>
+                        <div id="previews-content" class="collapsible-content sub-collapsible-content collapsed">
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Preview A – Demand & Project</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 23, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 45 min</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core (Laura, Sarah, Managers and Intact leads)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Preview B – Resource & Timecard</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 30, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 45 min</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core team</p>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshows-content">
+                            <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Workshows (demos)</h4>
+                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+                        </div>
+                        <div id="workshows-content" class="collapsible-content sub-collapsible-content collapsed">
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Demand</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Wednesday, June 25, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90-120 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Project</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 1, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90-120 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Resource / Timecard</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 8, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90-120 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshops-content">
+                            <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Workshops (requirements-gathering)</h4>
+                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+                        </div>
+                        <div id="workshops-content" class="collapsible-content sub-collapsible-content collapsed">
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Demand – IT</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Thursday, July 10, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Demand – Business</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Friday, July 11, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Project – IT</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 14, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Project – Business</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 15, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Resource/TC – IT</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 21, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Resource/TC – Business</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 22, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                 <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center">
+            </div>
+        </section>
+
+        <section id="workshops-structure-section" class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="workshops-structure-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Workshows & Workshops Structure</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="workshops-structure-content" class="collapsible-content collapsed">
+                <p class="text-center text-gray-500 text-sm mb-6 mt-6">Our structured engagement process ensures alignment, demonstrates value, and captures detailed needs through an iterative cycle.</p>
+                <div class="flex flex-col md:flex-row items-center justify-around space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="text-center p-4 border-2 border-dashed border-gray-300 rounded-lg tooltip-container">
+                        <h4 class="font-bold">1. Preview Sessions</h4>
+                        <p class="text-xs text-gray-500">Core Team Only (1hr)</p>
+                        <p class="text-sm mt-1">High-level overview & content filtering.</p>
+                        <span class="tooltip tooltip-dark-green">Internal sessions to align the core project team and refine content before broader stakeholder engagement. **Purpose:** Prevent "opening a can of worms" by showing irrelevant or premature info.</span>
+                    </div>
+                    <div class="flow-arrow transform md:rotate-0">↓</div>
+                    <div class="text-center p-4 border-2 border-dashed border-teal-400 rounded-lg tooltip-container">
+                        <h4 class="font-bold">2. Workshows</h4>
+                        <p class="text-xs text-gray-500">Stakeholders (2hr)</p>
+                        <p class="text-sm mt-1">"See what you're getting" with OOTB demos.</p>
+                        <span class="tooltip tooltip-purple">Demonstrating out-of-the-box functionality to a wider audience. **Definition:** Purely for showing what it looks like and how it functions.</span>
+                    </div>
+                    <div class="flow-arrow transform md:rotate-0">↓</div>
+                    <div class="text-center p-4 border-2 border-dashed border-orange-400 rounded-lg tooltip-container">
+                        <h4 class="font-bold">3. Workshops</h4>
+                        <p class="text-xs text-gray-500">Stakeholders</p>
+                        <p class="text-sm mt-1">Capture gaps & configuration requirements.</p>
+                        <span class="tooltip tooltip-dark-brown">Detailed requirements gathering sessions to capture specific needs and identify configuration requirements. **Definition:** The "interview" phase to capture specific needs, document gaps, and gather input for configuration.</span>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6 mt-8">
                     <h3 class="text-xl font-bold text-center mb-4">Business PMO Identification</h3>
                     <div class="chart-container h-48 md:h-64">
                         <canvas id="stakeholderChart"></canvas>
@@ -305,108 +500,43 @@
             </div>
         </section>
 
-        <section id="implementation-phases" class="mb-12 bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-2xl font-bold text-center mb-6">Long Term (18 Months) Implementation Strategy</h3>
-            <p class="text-center text-gray-500 text-sm mb-8 max-w-2xl mx-auto">We are building momentum with receptive divisions first, creating a showcase of success to encourage enterprise-wide adoption before approaching more resistant areas.</p>
-            <div class="flex flex-col md:flex-row justify-between items-center text-center space-y-6 md:space-y-0 md:space-x-4">
-                <div class="flex-1 p-4">
-                    <div class="teal-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold">1</div>
-                    <h4 class="font-bold text-lg">Foundation</h4>
-                    <p class="text-sm text-gray-600">Focus on DISH/Corporate to establish a "sexy toy" showcase and build quick wins.</p>
+        <section id="implementation-phases-section" class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="implementation-phases-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Long Term (18 Months) Implementation Strategy</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="implementation-phases-content" class="collapsible-content collapsed">
+                <p class="text-center text-gray-500 text-sm mb-8 mt-6 max-w-2xl mx-auto">We are building momentum with receptive divisions first, creating a showcase of success to encourage enterprise-wide adoption before approaching more resistant areas.</p>
+                <div class="flex flex-col md:flex-row justify-between items-center text-center space-y-6 md:space-y-0 md:space-x-4">
+                    <div class="flex-1 p-4 tooltip-container">
+                        <div class="teal-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold">1</div>
+                        <h4 class="font-bold text-lg">Foundation</h4>
+                        <p class="text-sm text-gray-600">Focus on DISH/Corporate to establish a "sexy toy" showcase and build quick wins.</p>
+                        <span class="tooltip tooltip-dark-gray">Establish core SPM instance with receptive divisions to build momentum and demonstrate quick wins. **Concept:** "Flash your sexy toy" - show working solution, reduced tech debt, single source of truth.</span>
+                    </div>
+                    <div class="flow-arrow hidden md:block">→</div>
+                    <div class="flow-arrow block md:hidden">↓</div>
+                    <div class="flex-1 p-4 tooltip-container">
+                        <div class="lightblue-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold">2</div>
+                        <h4 class="font-bold text-lg">Expansion</h4>
+                        <p class="text-sm text-gray-600">Integrate Hughes/Legacy EchoStar, leveraging Phase 1 success stories.</p>
+                        <span class="tooltip tooltip-dark-blue">Integrate Hughes/Legacy EchoStar, leveraging success from Phase 1.</span>
+                    </div>
+                    <div class="flow-arrow hidden md:block">→</div>
+                    <div class="flow-arrow block md:hidden">↓</div>
+                    <div class="flex-1 p-4 tooltip-container">
+                        <div class="orange-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold">3</div>
+                        <h4 class="font-bold text-lg">Full Integration</h4>
+                        <p class="text-sm text-gray-600">Approach Wireless division after 3-12 months, requiring careful political navigation.</p>
+                        <span class="tooltip tooltip-dark-green">Approach Wireless division, requiring careful political navigation due to their resistance.</span>
+                    </div>
                 </div>
-                <div class="flow-arrow hidden md:block">→</div>
-                 <div class="flow-arrow block md:hidden">↓</div>
-                <div class="flex-1 p-4">
-                    <div class="lightblue-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold">2</div>
-                    <h4 class="font-bold text-lg">Expansion</h4>
-                    <p class="text-sm text-gray-600">Integrate Hughes/Legacy EchoStar, leveraging Phase 1 success stories.</p>
-                </div>
-                 <div class="flow-arrow hidden md:block">→</div>
-                 <div class="flow-arrow block md:hidden">↓</div>
-                <div class="flex-1 p-4">
-                    <div class="orange-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold">3</div>
-                    <h4 class="font-bold text-lg">Full Integration</h4>
-                    <p class="text-sm text-gray-600">Approach Wireless division after 3-12 months, requiring careful political navigation.</p>
-                </div>
+                <p class="mt-8 text-center text-gray-600 text-sm font-semibold">
+                    Foundation for Multi-Million Dollar, Enterprise-Wide Expansion: This initial effort is a critical step towards broader organizational impact and future phases.
+                </p>
             </div>
         </section>
 
-        <section id="communication-generator" class="mb-12 bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-2xl font-bold text-center mb-6">Generate Communication Draft ✨</h3>
-            <p class="text-center text-gray-500 text-sm mb-4 max-w-2xl mx-auto">Leverage AI to draft communications for various implementation phases and purposes.</p>
-            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 mb-6">
-                <select id="phaseSelect" class="form-select border border-gray-300 rounded-md p-2 shadow-sm focus:ring-teal-500 focus:border-teal-500 block w-full md:w-auto">
-                    <option value="">Select Phase</option>
-                    <option value="Phase 1: Foundation">Phase 1: Foundation</option>
-                    <option value="Phase 2: Expansion">Phase 2: Expansion</option>
-                    <option value="Phase 3: Full Integration">Phase 3: Full Integration</option>
-                    <option value="Pre-Implementation">Pre-Implementation</option>
-                </select>
-                <input type="text" id="purposeInput" placeholder="e.g., Kick-off email, Weekly update, Risk announcement" class="form-input border border-gray-300 rounded-md p-2 shadow-sm focus:ring-teal-500 focus:border-teal-500 block w-full md:w-auto">
-                <button id="generateCommunicationBtn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    Generate Draft
-                    <span id="commLoadingSpinner" class="loading-spinner hidden"></span>
-                </button>
-            </div>
-            <textarea id="communicationOutput" rows="8" class="w-full border border-gray-300 rounded-md p-3 focus:ring-teal-500 focus:border-teal-500 resize-y" placeholder="Your generated communication draft will appear here..." readonly></textarea>
-            <button id="copyCommunicationBtn" class="mt-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 hidden">
-                Copy to Clipboard
-            </button>
-        </section>
-
-        <footer id="risks" class="red-bg text-white rounded-lg shadow-lg p-6">
-            <h3 class="text-2xl font-bold text-center mb-4">Key Risk Indicators</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
-                <div>
-                    <p class="text-3xl">⚠️</p>
-                    <p class="font-semibold" data-risk="Document Access">Document Access</p>
-                    <p class="text-sm opacity-80">Firewall issues can hinder collaboration & environment prep.</p>
-                </div>
-                 <div>
-                    <p class="text-3xl">⚠️</p>
-                    <p class="font-semibold" data-risk="Wireless Resistance">Wireless Resistance</p>
-                    <p class="text-sm opacity-80">"Startup mentality" requires delicate political navigation.</p>
-                </div>
-                 <div>
-                    <p class="text-3xl">⚠️</p>
-                    <p class="font-semibold" data-risk="Holiday Scheduling">Holiday Scheduling</p>
-                    <p class="text-sm opacity-80">Upcoming holidays can impact the aggressive timeline.</p>
-                </div>
-                 <div>
-                    <p class="text-3xl">⚠️</p>
-                    <p class="font-semibold" data-risk="Momentum Loss">Momentum Loss</p>
-                    <p class="text-sm opacity-80">Past delays create a need to maintain active engagement.</p>
-                </div>
-            </div>
-            <div class="mt-6">
-                <h3 class="text-2xl font-bold text-center mb-4">Risk Mitigation Suggester ✨</h3>
-                <p class="text-center text-white text-sm mb-4 max-w-2xl mx-auto opacity-80">Select a project risk to get AI-generated mitigation strategies.</p>
-                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 mb-6">
-                    <select id="riskSelect" class="form-select border border-gray-300 rounded-md p-2 shadow-sm focus:ring-teal-500 focus:border-teal-500 block w-full md:w-auto text-gray-800">
-                        <option value="">Select a Risk</option>
-                        <option value="Document Access/Firewall issues">Document Access/Firewall issues</option>
-                        <option value="Wireless division resistance">Wireless division resistance</option>
-                        <option value="Holiday scheduling conflicts">Holiday scheduling conflicts</option>
-                        <option value="Momentum loss concerns due to SOW delays">Momentum loss concerns</option>
-                    </select>
-                    <button id="getMitigationBtn" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                        Suggest Mitigation
-                        <span id="mitigationLoadingSpinner" class="loading-spinner hidden"></span>
-                    </button>
-                </div>
-                <textarea id="mitigationOutput" rows="6" class="w-full border border-gray-300 rounded-md p-3 focus:ring-teal-500 focus:border-teal-500 resize-y text-gray-800" placeholder="Mitigation strategies will appear here..." readonly></textarea>
-            </div>
-        </footer>
-
-    </div>
-
-    <!-- Summary Modal -->
-    <div id="summaryModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h3 class="text-2xl font-bold teal-text mb-4">Infographic Summary</h3>
-            <p id="summaryText" class="text-gray-700"></p>
-        </div>
     </div>
 
     <script>
@@ -455,317 +585,22 @@
                 }
             });
 
-            const summarizeInfographicBtn = document.getElementById('summarizeInfographicBtn');
-            const summaryModal = document.getElementById('summaryModal');
-            const closeButton = document.querySelector('.close-button');
-            const summaryText = document.getElementById('summaryText');
-            const summaryLoadingSpinner = document.getElementById('summaryLoadingSpinner');
+            // Collapsible sections logic - now targets both main and sub-collapsible toggles
+            document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle').forEach(toggle => {
+                const targetId = toggle.dataset.target;
+                const content = document.getElementById(targetId);
 
-            const generateCommunicationBtn = document.getElementById('generateCommunicationBtn');
-            const phaseSelect = document.getElementById('phaseSelect');
-            const purposeInput = document.getElementById('purposeInput');
-            const communicationOutput = document.getElementById('communicationOutput');
-            const copyCommunicationBtn = document.getElementById('copyCommunicationBtn');
-            const commLoadingSpinner = document.getElementById('commLoadingSpinner');
+                // Initialize all as collapsed by default by adding the class
+                // The 'collapsed' class in CSS handles initial state (max-height: 0, opacity: 0, overflow: hidden)
+                content.classList.add('collapsed');
+                toggle.classList.add('collapsed');
 
-            const stakeholderSelect = document.getElementById('stakeholderSelect');
-            const getTipsBtn = document.getElementById('getTipsBtn');
-            const tipsOutput = document.getElementById('tipsOutput');
-            const tipsLoadingSpinner = document.getElementById('tipsLoadingSpinner');
-
-            const riskSelect = document.getElementById('riskSelect');
-            const getMitigationBtn = document.getElementById('getMitigationBtn');
-            const mitigationOutput = document.getElementById('mitigationOutput');
-            const mitigationLoadingSpinner = document.getElementById('mitigationLoadingSpinner');
-
-            // Helper function to convert simple Markdown to HTML with specific styling
-            function markdownToHtml(markdownText) {
-                let htmlContent = markdownText;
-
-                // Escape HTML characters to prevent XSS issues when using innerHTML later
-                htmlContent = htmlContent.replace(/&/g, '&amp;')
-                                     .replace(/</g, '&lt;')
-                                     .replace(/>/g, '&gt;')
-                                     .replace(/"/g, '&quot;')
-                                     .replace(/'/g, '&#039;');
-
-                // 1. Convert main headings `**Heading Text:**` to <h4> with bold and teal-text classes
-                // This targets the specific heading style from the prompt.
-                htmlContent = htmlContent.replace(/\*\*([^*]+?):\*\*/g, '<h4>$1:</h4>');
-
-                // 2. Convert italic `*text*` to <em class="teal-text">text</em>
-                htmlContent = htmlContent.replace(/\*([^*]+?)\*/g, '<em class="teal-text">$1</em>');
-
-                // 3. Convert general bold `**text**` to <strong>text</strong> (after headings and italics)
-                htmlContent = htmlContent.replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>');
-
-
-                // 4. Handle bullet points `* Item` to <ul><li>Item</li></ul>
-                // This is a more robust approach for list items.
-                const lines = htmlContent.split('\n');
-                let processedLines = [];
-                let inListBlock = false;
-
-                lines.forEach(line => {
-                    const trimmedLine = line.trim();
-                    if (trimmedLine.startsWith('&lt;li')) { // If it's already an <li> tag from previous processing
-                        if (!inListBlock) {
-                            processedLines.push('<ul>');
-                            inListBlock = true;
-                        }
-                        processedLines.push(line);
-                    }
-                    else if (trimmedLine.startsWith('* ')) {
-                        if (!inListBlock) {
-                            processedLines.push('<ul>');
-                            inListBlock = true;
-                        }
-                        // Convert markdown list item to HTML <li>
-                        processedLines.push(`<li>${trimmedLine.substring(2).trim()}</li>`);
-                    } else {
-                        if (inListBlock) {
-                            processedLines.push('</ul>');
-                            inListBlock = false;
-                        }
-                        // Add non-list lines. Add <br> for newlines in general text blocks.
-                        // Only add <br> if the line is not empty and not an already processed HTML tag.
-                        if (trimmedLine !== '') {
-                            if (!trimmedLine.startsWith('<h4') && !trimmedLine.startsWith('<ul') && !trimmedLine.startsWith('<li')) {
-                                processedLines.push(line);
-                            } else {
-                                processedLines.push(line);
-                            }
-                        }
-                    }
+                toggle.addEventListener('click', () => {
+                    // Toggle 'collapsed' class for content and the toggle element itself
+                    // The CSS then handles the animation and overflow property dynamically
+                    content.classList.toggle('collapsed');
+                    toggle.classList.toggle('collapsed');
                 });
-
-                if (inListBlock) { // Close any pending ul tag at the end of content
-                    processedLines.push('</ul>');
-                }
-
-                // Join lines and then replace remaining newlines with <br> tags.
-                // Replace double newlines with double <br> for paragraph breaks.
-                // Replace single newlines with single <br> for line breaks within text, ensuring no conflict with list tags.
-                let finalHtml = processedLines.join('\n');
-                finalHtml = finalHtml.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
-
-                // Decode HTML entities that were escaped at the beginning for proper display
-                finalHtml = finalHtml.replace(/&amp;/g, '&')
-                                     .replace(/&lt;/g, '<')
-                                     .replace(/&gt;/g, '>')
-                                     .replace(/&quot;/g, '"')
-                                     .replace(/&#039;/g, "'");
-
-                return finalHtml;
-            }
-
-
-            summarizeInfographicBtn.addEventListener('click', async () => {
-                summaryLoadingSpinner.classList.remove('hidden');
-                summaryText.innerHTML = 'Generating summary...'; 
-
-                // Modified prompt to reduce length and focus on initial sections
-                const prompt = `Please provide a concise summary of the EchoStar ServiceNow SPM Implementation Stakeholder Engagement Strategy infographic. Focus only on the main goals and the organizational landscape/scope. Absolutely do NOT include any information related to: Key Stakeholder Groups, Engagement Timeline, Workshop Structure, Phased Implementation Approach, or Critical Risks. The summary should be clear and professional, suitable for a high-level overview.
-
-                Please use the following Markdown formatting guidelines:
-                -   For main sub-headings (like "Main Goals", "Organizational Scope"), use \`**Heading Text:**\` (e.g., \`**Main Goals:**\`).
-                -   For other strong emphasis within sentences, use \`**bold text**\`.
-                -   For gentle emphasis within sentences that should be italicized, use \`*italic text*\`.
-                -   For bullet points, use \`* Item text\` at the start of each list item.`;
-                
-                try {
-                    let chatHistory = [];
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                    const payload = { contents: chatHistory };
-                    const apiKey = ""; 
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                    
-                    const response = await fetch(apiUrl, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(payload)
-                            });
-                    const result = await response.json();
-
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const rawText = result.candidates[0].content.parts[0].text;
-                        summaryText.innerHTML = markdownToHtml(rawText);
-                    } else {
-                        summaryText.innerHTML = 'Failed to generate summary. Please try again.';
-                        console.error('Gemini API response structure unexpected:', result);
-                    }
-                } catch (error) {
-                    summaryText.innerHTML = 'Error generating summary: ' + error.message;
-                    console.error('Error calling Gemini API for summary:', error);
-                } finally {
-                    summaryLoadingSpinner.classList.add('hidden');
-                    summaryModal.style.display = 'flex';
-                }
-            });
-
-            closeButton.addEventListener('click', () => {
-                summaryModal.style.display = 'none';
-            });
-
-            window.addEventListener('click', (event) => {
-                if (event.target == summaryModal) {
-                    summaryModal.style.display = 'none';
-                }
-            });
-
-            generateCommunicationBtn.addEventListener('click', async () => {
-                const phase = phaseSelect.value;
-                const purpose = purposeInput.value.trim();
-
-                if (!phase || !purpose) {
-                    communicationOutput.value = 'Please select a phase and provide a communication purpose.';
-                    copyCommunicationBtn.classList.add('hidden');
-                    return;
-                }
-
-                commLoadingSpinner.classList.remove('hidden');
-                communicationOutput.value = 'Generating communication draft...';
-                copyCommunicationBtn.classList.add('hidden');
-
-                const prompt = `Draft a professional communication for the EchoStar ServiceNow SPM Implementation project.
-                
-                Phase: ${phase}
-                Purpose: ${purpose}
-                
-                Keep it concise (around 150-200 words), professional, and include relevant details from the project context:
-                - Goal: Unify diverse business units under a single ServiceNow SPM instance.
-                - Key Stakeholders: IT Product Owners, Business PMO, Core Project Team (Sarah, Laura), Line of Business Leaders.
-                - Modules: Demand, Project, Resource, Time Cards.
-                - General approach: Phased (Foundation, Expansion, Full Integration), starting with receptive divisions (DISH, Corporate, Shared Services) before Hughes/Legacy EchoStar, and later Wireless (most resistant).
-                - Engagement: Preview Sessions, Workshops (2hr, OOTB), Workshots (requirements gathering).
-                
-                Address it to "Team," and include a clear call to action or next steps if appropriate for the purpose.`;
-                
-                try {
-                    let chatHistory = [];
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                    const payload = { contents: chatHistory };
-                    const apiKey = ""; 
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                    
-                    const response = await fetch(apiUrl, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(payload)
-                            });
-                    const result = await response.json();
-
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        communicationOutput.value = result.candidates[0].content.parts[0].text;
-                        copyCommunicationBtn.classList.remove('hidden');
-                    } else {
-                        communicationOutput.value = 'Failed to generate draft. Please try again.';
-                        console.error('Gemini API response structure unexpected:', result);
-                    }
-                } catch (error) {
-                    communicationOutput.value = 'Error generating draft: ' + error.message;
-                    console.error('Error calling Gemini API for communication:', error);
-                } finally {
-                    commLoadingSpinner.classList.add('hidden');
-                }
-            });
-
-            copyCommunicationBtn.addEventListener('click', () => {
-                communicationOutput.select();
-                document.execCommand('copy');
-                alert('Draft copied to clipboard!');
-            });
-
-            getTipsBtn.addEventListener('click', async () => {
-                const stakeholderGroup = stakeholderSelect.value;
-                if (!stakeholderGroup) {
-                    tipsOutput.value = 'Please select a stakeholder group.';
-                    return;
-                }
-
-                tipsLoadingSpinner.classList.remove('hidden');
-                tipsOutput.value = 'Generating engagement tips...';
-
-                const prompt = `Provide practical engagement tips for the following EchoStar ServiceNow SPM Implementation stakeholder group: "${stakeholderGroup}".
-                
-                Consider their typical roles, potential motivations, and any specific characteristics mentioned (e.g., resistance, startup mentality). Focus on actionable strategies for effective collaboration and information sharing. Keep it concise, in bullet points.`;
-                
-                try {
-                    let chatHistory = [];
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                    const payload = { contents: chatHistory };
-                    const apiKey = ""; 
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                    
-                    const response = await fetch(apiUrl, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(payload)
-                            });
-                    const result = await response.json();
-
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        tipsOutput.value = result.candidates[0].content.parts[0].text;
-                    } else {
-                        tipsOutput.value = 'Failed to generate tips. Please try again.';
-                        console.error('Gemini API response structure unexpected:', result);
-                    }
-                } catch (error) {
-                    tipsOutput.value = 'Error generating tips: ' + error.message;
-                    console.error('Error calling Gemini API for tips:', error);
-                } finally {
-                    tipsLoadingSpinner.classList.add('hidden');
-                }
-            });
-
-            getMitigationBtn.addEventListener('click', async () => {
-                const selectedRisk = riskSelect.value;
-                if (!selectedRisk) {
-                    mitigationOutput.value = 'Please select a risk.';
-                    return;
-                }
-
-                mitigationLoadingSpinner.classList.remove('hidden');
-                mitigationOutput.value = 'Generating mitigation strategies...';
-
-                const prompt = `Suggest concrete mitigation strategies for the following risk in the EchoStar ServiceNow SPM Implementation project: "${selectedRisk}".
-                
-                Consider the context of a large enterprise IT implementation. Provide actionable steps and best practices. Keep it concise, in bullet points.`;
-                
-                try {
-                    let chatHistory = [];
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                    const payload = { contents: chatHistory };
-                    const apiKey = ""; 
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                    
-                    const response = await fetch(apiUrl, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(payload)
-                            });
-                    const result = await response.json();
-
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        mitigationOutput.value = result.candidates[0].content.parts[0].text;
-                    } else {
-                        mitigationOutput.value = 'Failed to generate mitigation. Please try again.';
-                        console.error('Gemini API response structure unexpected:', result);
-                    }
-                } catch (error) {
-                    mitigationOutput.value = 'Error generating mitigation: ' + error.message;
-                    console.error('Error calling Gemini API for mitigation:', error);
-                } finally {
-                    mitigationLoadingSpinner.classList.add('hidden');
-                }
             });
         });
     </script>
