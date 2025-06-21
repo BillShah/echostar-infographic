@@ -193,6 +193,11 @@
             animation: glow 1.5s infinite alternate; /* Adjust duration and timing as needed */
         }
 
+        /* H1 Glow effect */
+        .h1-glow {
+            animation: h1-glow 1.8s infinite alternate;
+        }
+
         @keyframes glow {
             from {
                 box-shadow: 0 0 5px rgba(0, 169, 224, 0.5), 0 0 10px rgba(0, 169, 224, 0.2);
@@ -200,6 +205,26 @@
             to {
                 box-shadow: 0 0 15px rgba(0, 169, 224, 0.8), 0 0 25px rgba(0, 169, 224, 0.4);
             }
+        }
+
+        @keyframes h1-glow {
+            from {
+                text-shadow: 0 0 5px rgba(0, 169, 224, 0.5), 0 0 10px rgba(0, 169, 224, 0.2);
+            }
+            to {
+                text-shadow: 0 0 15px rgba(0, 169, 224, 0.8), 0 0 25px rgba(0, 169, 224, 0.4);
+            }
+        }
+
+        /* Logo Fade effect */
+        .logo-fade {
+            animation: fade-in-out 3s infinite alternate;
+        }
+
+        @keyframes fade-in-out {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
         }
 
         /* 3D Flip Card Styles */
@@ -295,12 +320,14 @@
     <div class="container mx-auto p-4 md:p-8 max-w-7xl">
         
         <header class="text-center mb-10 sticky-header">
-            <img src="EchoStar-Logo.wine.png" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-48 mb-4" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo';">
-            <h1 class="text-3xl md:text-5xl font-bold teal-text mb-2">EchoStar ServiceNow SPM Implementation</h1>
-            <h2 class="text-xl md:text-2xl font-semibold text-gray-600">Stakeholder Engagement Strategy</h2>
-            <p class="mt-4 max-w-4xl mx-auto text-gray-500">
-                A visual narrative of our deliberate strategy to unify diverse business units under a single ServiceNow SPM instance. Aligning under the unified 'EchoStar' identity. This infographic outlines the phased rollout, structured engagement, and proactive risk management driving this transformation.
-            </p>
+            <div class="max-w-4xl mx-auto"> <!-- Wrapper div to constrain header content width -->
+                <img src="EchoStar-Logo.wine.png" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-48 mb-4 logo-fade" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo';">
+                <h1 class="text-3xl md:text-5xl font-bold teal-text mb-2 h1-glow">EchoStar ServiceNow SPM Implementation</h1>
+                <!-- Removed H2: <h2 class="text-xl md:text-2xl font-semibold text-gray-600">Stakeholder Engagement Strategy</h2> -->
+                <p class="mt-4 text-gray-500">
+                    Our deliberate strategy to unify diverse business units under a single EchoStar ServiceNow SPM instance. This infographic outlines the phased rollout and a structured engagement driving this transformation.
+                </p>
+            </div>
         </header>
 
         <section id="organization-section" class="mb-12 bg-white rounded-lg shadow-md p-6">
@@ -637,7 +664,7 @@
                 <p class="text-center text-gray-500 text-sm mb-8 mt-6 max-w-2xl mx-auto">We are building momentum with receptive divisions first, creating a showcase of success to encourage enterprise-wide adoption before approaching more resistant areas.</p>
                 <div class="flex flex-col md:flex-row justify-between items-center text-center space-y-6 md:space-y-0 md:space-x-4">
                     <div class="flex-1 p-4 tooltip-container">
-                        <div class="teal-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold">1</div>
+                        <div class="teal-bg text-white w-16 h-16 rounded-full flex items-center justify-content-center mx-auto mb-2 text-2xl font-bold">1</div>
                         <h4 class="font-bold text-lg">Foundation</h4>
                         <p class="text-sm text-gray-600">Focus on DISH/Corporate to establish a "sexy toy" showcase and build quick wins.</p>
                         <span class="tooltip tooltip-dark-gray">Establish core SPM instance with receptive divisions to build momentum and demonstrate quick wins. **Concept:** "Flash your sexy toy" - show working solution, reduced tech debt, single source of truth.</span>
@@ -645,7 +672,7 @@
                     <div class="flow-arrow hidden md:block">→</div>
                     <div class="flow-arrow block md:hidden">↓</div>
                     <div class="flex-1 p-4 tooltip-container">
-                        <div class="lightblue-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold">2</div>
+                        <div class="lightblue-bg text-white w-16 h-16 rounded-full flex items-center justify-content-center mx-auto mb-2 text-2xl font-bold">2</div>
                         <h4 class="font-bold text-lg">Expansion</h4>
                         <p class="text-sm text-gray-600">Integrate Hughes/Legacy EchoStar, leveraging Phase 1 success stories.</p>
                         <span class="tooltip tooltip-dark-blue">Integrate Hughes/Legacy EchoStar, leveraging success from Phase 1.</span>
@@ -653,7 +680,7 @@
                     <div class="flow-arrow hidden md:block">→</div>
                     <div class="flow-arrow block md:hidden">↓</div>
                     <div class="flex-1 p-4 tooltip-container">
-                        <div class="orange-bg text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold">3</div>
+                        <div class="orange-bg text-white w-16 h-16 rounded-full flex items-center justify-content-center mx-auto mb-2 text-2xl font-bold">3</div>
                         <h4 class="font-bold text-lg">Full Integration</h4>
                         <p class="text-sm text-gray-600">Approach Wireless division after 3-12 months, requiring careful political navigation.</p>
                         <span class="tooltip tooltip-dark-green">Approach Wireless division, requiring careful political navigation due to their resistance.</span>
