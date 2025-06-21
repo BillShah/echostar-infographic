@@ -12,12 +12,14 @@
             font-family: 'Open Sans', sans-serif;
             background-color: #f0f4f8;
         }
-        .teal-bg { background-color: #00A9E0; }
-        .orange-bg { background-color: #F37021; }
-        .lightblue-bg { background-color: #81D4FA; }
-        .green-bg { background-color: #4CAF50; }
-        .yellow-bg { background-color: #FFC107; }
-        .red-bg { background-color: #F44336; }
+        /* Custom background colors for organizational units */
+        .dish-bg { background-color: #00A9E0; } /* Teal */
+        .sling-bg { background-color: #4CAF50; } /* Green */
+        .video-services-bg { background-color: #7B1FA2; } /* Deep Purple */
+        .shared-services-bg { background-color: #FFC107; } /* Yellow */
+        .corporate-bg { background-color: #F44336; } /* Red */
+        .wireless-bg { background-color: #F37021; } /* Orange */
+        .hughes-bg { background-color: #81D4FA; } /* Light Blue */
 
         .teal-text { color: #00A9E0; }
         
@@ -50,7 +52,7 @@
             height: 300px;
             max-height: 350px;
         }
-        /* Tooltip styles */
+        /* Tooltip styles (kept for other sections if they exist, but removed from org boxes) */
         .tooltip-container {
             position: relative;
             display: inline-block; /* Or block, depending on parent */
@@ -91,41 +93,17 @@
             opacity: 1;
         }
 
-        /* Specific tooltip background colors */
-        .tooltip.tooltip-dark-blue {
-            background-color: #2C3E50; /* Midnight Blue */
-        }
-        .tooltip.tooltip-dark-blue::after {
-            border-color: #2C3E50 transparent transparent transparent;
-        }
-        
-        .tooltip.tooltip-dark-green {
-            background-color: #1A531A; /* Forest Green */
-        }
-        .tooltip.tooltip-dark-green::after {
-            border-color: #1A531A transparent transparent transparent;
-        }
-
-        .tooltip.tooltip-purple {
-            background-color: #4A148C; /* Deep Purple */
-        }
-        .tooltip.tooltip-purple::after {
-            border-color: #4A148C transparent transparent transparent;
-        }
-
-        .tooltip.tooltip-dark-brown {
-            background-color: #5A382A; /* Rich Dark Brown */
-        }
-        .tooltip.tooltip-dark-brown::after {
-            border-color: #5A382A transparent transparent transparent;
-        }
-
-        .tooltip.tooltip-dark-gray {
-            background-color: #34495E; /* Wet Asphalt */
-        }
-        .tooltip.tooltip-gray::after {
-            border-color: #34495E transparent transparent transparent;
-        }
+        /* Specific tooltip background colors (kept for other sections) */
+        .tooltip.tooltip-dark-blue { background-color: #2C3E50; }
+        .tooltip.tooltip-dark-blue::after { border-color: #2C3E50 transparent transparent transparent; }
+        .tooltip.tooltip-dark-green { background-color: #1A531A; }
+        .tooltip.tooltip-dark-green::after { border-color: #1A531A transparent transparent transparent; }
+        .tooltip.tooltip-purple { background-color: #4A148C; }
+        .tooltip.tooltip-purple::after { border-color: #4A148C transparent transparent transparent; }
+        .tooltip.tooltip-dark-brown { background-color: #5A382A; }
+        .tooltip.tooltip-dark-brown::after { border-color: #5A382A transparent transparent transparent; }
+        .tooltip.tooltip-dark-gray { background-color: #34495E; }
+        .tooltip.tooltip-gray::after { border-color: #34495E transparent transparent transparent; }
 
         /* Specific styles for the timeline cards */
         .timeline-card {
@@ -209,6 +187,107 @@
             padding-bottom: 1rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+
+        /* Glow effect for DISH box */
+        .dish-glow {
+            animation: glow 1.5s infinite alternate; /* Adjust duration and timing as needed */
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px rgba(0, 169, 224, 0.5), 0 0 10px rgba(0, 169, 224, 0.2);
+            }
+            to {
+                box-shadow: 0 0 15px rgba(0, 169, 224, 0.8), 0 0 25px rgba(0, 169, 224, 0.4);
+            }
+        }
+
+        /* 3D Flip Card Styles */
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px; /* Needed for 3D effect */
+            width: 140px; /* Fixed width for consistent size */
+            height: 140px; /* Fixed height for consistent card size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem; /* Match existing border-radius */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Match existing shadow */
+        }
+
+        /* Adjust height for medium and large screens if necessary, to ensure square-ish appearance */
+        @media (min-width: 768px) { /* md breakpoint */
+            .grid-cols-2 .flip-card {
+                width: 140px;
+                height: 140px;
+            }
+        }
+        @media (min-width: 1024px) { /* lg breakpoint */
+            .grid-cols-7 .flip-card {
+                width: 140px;
+                height: 140px;
+            }
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s; /* Smooth flip animation */
+            transform-style: preserve-3d; /* Keep children in 3D space */
+            border-radius: inherit; /* Inherit rounded corners */
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Hide the back of the card when flipped */
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem; /* Slightly increased padding for more breathing room */
+            border-radius: inherit; /* Inherit rounded corners */
+            box-sizing: border-box; /* Include padding in the element's total width and height */
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg); /* Initially hide the back */
+            color: #fff; /* Ensure text is readable on the colored backgrounds */
+            font-size: 0.8rem; /* Slightly smaller font size for detailed text */
+            line-height: 1.3; /* Increased line-height for better readability */
+            text-align: center;
+        }
+
+        /* Apply background colors to front and back for consistency */
+        .dish-bg .flip-card-front, .dish-bg .flip-card-back { background-color: #00A9E0; }
+        .sling-bg .flip-card-front, .sling-bg .flip-card-back { background-color: #4CAF50; }
+        .video-services-bg .flip-card-front, .video-services-bg .flip-card-back { background-color: #7B1FA2; }
+        .shared-services-bg .flip-card-front, .shared-services-bg .flip-card-back { background-color: #FFC107; }
+        .corporate-bg .flip-card-front, .corporate-bg .flip-card-back { background-color: #F44336; }
+        .wireless-bg .flip-card-front, .wireless-bg .flip-card-back { background-color: #F37021; }
+        .hughes-bg .flip-card-front, .hughes-bg .flip-card-back { background-color: #81D4FA; }
+
+        /* Ensure text on yellow/red/orange backgrounds remains readable on both sides */
+        .shared-services-bg .flip-card-front strong,
+        .corporate-bg .flip-card-front strong,
+        .wireless-bg .flip-card-front strong {
+            color: #333; /* Darker text for better contrast on lighter backgrounds */
+        }
+        .shared-services-bg .flip-card-back,
+        .corporate-bg .flip-card-back,
+        .wireless-bg .flip-card-back {
+            color: #333; /* Darker text for better contrast on lighter backgrounds */
+        }
+
+
     </style>
 </head>
 <body class="text-gray-800">
@@ -216,7 +295,7 @@
     <div class="container mx-auto p-4 md:p-8 max-w-7xl">
         
         <header class="text-center mb-10 sticky-header">
-            <img src="EchoStar-Logo.wine.png" alt="EchoStar Logo" class="mx-auto h-48 mb-4" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo';">
+            <img src="EchoStar-Logo.wine.png" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-48 mb-4" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo';">
             <h1 class="text-3xl md:text-5xl font-bold teal-text mb-2">EchoStar ServiceNow SPM Implementation</h1>
             <h2 class="text-xl md:text-2xl font-semibold text-gray-600">Stakeholder Engagement Strategy</h2>
             <p class="mt-4 max-w-4xl mx-auto text-gray-500">
@@ -234,33 +313,82 @@
                      <p class="text-center font-bold text-lg text-gray-700">Single SPM Instance Goal - Phased Approach</p>
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4 text-white text-center">
-                    <div class="teal-bg p-3 rounded-lg shadow tooltip-container">
-                        <strong>DISH</strong><br><span class="text-sm opacity-80">Primary Focus</span>
-                        <span class="tooltip tooltip-dark-blue">Traditional satellite TV business, primary focus for initial SPM implementation.</span>
+                    <!-- DISH Flip Card -->
+                    <div class="flip-card dish-bg dish-glow">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>DISH</strong><br><span class="text-sm opacity-80">Primary Focus</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Traditional satellite TV business, primary focus for initial SPM implementation.
+                            </div>
+                        </div>
                     </div>
-                    <div class="teal-bg p-3 rounded-lg shadow tooltip-container">
-                        <strong>Sling</strong><br><span class="text-sm opacity-80">Video Streaming</span>
-                        <span class="tooltip tooltip-dark-green">Video streaming services, aligned with DISH for implementation.</span>
+                    <!-- Sling Flip Card -->
+                    <div class="flip-card sling-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Sling</strong><br><span class="text-sm opacity-80">Video Streaming</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Video streaming services, aligned with DISH for implementation.
+                            </div>
+                        </div>
                     </div>
-                    <div class="teal-bg p-3 rounded-lg shadow tooltip-container">
-                        <strong>Video Services</strong><br><span class="text-sm opacity-80">Marketing</span>
-                        <span class="tooltip tooltip-purple">Marketing & retention, part of core video business implementation scope.</span>
+                    <!-- Video Services Flip Card -->
+                    <div class="flip-card video-services-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Video Services</strong><br><span class="text-sm opacity-80">Marketing</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Marketing & retention, part of core video business implementation scope.
+                            </div>
+                        </div>
                     </div>
-                    <div class="teal-bg p-3 rounded-lg shadow tooltip-container">
-                        <strong>Shared Services</strong><br><span class="text-sm opacity-80">CXO Functions</span>
-                        <span class="tooltip tooltip-dark-brown">Centralized CXO functions, included in the foundational phase.</span>
+                    <!-- Shared Services Flip Card -->
+                    <div class="flip-card shared-services-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Shared Services</strong><br><span class="text-sm opacity-80">CXO Functions</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Centralized CXO functions, included in the foundational phase.
+                            </div>
+                        </div>
                     </div>
-                    <div class="teal-bg p-3 rounded-lg shadow tooltip-container">
-                        <strong>Corporate</strong><br><span class="text-sm opacity-80">Legal, HR, CFO</span>
-                        <span class="tooltip tooltip-dark-gray">Legal, HR, CFO functions, part of the initial receptive group.</span>
+                    <!-- Corporate Flip Card -->
+                    <div class="flip-card corporate-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Corporate</strong><br><span class="text-sm opacity-80">Legal, HR, CFO</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Legal, HR, CFO functions, part of the initial receptive group.
+                            </div>
+                        </div>
                     </div>
-                    <div class="orange-bg p-3 rounded-lg shadow tooltip-container">
-                        <strong>Wireless</strong><br><span class="text-sm opacity-80">Most Resistant</span>
-                        <span class="tooltip tooltip-dark-blue">Retail & M&L divisions, characterized by 'startup mentality', 'fast-moving', and 'most resistant' to unified approach.</span>
+                    <!-- Wireless Flip Card -->
+                    <div class="flip-card wireless-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Wireless</strong><br><span class="text-sm opacity-80">Inclined to maintain status quo</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Retail & M&L divisions, characterized by 'startup mentality', 'fast-moving', and 'inclined to maintain the status quo'.
+                            </div>
+                        </div>
                     </div>
-                    <div class="lightblue-bg p-3 rounded-lg shadow tooltip-container">
-                        <strong>Hughes</strong><br><span class="text-sm opacity-80">Legacy EchoStar</span>
-                        <span class="tooltip tooltip-dark-green">Rockets, military, Delta Wi-Fi; has own instance, targeted for later integration.</span>
+                    <!-- Hughes Flip Card -->
+                    <div class="flip-card hughes-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Hughes</strong><br><span class="text-sm opacity-80">Legacy EchoStar</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Rockets, military, Delta Wi-Fi; has own instance, targeted for later integration.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -280,12 +408,12 @@
                             <span class="tooltip tooltip-purple">Demand, Project, Resource, and Time Cards are the core functionalities.</span>
                         </div>
                         <div class="bg-white rounded-lg shadow-md p-4 text-center tooltip-container">
-                            <p class="text-5xl font-bold teal-text">4</p>
+                            <p class="text-5xl font-bold teal-text">3</p>
                             <p class="font-semibold text-gray-600">Workshows</p>
                             <span class="tooltip tooltip-dark-brown">Workshows are demonstrations of out-of-the-box functionality.</span>
                         </div>
                         <div class="col-span-2 bg-white rounded-lg shadow-md p-4 text-center tooltip-container">
-                            <p class="text-5xl font-bold teal-text">8</p>
+                            <p class="text-5xl font-bold teal-text">6</p>
                             <p class="font-semibold text-gray-600">Workshops</p>
                             <span class="tooltip tooltip-dark-gray">Workshops are detailed requirements gathering sessions where specific needs are captured.</span>
                         </div>
@@ -569,14 +697,14 @@
                             display: false
                         },
                         tooltip: {
-                             callbacks: {
+                            callbacks: {
                                 title: function(tooltipItems) {
                                     const item = tooltipItems[0];
                                     let label = item.chart.data.labels[item.dataIndex];
                                     if (Array.isArray(label)) {
-                                      return label.join(' ');
+                                        return label.join(' ');
                                     } else {
-                                      return label;
+                                        return label;
                                     }
                                 }
                             }
