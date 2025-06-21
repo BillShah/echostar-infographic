@@ -21,6 +21,12 @@
         .wireless-bg { background-color: #F37021; } /* Orange */
         .hughes-bg { background-color: #81D4FA; } /* Light Blue */
 
+        /* Teal shades for metrics section (backgrounds for front face) */
+        .spm-modules-front { background-color: #007B9E; } /* Darker teal for SPM Modules */
+        .workshows-front { background-color: #0093BD; } /* Medium teal for Workshows */
+        .workshops-front { background-color: #00A9E0; } /* Original teal for Workshops (lighter in context) */
+
+
         .teal-text { color: #00A9E0; }
         
         .timeline-item::before {
@@ -52,7 +58,7 @@
             height: 300px;
             max-height: 350px;
         }
-        /* Tooltip styles (kept for other sections if they exist, but removed from org boxes) */
+        /* Tooltip styles (kept for other sections, e.g., Stakeholder Groups) */
         .tooltip-container {
             position: relative;
             display: inline-block; /* Or block, depending on parent */
@@ -117,8 +123,8 @@
         .timeline-card::before {
             content: '';
             position: absolute;
-            left: -1.75rem; /* Adjust to align with the vertical line */
             top: 1.5rem;
+            left: -1.75rem; /* Adjust to align with the vertical line */
             width: 0.75rem;
             height: 0.75rem;
             border-radius: 9999px;
@@ -136,10 +142,10 @@
             position: relative;
         }
         .timeline-group-title::before {
-             content: '';
+            content: '';
             position: absolute;
-            left: -1.75rem; /* Adjust to align with the vertical line */
             top: 1.25rem;
+            left: -1.75rem; /* Adjust to align with the vertical line */
             width: 0.75rem;
             height: 0.75rem;
             border-radius: 9999px;
@@ -183,8 +189,8 @@
             top: 0;
             z-index: 20; /* Ensure it stays on top of other content */
             background-color: #f0f4f8; /* Match body background or slightly different */
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+            padding-top: 0.1rem; /* Even further reduced padding */
+            padding-bottom: 0.1rem; /* Even further reduced padding */
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
@@ -227,7 +233,7 @@
             100% { opacity: 0.3; }
         }
 
-        /* 3D Flip Card Styles */
+        /* 3D Flip Card Styles - General for organizational boxes */
         .flip-card {
             background-color: transparent;
             perspective: 1000px; /* Needed for 3D effect */
@@ -240,20 +246,26 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Match existing shadow */
         }
 
-        /* Adjust height for medium and large screens if necessary, to ensure square-ish appearance */
+        /* Responsive adjustments for flip cards in general grid layouts */
         @media (min-width: 768px) { /* md breakpoint */
-            .grid-cols-2 .flip-card {
-                width: 140px;
-                height: 140px;
-            }
-        }
-        @media (min-width: 1024px) { /* lg breakpoint */
+            .grid-cols-2 .flip-card,
+            .grid-cols-3 .flip-card, /* Added for general flip card responsiveness */
             .grid-cols-7 .flip-card {
                 width: 140px;
                 height: 140px;
             }
         }
 
+        /* Specific adjustments for metric flip cards in Key Metrics & Stakeholder Overview */
+        #metrics-stakeholders-section .flip-card {
+            width: 100%; /* Make them fill their grid column */
+            height: 100px; /* Adjust height for metrics boxes */
+            padding: 0; /* Reset padding to be controlled by inner elements */
+            box-shadow: none; /* Remove outer shadow, it will be applied to inner faces */
+            overflow: visible; /* Ensure content is not clipped by fixed dimensions */
+        }
+
+        /* Styles for the inner parts of the flip card (front and back) */
         .flip-card-inner {
             position: relative;
             width: 100%;
@@ -278,40 +290,64 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 0.75rem; /* Slightly increased padding for more breathing room */
-            border-radius: inherit; /* Inherit rounded corners */
+            padding: 0.75rem; /* Consistent padding for content inside */
+            border-radius: inherit; /* Inherit rounded corners from flip-card */
             box-sizing: border-box; /* Include padding in the element's total width and height */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Apply shadow directly to front/back faces */
         }
-
+        
+        /* Default styling for the back face for organizational cards */
         .flip-card-back {
-            transform: rotateY(180deg); /* Initially hide the back */
-            color: #fff; /* Ensure text is readable on the colored backgrounds */
-            font-size: 0.8rem; /* Slightly smaller font size for detailed text */
-            line-height: 1.3; /* Increased line-height for better readability */
+            transform: rotateY(180deg); /* Initially hidden */
+            color: #fff; /* Default white text for organizational cards */
+            font-size: 0.8rem; /* Consistent font size */
+            line-height: 1.3;
             text-align: center;
         }
 
-        /* Apply background colors to front and back for consistency */
-        .dish-bg .flip-card-front, .dish-bg .flip-card-back { background-color: #00A9E0; }
-        .sling-bg .flip-card-front, .sling-bg .flip-card-back { background-color: #4CAF50; }
-        .video-services-bg .flip-card-front, .video-services-bg .flip-card-back { background-color: #7B1FA2; }
-        .shared-services-bg .flip-card-front, .shared-services-bg .flip-card-back { background-color: #FFC107; }
-        .corporate-bg .flip-card-front, .corporate-bg .flip-card-back { background-color: #F44336; }
-        .wireless-bg .flip-card-front, .wireless-bg .flip-card-back { background-color: #F37021; }
-        .hughes-bg .flip-card-front, .hughes-bg .flip-card-back { background-color: #81D4FA; }
+        /* Apply background colors to front and back for organizational flip cards */
+        .dish-bg .flip-card-front, .dish-bg .flip-card-back { background-color: #00A9E0; color: white; }
+        .sling-bg .flip-card-front, .sling-bg .flip-card-back { background-color: #4CAF50; color: white; }
+        .video-services-bg .flip-card-front, .video-services-bg .flip-card-back { background-color: #7B1FA2; color: white; }
+        .shared-services-bg .flip-card-front, .shared-services-bg .flip-card-back { background-color: #FFC107; color: black; } /* Adjusted for visibility */
+        .corporate-bg .flip-card-front, .corporate-bg .flip-card-back { background-color: #F44336; color: white; }
+        .wireless-bg .flip-card-front, .wireless-bg .flip-card-back { background-color: #F37021; color: black; } /* Adjusted for visibility */
+        .hughes-bg .flip-card-front, .hughes-bg .flip-card-back { background-color: #81D4FA; color: black; } /* Adjusted for visibility */
 
         /* Ensure text on yellow/red/orange backgrounds remains readable on both sides */
         .shared-services-bg .flip-card-front strong,
         .corporate-bg .flip-card-front strong,
         .wireless-bg .flip-card-front strong {
-            color: #333; /* Darker text for better contrast on lighter backgrounds */
+            color: inherit; /* Inherit color from parent .flip-card-front */
         }
         .shared-services-bg .flip-card-back,
         .corporate-bg .flip-card-back,
         .wireless-bg .flip-card-back {
-            color: #333; /* Darker text for better contrast on lighter backgrounds */
+            color: inherit; /* Inherit color from parent .flip-card-back */
         }
 
+
+        /* --- Specific Metric Flip Card Styling (Key Metrics Section) --- */
+        #metrics-stakeholders-section .flip-card-front {
+            color: white; /* Set all text on the front of metric cards to white */
+        }
+        #metrics-stakeholders-section .flip-card-front .teal-text {
+            color: white; /* Ensure the large number is also white on colored backgrounds */
+        }
+
+        /* Apply specific background colors to the front faces of metric cards */
+        #metrics-stakeholders-section .spm-modules-front { background-color: #007B9E; } /* Dark Teal */
+        #metrics-stakeholders-section .workshows-front { background-color: #0093BD; } /* Medium Teal */
+        #metrics-stakeholders-section .workshops-front { background-color: #00A9E0; } /* Light Teal */
+
+        /* Override general .flip-card-back styles for metric cards */
+        #metrics-stakeholders-section .flip-card-back {
+            background-color: white; /* White background for back face */
+            color: #00A9E0; /* Blue text for back face */
+            font-size: 0.85rem; /* Slightly larger font for metrics back */
+            line-height: 1.3;
+            text-align: center;
+        }
 
     </style>
 </head>
@@ -319,12 +355,11 @@
 
     <div class="container mx-auto p-4 md:p-8 max-w-7xl">
         
-        <header class="text-center mb-10 sticky-header">
-            <div class="max-w-4xl mx-auto"> <!-- Wrapper div to constrain header content width -->
-                <img src="EchoStar-Logo.wine.png" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-48 mb-4 logo-fade" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo';">
-                <h1 class="text-3xl md:text-5xl font-bold teal-text mb-2 h1-glow">EchoStar ServiceNow SPM Implementation</h1>
-                <!-- Removed H2: <h2 class="text-xl md:text-2xl font-semibold text-gray-600">Stakeholder Engagement Strategy</h2> -->
-                <p class="mt-4 text-gray-500">
+        <header class="text-center mb-4 sticky-header">
+            <div class="max-w-4xl mx-auto">
+                <img src="EchoStar-Logo.wine.png" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-24 m-0 logo-fade" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo';">
+                <h1 class="text-3xl md:text-5xl font-bold teal-text m-0 h1-glow">EchoStar ServiceNow SPM Implementation</h1>
+                <p class="m-0 text-gray-500">
                     Our deliberate strategy to unify diverse business units under a single EchoStar ServiceNow SPM instance. This infographic outlines the phased rollout and a structured engagement driving this transformation.
                 </p>
             </div>
@@ -429,20 +464,41 @@
             <div id="metrics-stakeholders-content" class="collapsible-content collapsed">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
                     <div class="lg:col-span-1 grid grid-cols-2 md:grid-cols-2 gap-4">
-                        <div class="bg-white rounded-lg shadow-md p-4 text-center tooltip-container">
-                            <p class="text-5xl font-bold teal-text">4</p>
-                            <p class="font-semibold text-gray-600">SPM Modules</p>
-                            <span class="tooltip tooltip-purple">Demand, Project, Resource, and Time Cards are the core functionalities.</span>
+                        <!-- 4 SPM Modules Flip Card -->
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front spm-modules-front rounded-lg shadow-md">
+                                    <p class="text-5xl font-bold teal-text">4</p>
+                                    <p class="font-semibold">SPM Modules</p>
+                                </div>
+                                <div class="flip-card-back rounded-lg shadow-md">
+                                    Demand, Project, Resource, and Time Cards are the core functionalities.
+                                </div>
+                            </div>
                         </div>
-                        <div class="bg-white rounded-lg shadow-md p-4 text-center tooltip-container">
-                            <p class="text-5xl font-bold teal-text">3</p>
-                            <p class="font-semibold text-gray-600">Workshows</p>
-                            <span class="tooltip tooltip-dark-brown">Workshows are demonstrations of out-of-the-box functionality.</span>
+                        <!-- 3 Workshows Flip Card -->
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front workshows-front rounded-lg shadow-md">
+                                    <p class="text-5xl font-bold teal-text">3</p>
+                                    <p class="font-semibold">Workshows</p>
+                                </div>
+                                <div class="flip-card-back rounded-lg shadow-md">
+                                    Workshows are demonstrations of out-of-the-box functionality.
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-span-2 bg-white rounded-lg shadow-md p-4 text-center tooltip-container">
-                            <p class="text-5xl font-bold teal-text">6</p>
-                            <p class="font-semibold text-gray-600">Workshops</p>
-                            <span class="tooltip tooltip-dark-gray">Workshops are detailed requirements gathering sessions where specific needs are captured.</span>
+                        <!-- 6 Workshops Flip Card -->
+                        <div class="col-span-2 flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front workshops-front rounded-lg shadow-md">
+                                    <p class="text-5xl font-bold teal-text">6</p>
+                                    <p class="font-semibold">Workshops</p>
+                                </div>
+                                <div class="flip-card-back rounded-lg shadow-md">
+                                    Workshops are detailed requirements gathering sessions where specific needs are captured.
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
@@ -532,7 +588,7 @@
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core (Laura, Sarah, Managers and Intact leads)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800">Preview B – Resource & Timecard</p>
+                                <p class="text-sm text-gray-600">Preview B – Resource & Timecard</p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 30, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 45 min</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core team</p>
@@ -553,13 +609,13 @@
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800">Project</p>
+                                <p class="text-sm text-gray-600">Project</p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 1, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800">Resource / Timecard</p>
+                                <p class="text-sm text-gray-600">Resource / Timecard</p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 8, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
@@ -580,13 +636,13 @@
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800">Demand – Business</p>
+                                <p class="text-sm text-gray-600">Demand – Business</p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Friday, July 11, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800">Project – IT</p>
+                                <p class="text-sm text-gray-600">Project – IT</p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 14, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
