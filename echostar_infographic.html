@@ -475,6 +475,175 @@
             padding-right: 0.3rem; /* Space between icon and text */
         }
 
+        /* New specific styles for the 4-point roadmap timeline */
+        .roadmap-timeline {
+            display: flex;
+            align-items: center; /* Vertically align dot/label blocks */
+            justify-content: space-between; /* Evenly space the items initially */
+            margin: 40px auto;
+            width: calc(100% - 20px);
+            padding: 0 10px;
+            min-height: 100px; /* Ensure enough space for two lines of text + dot */
+        }
+
+        .roadmap-milestone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 2; /* Ensures dot/text is above line */
+            padding: 0 5px; /* Small horizontal padding for text */
+            flex-basis: 0; /* Important for flex-grow */
+        }
+
+        .roadmap-milestone.active {
+            color: #000;
+            font-weight: 600;
+        }
+
+        .roadmap-milestone.future {
+            color: #9aa3ad;
+        }
+
+        /* Timeline dot style */
+        .roadmap-dot {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-sizing: border-box;
+            margin-bottom: 8px; /* Space between dot and label */
+        }
+
+        .roadmap-milestone.active .roadmap-dot {
+            background-color: #00A9E0; /* Filled with primary brand teal */
+            color: white;
+            border: 2px solid #00A9E0; /* Solid border matching fill */
+        }
+
+        .roadmap-milestone.future .roadmap-dot {
+            background-color: transparent;
+            border: 2px solid #9aa3ad;
+            color: #9aa3ad;
+        }
+
+        /* Connecting line elements */
+        .roadmap-line {
+            height: 4px;
+            flex-shrink: 0; /* Prevent lines from shrinking more than content */
+            /* Adjusted margin-bottom to center with dot when align-items: center is used on parent */
+            margin-bottom: 0; /* Remove previous specific margin-bottom */
+            position: relative; /* Allow z-index */
+            z-index: 1; /* Below dots */
+        }
+
+        /* Specific line styles and flex-grow */
+        .roadmap-line.active-line {
+            background-color: #00A9E0; /* Solid primary color */
+            flex-grow: 3; /* For 75% width of the line segments (combined with first milestone's flex-grow) */
+        }
+
+        .roadmap-line.dashed-line {
+            background-image: linear-gradient(to right, #9aa3ad 50%, transparent 50%);
+            background-size: 16px 4px;
+            background-repeat: repeat-x;
+            flex-grow: 1; /* For 25% width of the line segments (combined with future milestones' flex-grow) */
+        }
+
+        /* Hidden elements for future phases */
+        .hidden-element {
+            display: none; /* Default hidden */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .show-element {
+            display: flex; /* Or block, as appropriate for the element */
+            opacity: 1;
+        }
+        /* Specific display for milestone vs. line */
+        .roadmap-milestone.show-element { display: flex; }
+        .roadmap-line.show-element { display: flex; } /* Lines are flex items */
+
+        /* Collapsible content for future details */
+        .future-details-container {
+            max-height: 2000px; /* Large enough for content */
+            opacity: 1;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        }
+        .future-details-container.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0 !important; /* Override any margin */
+            margin-bottom: 0 !important;
+        }
+
+        /* Future states button */
+        .future-states-button {
+            background-color: #F37021; /* Orange */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+            border: none;
+            display: block; /* Make it a block element to center with mx-auto */
+            margin: 20px auto; /* Spacing */
+            text-align: center;
+        }
+        .future-states-button:hover {
+            background-color: #E26012; /* Darker orange on hover */
+            transform: translateY(-2px);
+        }
+
+        /* Styles for detailed phase description cards */
+        .phase-detail-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Pushes content and lists apart if needed */
+        }
+        .phase-detail-card h5 {
+            color: #00A9E0; /* Teal for headings */
+            font-weight: bold;
+            font-size: 1.125rem; /* text-lg */
+            margin-bottom: 0.5rem;
+        }
+        .phase-detail-card p {
+            font-size: 0.875rem; /* text-sm */
+            color: #333;
+            line-height: 1.4;
+            margin-bottom: 0.75rem; /* Space below paragraph */
+        }
+        .phase-detail-card ul {
+            list-style: none; /* Remove default bullets */
+            padding-left: 0;
+            margin-top: 0.5rem; /* Space above list */
+        }
+        .phase-detail-card ul li {
+            position: relative;
+            padding-left: 1.2em; /* Space for custom checkmark */
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem; /* text-sm */
+            color: #555;
+        }
+        .phase-detail-card ul li::before {
+            content: '\2713'; /* Checkmark icon */
+            color: #00A9E0; /* Teal checkmark */
+            font-size: 0.9em;
+            position: absolute;
+            left: 0;
+            top: 0.15em;
+        }
     </style>
 </head>
 <body>
@@ -483,7 +652,7 @@
         
         <header class="text-center sticky-header">
             <div class="max-w-4xl mx-auto">
-                <img id="echostarLogo" src="EchoStar-Logo.wine FINAL.png" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-24 m-0 logo-fade" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo';">
+                <img id="echostarLogo" src="https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-24 m-0 logo-fade">
                 <div id="header-text-carousel" class="relative overflow-hidden h-24 flex items-center justify-center">
                     <h1 id="mainTitle" class="font-bold teal-text fade-element h1-glow active-fade">EchoStar ServiceNow SPM Implementation</h1>
                     <p id="strategyText" class="text-base md:text-lg teal-text fade-element inactive-fade">
@@ -494,17 +663,17 @@
         </header>
 
         <section id="organization-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
-            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="organization-content">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="organization-content" tabindex="0" role="button" aria-expanded="false" aria-controls="organization-content">
                 <h3 class="text-2xl font-bold teal-text mb-0">Organizational Landscape</h3>
                 <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
             </div>
             <div id="organization-content" class="collapsible-content collapsed">
                 <div class="flex justify-center items-center mb-4 mt-6">
-                     <p class="text-center font-bold text-lg text-gray-700">Single SPM Instance Goal - Phased Approach</p>
+                    <p class="text-center font-bold text-lg text-gray-700">Single SPM Instance Goal - Phased Approach</p>
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4 text-white text-center">
                     
-<div class="flip-card dish-bg dish-glow">
+                    <div class="flip-card dish-bg dish-glow">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <strong>DISH</strong><br><span class="text-sm opacity-80">Primary Focus</span>
@@ -515,7 +684,7 @@
                         </div>
                     </div>
                     
-<div class="flip-card sling-bg">
+                    <div class="flip-card sling-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <strong>Sling</strong><br><span class="text-sm opacity-80">Video Streaming</span>
@@ -526,7 +695,7 @@
                         </div>
                     </div>
                     
-<div class="flip-card video-services-bg">
+                    <div class="flip-card video-services-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <strong>Video Services</strong><br><span class="text-sm opacity-80">Marketing</span>
@@ -537,7 +706,7 @@
                         </div>
                     </div>
                     
-<div class="flip-card shared-services-bg">
+                    <div class="flip-card shared-services-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <strong>Shared Services</strong><br><span class="text-sm opacity-80">CXO Functions</span>
@@ -548,7 +717,7 @@
                         </div>
                     </div>
                     
-<div class="flip-card corporate-bg">
+                    <div class="flip-card corporate-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <strong>Corporate</strong><br><span class="text-sm opacity-80">Legal, HR, CFO</span>
@@ -559,7 +728,7 @@
                         </div>
                     </div>
                     
-<div class="flip-card wireless-bg">
+                    <div class="flip-card wireless-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <strong>Wireless</strong><br><span class="text-sm opacity-80">Inclined to maintain status quo</span>
@@ -570,7 +739,7 @@
                         </div>
                     </div>
                     
-<div class="flip-card hughes-bg">
+                    <div class="flip-card hughes-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <strong>Hughes</strong><br><span class="text-sm opacity-80">Legacy EchoStar</span>
@@ -585,7 +754,7 @@
         </section>
 
         <section id="metrics-stakeholders-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
-            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="metrics-stakeholders-content">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="metrics-stakeholders-content" tabindex="0" role="button" aria-expanded="false" aria-controls="metrics-stakeholders-content">
                 <h3 class="text-2xl font-bold teal-text mb-0">Key Metrics & Stakeholder Overview</h3>
                 <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
             </div>
@@ -593,7 +762,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
                     <div class="lg:col-span-1 grid grid-cols-2 md:grid-cols-2 gap-4">
                         
-<div class="flip-card">
+                        <div class="flip-card">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front spm-modules-front rounded-lg shadow-md">
                                     <p class="text-5xl font-bold teal-text">4</p>
@@ -605,7 +774,7 @@
                             </div>
                         </div>
                         
-<div class="flip-card">
+                        <div class="flip-card">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front workshows-front rounded-lg shadow-md">
                                     <p class="text-5xl font-bold teal-text">3</p>
@@ -617,7 +786,7 @@
                             </div>
                         </div>
                         
-<div class="col-span-2 flip-card">
+                        <div class="col-span-2 flip-card">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front workshops-front rounded-lg shadow-md">
                                     <p class="text-5xl font-bold teal-text">5</p>
@@ -633,12 +802,12 @@
                         <h3 class="text-2xl font-bold text-center mb-4">Stakeholder Groups</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             
-<div class="stakeholder-card core-project-bg">
-                                <div class="stakeholder-card-toggle" data-target="core-project-team-content">
+                            <div class="stakeholder-card core-project-bg">
+                                <div class="stakeholder-card-toggle" data-target="core-project-team-content" tabindex="0" role="button" aria-expanded="false" aria-controls="core-project-team-content">
                                     <h4 class="font-bold text-lg mb-0 text-gray-800">👤 Core Project Team</h4>
                                     <span class="collapsible-icon">▼</span>
                                 </div>
-                                <div id="core-project-team-content" class="stakeholder-card-content">
+                                <div id="core-project-team-content" class="stakeholder-card-content collapsed">
                                     <p class="text-sm text-gray-700 mt-2">Central driving force, responsible for strategic direction and project management.</p>
                                     <ul class="custom-bullet-list mt-2">
                                         <li><strong>Sarah</strong> (IT PMO Lead)</li>
@@ -649,12 +818,12 @@
                                 </div>
                             </div>
                             
-<div class="stakeholder-card it-stakeholder-bg">
-                                <div class="stakeholder-card-toggle" data-target="it-stakeholders-content">
+                            <div class="stakeholder-card it-stakeholder-bg">
+                                <div class="stakeholder-card-toggle" data-target="it-stakeholders-content" tabindex="0" role="button" aria-expanded="false" aria-controls="it-stakeholders-content">
                                     <h4 class="font-bold text-lg mb-0 text-gray-800">👤 IT Stakeholders</h4>
                                     <span class="collapsible-icon">▼</span>
                                 </div>
-                                <div id="it-stakeholders-content" class="stakeholder-card-content">
+                                <div id="it-stakeholders-content" class="stakeholder-card-content collapsed">
                                     <p class="text-sm text-gray-700 mt-2">Responsible for technical implementation, support, and alignment of new SPM processes.</p>
                                     <ul class="custom-bullet-list mt-2">
                                         <li>IT Product Owners</li>
@@ -664,12 +833,12 @@
                                 </div>
                             </div>
                             
-<div class="stakeholder-card business-stakeholder-bg">
-                                <div class="stakeholder-card-toggle" data-target="business-stakeholders-content">
+                            <div class="stakeholder-card business-stakeholder-bg">
+                                <div class="stakeholder-card-toggle" data-target="business-stakeholders-content" tabindex="0" role="button" aria-expanded="false" aria-controls="business-stakeholders-content">
                                     <h4 class="font-bold text-lg mb-0 text-gray-800">👤 Business Stakeholders</h4>
                                     <span class="collapsible-icon">▼</span>
                                 </div>
-                                <div id="business-stakeholders-content" class="stakeholder-card-content">
+                                <div id="business-stakeholders-content" class="stakeholder-card-content collapsed">
                                     <p class="text-sm text-gray-700 mt-2">Key business leaders and PMO members who will utilize SPM for demand, project, and portfolio management.</p>
                                     <ul class="custom-bullet-list mt-2">
                                         <li>Business PMO (90% ID'd)</li>
@@ -684,7 +853,7 @@
             </section>
 
         <section id="technical-readiness-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
-            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="technical-readiness-content">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="technical-readiness-content" tabindex="0" role="button" aria-expanded="false" aria-controls="technical-readiness-content">
                 <h3 class="text-2xl font-bold teal-text mb-0">Technical Environment Readiness</h3>
                 <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
             </div>
@@ -703,12 +872,12 @@
                         <h4 class="font-bold text-lg mb-2">Upgrade Analyzer Run</h4>
                         <p class="text-sm text-gray-700">Run an upgrade analyzer to identify divergent objects and assess customization impact.</p>
                     </div>
-                    </div>
+                </div>
             </div>
         </section>
 
         <section id="timeline-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
-            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="timeline-content">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="timeline-content" tabindex="0" role="button" aria-expanded="false" aria-controls="timeline-content">
                 <h3 class="text-2xl font-bold teal-text mb-0">Engagement Timeline</h3>
                 <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
             </div>
@@ -717,7 +886,7 @@
                 <div class="relative pl-8 border-l-4 border-gray-200">
                     
                     <div class="mb-4">
-                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="previews-content">
+                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="previews-content" tabindex="0" role="button" aria-expanded="false" aria-controls="previews-content">
                             <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Planning Previews (2 sessions)</h4>
                             <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
                         </div>
@@ -729,7 +898,7 @@
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core (Laura, Sarah, Managers and Intact leads)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-sm text-gray-600">Preview B – Resource & Timecard</p>
+                                <p class="text-md font-semibold text-gray-800"><strong>2. Preview B – Resource & Timecard</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 30, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 45 min</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core team</p>
@@ -738,7 +907,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshows-content">
+                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshows-content" tabindex="0" role="button" aria-expanded="false" aria-controls="workshows-content">
                             <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Workshows (demos)</h4>
                             <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
                         </div>
@@ -765,7 +934,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshops-content">
+                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshops-content" tabindex="0" role="button" aria-expanded="false" aria-controls="workshops-content">
                             <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Workshops (requirements-gathering)</h4>
                             <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
                         </div>
@@ -808,7 +977,7 @@
         </section>
 
         <section id="workshops-structure-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
-            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="workshops-structure-content">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="workshops-structure-content" tabindex="0" role="button" aria-expanded="false" aria-controls="workshops-structure-content">
                 <h3 class="text-2xl font-bold teal-text mb-0">Workshows & Workshops Structure</h3>
                 <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
             </div>
@@ -847,36 +1016,75 @@
         </section>
 
         <section id="implementation-phases-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
-            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="implementation-phases-content">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="implementation-phases-content" tabindex="0" role="button" aria-expanded="false" aria-controls="implementation-phases-content">
                 <h3 class="text-2xl font-bold teal-text mb-0">Long Term (18 Months) Implementation Strategy</h3>
                 <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
             </div>
             <div id="implementation-phases-content" class="collapsible-content collapsed">
                 <p class="text-center text-gray-500 text-sm mb-8 mt-6 max-w-2xl mx-auto">We are building momentum with receptive divisions first, creating a showcase of success to encourage enterprise-wide adoption before approaching more resistant areas.</p>
-                <div class="flex flex-col md:flex-row items-center justify-around space-y-6 md:space-y-0 md:space-x-4">
-                    <div class="flex-1 p-4 tooltip-container">
-                        <div class="teal-bg text-white w-16 h-16 rounded-full flex items-center justify-content-center mx-auto mb-2 text-2xl font-bold">1</div>
-                        <h4 class="font-bold text-lg">Foundation</h4>
-                        <p class="text-sm text-gray-600">Focus on DISH/Corporate to establish a "sexy toy" showcase and build quick wins.</p>
-                        <span class="tooltip tooltip-dark-gray">Establish core SPM instance with receptive divisions to build momentum and demonstrate quick wins. **Concept:** "Flash your sexy toy" - show working solution, reduced tech debt, single source of truth.</span>
+                
+                <!-- NEW 4-POINT HORIZONTAL TIMELINE -->
+                <div class="roadmap-timeline">
+                    <div class="roadmap-milestone active" data-phase="phase1">
+                        <div class="roadmap-dot">1</div>
+                        <h4 class="font-bold text-base mt-2">Now</h4>
+                        <small class="text-xs">June 20, 2025</small>
                     </div>
-                    <div class="flow-arrow hidden md:block">→</div>
-                    <div class="flow-arrow block md:hidden">↓</div>
-                    <div class="flex-1 p-4 tooltip-container">
-                        <div class="lightblue-bg text-white w-16 h-16 rounded-full flex items-center justify-content-center mx-auto mb-2 text-2xl font-bold">2</div>
-                        <h4 class="font-bold text-lg">Expansion</h4>
-                        <p class="text-sm text-gray-600">Integrate Hughes/Legacy EchoStar, leveraging Phase 1 success stories.</p>
-                        <span class="tooltip tooltip-dark-blue">Integrate Hughes/Legacy EchoStar, leveraging success from Phase 1.</span>
+                    <div class="roadmap-line active-line" style="flex-grow: 3;"></div> <!-- Line 1-2 -->
+                    <div class="roadmap-milestone active" data-phase="phase2">
+                        <div class="roadmap-dot">2</div>
+                        <h4 class="font-bold text-base mt-2">Foundation</h4>
+                        <small class="text-xs">Sept 20, 2025<br>(13-week Foundation Model)</small>
                     </div>
-                    <div class="flow-arrow hidden md:block">→</div>
-                    <div class="flow-arrow block md:hidden">↓</div>
-                    <div class="flex-1 p-4 tooltip-container">
-                        <div class="orange-bg text-white w-16 h-16 rounded-full flex items-center justify-content-center mx-auto mb-2 text-2xl font-bold">3</div>
-                        <h4 class="font-bold text-lg">Full Integration</h4>
-                        <p class="text-sm text-gray-600">Approach Wireless division after 3-12 months, requiring careful political navigation.</p>
-                        <span class="tooltip tooltip-dark-green">Approach Wireless division, requiring careful political navigation due to their resistance.</span>
+                    <div class="roadmap-line dashed-line hidden-element" id="line-2-3" style="flex-grow: 1;"></div> <!-- Line 2-3, hidden -->
+                    <div class="roadmap-milestone future hidden-element" data-phase="phase3" id="milestone-3">
+                        <div class="roadmap-dot">3</div>
+                        <h4 class="font-bold text-base mt-2">Expansion</h4>
+                        <small class="text-xs">June 2026</small>
+                    </div>
+                    <div class="roadmap-line dashed-line hidden-element" id="line-3-4" style="flex-grow: 1;"></div> <!-- Line 3-4, hidden -->
+                    <div class="roadmap-milestone future hidden-element" data-phase="phase4" id="milestone-4">
+                        <div class="roadmap-dot">4</div>
+                        <h4 class="font-bold text-base mt-2">Full Integration</h4>
+                        <small class="text-xs">Dec 2026</small>
                     </div>
                 </div>
+                <!-- END NEW 4-POINT HORIZONTAL TIMELINE -->
+
+                <button id="show-future-button" class="future-states-button" tabindex="0" role="button" aria-expanded="false" aria-controls="future-phases-details timeline-future-visuals">
+                    Show Future States
+                </button>
+
+                <!-- DETAILED DESCRIPTIONS FOR EACH PHASE -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+                    <!-- Phase 1 Detail: Now -->
+                    <div class="phase-detail-card">
+                        <h5 class="font-bold text-lg text-teal-700 mb-2">Phase 1: Now</h5>
+                        <p class="text-sm text-gray-700">Initial planning and setup, team alignment, and foundational environment readiness for the SPM implementation.</p>
+                    </div>
+                    <!-- Phase 2 Detail: Foundation (formerly "Foundation" phase 1) -->
+                    <div class="phase-detail-card">
+                        <h5 class="font-bold text-lg text-teal-700 mb-2">Phase 2: Foundation</h5>
+                        <p class="text-sm text-gray-700">Deploy SPM Professional to DISH/Corporate with out-of-the-box best practices, delivering portfolio visibility, quick wins, and a scalable core platform.</p>
+                        <ul class="custom-bullet-list text-sm mt-2">
+                            <li>Activate PPM, Resource, Demand &amp; Time Card modules</li>
+                            <li>Configure governance and reporting dashboards</li>
+                            <li>Train pilot user group &bull; Capture success metrics</li>
+                        </ul>
+                    </div>
+                    <!-- Phase 3 Detail: Expansion (formerly "Expansion" phase 2) -->
+                    <div class="phase-detail-card hidden-element" id="phase-detail-3">
+                        <h5 class="font-bold text-lg text-teal-700 mb-2">Phase 3: Expansion</h5>
+                        <p class="text-sm text-gray-700">Extend SPM capabilities to additional EchoStar divisions (e.g., Hughes/Legacy EchoStar), standardizing processes enterprise-wide and leveraging Phase 2 success stories.</p>
+                    </div>
+                    <!-- Phase 4 Detail: Full Integration (formerly "Full Integration" phase 3) -->
+                    <div class="phase-detail-card hidden-element" id="phase-detail-4">
+                        <h5 class="font-bold text-lg text-teal-700 mb-2">Phase 4: Full Integration</h5>
+                        <p class="text-sm text-gray-700">Unify portfolio data and processes across all EchoStar business units, including Wireless, integrating SPM deeply with financial and engineering systems for holistic, real-time insights.</p>
+                    </div>
+                </div>
+                <!-- END DETAILED DESCRIPTIONS -->
+
                 <p class="mt-8 text-center text-gray-600 text-sm font-semibold">
                     Foundation for Multi-Million Dollar, Enterprise-Wide Expansion: This initial effort is a critical step towards broader organizational impact and future phases.
                 </p>
@@ -887,6 +1095,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Chart.js initialization
             const stakeholderCtx = document.getElementById('stakeholderChart').getContext('2d');
             new Chart(stakeholderCtx, {
                 type: 'doughnut',
@@ -937,25 +1146,39 @@
             const mainCollapsibleToggles = Array.from(document.querySelectorAll('#organization-section .collapsible-toggle, #metrics-stakeholders-section .collapsible-toggle, #technical-readiness-section .collapsible-toggle, #timeline-section .collapsible-toggle, #workshops-structure-section .collapsible-toggle, #implementation-phases-section .collapsible-toggle'));
 
 
-            // Collapsible sections logic - now targets both main and sub-collapsible toggles
-            document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle').forEach(toggle => {
+            // Unified Collapsible sections logic for all toggles
+            document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle, .stakeholder-card-toggle').forEach(toggle => {
                 const targetId = toggle.dataset.target;
                 const content = document.getElementById(targetId);
+                const icon = toggle.querySelector('.collapsible-icon');
 
-                // Initialize all as collapsed by default by adding the class
-                // The 'collapsed' class in CSS handles initial state (max-height: 0, opacity: 0, overflow: hidden)
+                // Safety check: only proceed if content element exists
+                if (!content) {
+                    console.error(`Error: Target content with ID "${targetId}" not found for toggle:`, toggle);
+                    return; // Skip this toggle if its target content is missing
+                }
+
+                // Initialize all as collapsed by default
                 content.classList.add('collapsed');
                 toggle.classList.add('collapsed');
+                toggle.setAttribute('aria-expanded', 'false');
+                if (icon) {
+                    icon.textContent = '▼'; // Set initial icon to point down (for collapsed state as per your style)
+                }
 
-                toggle.addEventListener('click', () => {
-                    // Toggle 'collapsed' class for content and the toggle element itself
-                    // The CSS then handles the animation and overflow property dynamically
+                const toggleFunction = () => {
+                    const isCollapsed = content.classList.contains('collapsed');
+                    
                     content.classList.toggle('collapsed');
-                    toggle.classList.toggle('collapsed');
+                    toggle.classList.toggle('collapsed'); // This will toggle the 'collapsed' class on the toggle itself for CSS
+                    toggle.setAttribute('aria-expanded', String(isCollapsed)); // Set to true if it was collapsed, false if expanded
+                    
+                    if (icon) {
+                        icon.textContent = isCollapsed ? '▲' : '▼'; // Change arrow up when expanded, down when collapsed
+                    }
 
-                    // Check if a MAIN section is being expanded/collapsed
+                    // Check if a MAIN section is being expanded/collapsed for logo shrink
                     if (mainCollapsibleToggles.includes(toggle)) {
-                        // If expanding, shrink logo
                         if (!content.classList.contains('collapsed')) { // Content is now expanded
                             echostarLogo.classList.add('logo-shrink');
                         } else { // Content is now collapsed
@@ -970,24 +1193,16 @@
                             }
                         }
                     }
+                };
+
+                toggle.addEventListener('click', toggleFunction);
+                toggle.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault(); // Prevent default scroll behavior for spacebar
+                        toggleFunction();
+                    }
                 });
             });
-
-            // Stakeholder Group Expandable Cards Logic
-            document.querySelectorAll('.stakeholder-card-toggle').forEach(toggle => {
-                const targetId = toggle.dataset.target;
-                const content = document.getElementById(targetId);
-
-                // Set initial state
-                content.classList.add('collapsed');
-                toggle.classList.add('collapsed');
-
-                toggle.addEventListener('click', () => {
-                    content.classList.toggle('collapsed');
-                    toggle.classList.toggle('collapsed'); // This will toggle the 'collapsed' class on the toggle itself
-                });
-            });
-
 
             // Header Text Carousel Logic
             const mainTitle = document.getElementById('mainTitle');
@@ -1018,6 +1233,78 @@
 
             // Start the carousel after a short delay (e.g., 5 seconds) and repeat every 5 seconds
             setInterval(toggleHeaderText, 5000); // Adjust duration as needed
+
+
+            // NEW: Logic for Future States button
+            const showFutureButton = document.getElementById('show-future-button');
+            const futureTimelineElements = document.querySelectorAll('#line-2-3, #milestone-3, #line-3-4, #milestone-4');
+            const futureDetailCards = document.querySelectorAll('#phase-detail-3, #phase-detail-4');
+
+            let futureStatesVisible = false;
+
+            // Initially hide the future detail cards
+            futureTimelineElements.forEach(el => {
+                el.classList.add('hidden-element');
+                el.style.display = 'none'; // Ensure they are initially display: none
+            });
+            futureDetailCards.forEach(card => card.classList.add('hidden-element'));
+
+
+            if (showFutureButton) {
+                showFutureButton.addEventListener('click', () => {
+                    futureStatesVisible = !futureStatesVisible;
+
+                    // Toggle visibility for timeline elements
+                    futureTimelineElements.forEach(el => {
+                        if (futureStatesVisible) {
+                            el.classList.remove('hidden-element');
+                            // For flex items, explicitly set display to flex to make them participate in layout
+                            if (el.classList.contains('roadmap-milestone')) {
+                                el.style.display = 'flex'; // Milestones are flex
+                            } else {
+                                el.style.display = 'block'; // Lines can be block
+                            }
+                            setTimeout(() => el.classList.add('show-element'), 10); // Trigger transition
+                        } else {
+                            el.classList.remove('show-element');
+                            // Delay display: none to allow transition to finish
+                            el.addEventListener('transitionend', function handler() {
+                                el.style.display = 'none'; // Re-hide after transition
+                                el.removeEventListener('transitionend', handler);
+                            }, { once: true });
+                            // Ensure display is set to none immediately if no transition (e.g., on initial load or if transition is skipped)
+                            if (getComputedStyle(el).transitionDuration === '0s' || getComputedStyle(el).opacity === '0') {
+                                el.style.display = 'none';
+                            }
+                            el.classList.add('hidden-element');
+                        }
+                    });
+
+                    // Toggle visibility for detail cards
+                    futureDetailCards.forEach(card => {
+                        if (futureStatesVisible) {
+                            card.classList.remove('hidden-element');
+                            card.style.display = 'flex'; // Ensure flex display for grid items
+                            setTimeout(() => card.classList.add('show-element'), 10);
+                        } else {
+                            card.classList.remove('show-element');
+                            card.addEventListener('transitionend', function handler() {
+                                card.style.display = 'none';
+                                card.removeEventListener('transitionend', handler);
+                            }, { once: true });
+                            if (getComputedStyle(card).transitionDuration === '0s' || getComputedStyle(card).opacity === '0') {
+                                card.style.display = 'none';
+                            }
+                            card.classList.add('hidden-element');
+                        }
+                    });
+
+                    // Change button text and aria-expanded state
+                    showFutureButton.textContent = futureStatesVisible ? 'Hide Future States' : 'Show Future States';
+                    showFutureButton.setAttribute('aria-expanded', String(futureStatesVisible));
+                });
+            }
+
         });
     </script>
 
