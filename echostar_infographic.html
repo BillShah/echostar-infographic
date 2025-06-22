@@ -388,44 +388,43 @@
 
         /* New styles for stakeholder group expandable cards */
         .stakeholder-card {
-            background-color: white; /* Default background for entire card */
+            background-color: white;
             border-radius: 0.5rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 1rem; /* Padding for the entire card */
+            padding: 1rem;
             margin-bottom: 1rem;
-            transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
-            border: 1px solid transparent; /* Default border */
+            transition: all 0.3s ease-in-out;
+            border: 1px solid transparent;
         }
         .stakeholder-card:hover {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Lift effect on hover */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
             transform: translateY(-2px);
         }
 
         /* Specific colors for stakeholder cards */
-        .stakeholder-card.core-project-bg { background-color: #E0F2F7; /* Very Light Blue/Teal */ }
-        .stakeholder-card.it-stakeholder-bg { background-color: #CCEEF5; /* Lighter Blue/Teal */ }
-        .stakeholder-card.business-stakeholder-bg { background-color: #B3E0EB; /* Light Blue/Teal */ }
+        .stakeholder-card.core-project-bg { background-color: #E0F2F7; }
+        .stakeholder-card.it-stakeholder-bg { background-color: #CCEEF5; }
+        .stakeholder-card.business-stakeholder-bg { background-color: #B3E0EB; }
 
         .stakeholder-card-toggle {
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            padding-bottom: 0.5rem; /* Padding below toggle text */
-            border-bottom: 1px solid #e2e8f0; /* Subtle separator */
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
             font-weight: bold;
             color: #333;
             transition: color 0.3s ease-in-out;
         }
         .stakeholder-card-toggle:hover {
-            color: #00A9E0; /* Teal on hover */
+            color: #00A9E0;
         }
         .stakeholder-card-content {
-            /* Default state (when not collapsed) is expanded */
-            max-height: 500px; /* Increased max-height for more content */
+            max-height: 500px;
             opacity: 1;
             transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, padding 0.5s ease-in-out;
-            padding-top: 0.5rem; /* Padding when expanded */
+            padding-top: 0.5rem;
             padding-bottom: 0.5rem;
         }
         .stakeholder-card-content.collapsed {
@@ -437,53 +436,50 @@
         }
         .stakeholder-card-toggle .collapsible-icon {
             transition: transform 0.3s ease-in-out;
-            font-size: 1.25rem; /* Adjust icon size */
+            font-size: 1.25rem;
             color: #9ca3af;
-            margin-left: 0.5rem; /* Space between text and icon */
+            margin-left: 0.5rem;
         }
-        /* Icon points down when expanded (no 'collapsed' class) */
         .stakeholder-card-toggle:not(.collapsed) .collapsible-icon {
             transform: rotate(0deg); 
         }
-        /* Icon points right when collapsed */
         .stakeholder-card-toggle.collapsed .collapsible-icon {
             transform: rotate(-90deg); 
         }
 
         /* Custom bullet list styles */
         .custom-bullet-list {
-            list-style: none; /* Remove default bullet */
-            padding-left: 0; /* Remove padding from the ul itself */
+            list-style: none;
+            padding-left: 0;
         }
 
         .custom-bullet-list li {
             position: relative;
-            margin-bottom: 0.25rem; /* Space between list items */
-            color: #555; /* Default text color for list items */
-            text-align: left; /* Align text within bullet list */
-            padding-left: 1.2em; /* Adjusted padding-left to create space for the checkmark */
+            margin-bottom: 0.25rem;
+            color: #555;
+            text-align: left;
+            padding-left: 1.2em;
         }
 
         .custom-bullet-list li::before {
-            content: '\2713'; /* Checkmark icon (Unicode for heavy checkmark) */
-            color: #00A9E0; /* Blue color for the checkmark */
-            font-size: 0.9rem; /* Slightly smaller icon to not be too dominant */
+            content: '\2713';
+            color: #00A9E0;
+            font-size: 0.9rem;
             position: absolute;
             left: 0;
-            top: 0.15em; /* Adjust vertical alignment */
-            line-height: 1; /* Ensure icon doesn't affect line height of text */
-            padding-right: 0.3rem; /* Space between icon and text */
+            top: 0.15em;
+            line-height: 1;
+            padding-right: 0.3rem;
         }
 
-        /* New specific styles for the 4-point roadmap timeline */
+        /* NEW specific styles for the 4-point roadmap timeline */
         .roadmap-timeline {
             display: flex;
-            align-items: center; /* Vertically align dot/label blocks */
-            justify-content: space-between; /* Evenly space the items initially */
+            align-items: center; /* Ensures dots and lines are vertically centered relative to each other */
+            justify-content: space-between;
             margin: 40px auto;
             width: calc(100% - 20px);
             padding: 0 10px;
-            min-height: 100px; /* Ensure enough space for two lines of text + dot */
         }
 
         .roadmap-milestone {
@@ -492,8 +488,8 @@
             align-items: center;
             text-align: center;
             position: relative;
-            z-index: 2; /* Ensures dot/text is above line */
-            padding: 0 5px; /* Small horizontal padding for text */
+            z-index: 2;
+            padding: 0 5px;
             flex-basis: 0; /* Important for flex-grow */
         }
 
@@ -506,7 +502,6 @@
             color: #9aa3ad;
         }
 
-        /* Timeline dot style */
         .roadmap-dot {
             width: 50px;
             height: 50px;
@@ -521,9 +516,9 @@
         }
 
         .roadmap-milestone.active .roadmap-dot {
-            background-color: #00A9E0; /* Filled with primary brand teal */
+            background-color: #00A9E0;
             color: white;
-            border: 2px solid #00A9E0; /* Solid border matching fill */
+            border: 2px solid #00A9E0;
         }
 
         .roadmap-milestone.future .roadmap-dot {
@@ -532,60 +527,52 @@
             color: #9aa3ad;
         }
 
+        /* Added a new class for the text content within milestones for consistent height */
+        .roadmap-text-content {
+            min-height: 60px; /* ALIGNMENT FIX: Ensures consistent height for all text blocks */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Vertically center text within its fixed height */
+            align-items: center;
+        }
+
         /* Connecting line elements */
         .roadmap-line {
             height: 4px;
-            flex-shrink: 0; /* Prevent lines from shrinking more than content */
-            /* Adjusted margin-bottom to center with dot when align-items: center is used on parent */
-            margin-bottom: 0; /* Remove previous specific margin-bottom */
-            position: relative; /* Allow z-index */
-            z-index: 1; /* Below dots */
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Specific line styles and flex-grow */
         .roadmap-line.active-line {
-            background-color: #00A9E0; /* Solid primary color */
-            flex-grow: 3; /* For 75% width of the line segments (combined with first milestone's flex-grow) */
+            background-color: #00A9E0;
+            flex-grow: 3;
         }
 
         .roadmap-line.dashed-line {
             background-image: linear-gradient(to right, #9aa3ad 50%, transparent 50%);
             background-size: 16px 4px;
             background-repeat: repeat-x;
-            flex-grow: 1; /* For 25% width of the line segments (combined with future milestones' flex-grow) */
+            flex-grow: 1;
         }
 
         /* Hidden elements for future phases */
         .hidden-element {
-            display: none; /* Default hidden */
+            display: none;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
         }
         .show-element {
-            display: flex; /* Or block, as appropriate for the element */
             opacity: 1;
         }
-        /* Specific display for milestone vs. line */
-        .roadmap-milestone.show-element { display: flex; }
-        .roadmap-line.show-element { display: flex; } /* Lines are flex items */
-
-        /* Collapsible content for future details */
-        .future-details-container {
-            max-height: 2000px; /* Large enough for content */
-            opacity: 1;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
-        }
-        .future-details-container.collapsed {
-            max-height: 0;
-            opacity: 0;
-            margin-top: 0 !important; /* Override any margin */
-            margin-bottom: 0 !important;
-        }
+        /* Specific display rules for elements being shown/hidden */
+        .roadmap-milestone.show-element { display: flex !important; }
+        .roadmap-line.show-element { display: flex !important; }
+        .phase-detail-card.show-element { display: flex !important; }
 
         /* Future states button */
         .future-states-button {
-            background-color: #F37021; /* Orange */
+            background-color: #F37021;
             color: white;
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
@@ -593,12 +580,12 @@
             cursor: pointer;
             transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
             border: none;
-            display: block; /* Make it a block element to center with mx-auto */
-            margin: 20px auto; /* Spacing */
+            display: block;
+            margin: 20px auto;
             text-align: center;
         }
         .future-states-button:hover {
-            background-color: #E26012; /* Darker orange on hover */
+            background-color: #E26012;
             transform: translateY(-2px);
         }
 
@@ -610,35 +597,35 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.08);
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Pushes content and lists apart if needed */
+            justify-content: space-between;
         }
         .phase-detail-card h5 {
-            color: #00A9E0; /* Teal for headings */
+            color: #00A9E0;
             font-weight: bold;
-            font-size: 1.125rem; /* text-lg */
+            font-size: 1.125rem;
             margin-bottom: 0.5rem;
         }
         .phase-detail-card p {
-            font-size: 0.875rem; /* text-sm */
+            font-size: 0.875rem;
             color: #333;
             line-height: 1.4;
-            margin-bottom: 0.75rem; /* Space below paragraph */
+            margin-bottom: 0.75rem;
         }
         .phase-detail-card ul {
-            list-style: none; /* Remove default bullets */
+            list-style: none;
             padding-left: 0;
-            margin-top: 0.5rem; /* Space above list */
+            margin-top: 0.5rem;
         }
         .phase-detail-card ul li {
             position: relative;
-            padding-left: 1.2em; /* Space for custom checkmark */
+            padding-left: 1.2em;
             margin-bottom: 0.25rem;
-            font-size: 0.875rem; /* text-sm */
+            font-size: 0.875rem;
             color: #555;
         }
         .phase-detail-card ul li::before {
-            content: '\2713'; /* Checkmark icon */
-            color: #00A9E0; /* Teal checkmark */
+            content: '\2713';
+            color: #00A9E0;
             font-size: 0.9em;
             position: absolute;
             left: 0;
@@ -1028,26 +1015,34 @@
                 <div class="roadmap-timeline">
                     <div class="roadmap-milestone active" data-phase="phase1" style="flex-grow: 3;">
                         <div class="roadmap-dot">1</div>
-                        <h4 class="font-bold text-base mt-2">Now</h4>
-                        <small class="text-xs">June 20, 2025</small>
+                        <div class="roadmap-text-content">
+                            <h4 class="font-bold text-base">Now</h4>
+                            <small class="text-xs">June 20, 2025</small>
+                        </div>
                     </div>
                     <div class="roadmap-line active-line"></div> <!-- Line 1-2 -->
                     <div class="roadmap-milestone active" data-phase="phase2" style="flex-grow: 3;">
                         <div class="roadmap-dot">2</div>
-                        <h4 class="font-bold text-base mt-2">Foundation</h4>
-                        <small class="text-xs">Sept 20, 2025<br>(13-week Foundation Model)</small>
+                        <div class="roadmap-text-content">
+                            <h4 class="font-bold text-base">Foundation</h4>
+                            <small class="text-xs">Sept 20, 2025<br>(13-week Foundation Model)</small>
+                        </div>
                     </div>
                     <div class="roadmap-line dashed-line hidden-element" id="line-2-3" style="flex-grow: 1;"></div> <!-- Line 2-3, hidden -->
                     <div class="roadmap-milestone future hidden-element" data-phase="phase3" id="milestone-3" style="flex-grow: 1;">
                         <div class="roadmap-dot">3</div>
-                        <h4 class="font-bold text-base mt-2">Expansion</h4>
-                        <small class="text-xs">June 2026</small>
+                        <div class="roadmap-text-content">
+                            <h4 class="font-bold text-base">Expansion</h4>
+                            <small class="text-xs">June 2026</small>
+                        </div>
                     </div>
                     <div class="roadmap-line dashed-line hidden-element" id="line-3-4" style="flex-grow: 1;"></div> <!-- Line 3-4, hidden -->
                     <div class="roadmap-milestone future hidden-element" data-phase="phase4" id="milestone-4" style="flex-grow: 1;">
                         <div class="roadmap-dot">4</div>
-                        <h4 class="font-bold text-base mt-2">Full Integration</h4>
-                        <small class="text-xs">Dec 2026</small>
+                        <div class="roadmap-text-content">
+                            <h4 class="font-bold text-base">Full Integration</h4>
+                            <small class="text-xs">Dec 2026</small>
+                        </div>
                     </div>
                 </div>
                 <!-- END NEW 4-POINT HORIZONTAL TIMELINE -->
