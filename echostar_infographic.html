@@ -30,16 +30,7 @@
         .teal-text { color: #00A9E0; } /* Define teal color for text */
         
         .timeline-item::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: -0.625rem;
-            transform: translateY(-50%);
-            width: 1.25rem;
-            height: 1.25rem;
-            border-radius: 9999px;
-            background-color: white;
-            border: 4px solid #00A9E0;
+            content: none; /* Explicitly remove the pseudo-element content for individual timeline items */
         }
         .timeline-item.yellow::before { border-color: #FFC107; }
         .timeline.green::before { border-color: #4CAF50; }
@@ -103,7 +94,7 @@
         .tooltip.tooltip-dark-blue { background-color: #2C3E50; }
         .tooltip.tooltip-dark-blue::after { border-color: #2C3E50 transparent transparent transparent; }
         .tooltip.tooltip-dark-green { background-color: #1A531A; }
-        .tooltip.tooltip-dark-green::after { border-color: #1A531A transparent transparent transparent; }
+        .tooltip.tooltip-green::after { border-color: #1A531A transparent transparent transparent; }
         .tooltip.tooltip-purple { background-color: #4A148C; }
         .tooltip.tooltip-purple::after { border-color: #4A148C transparent transparent transparent; }
         .tooltip.tooltip-dark-brown { background-color: #5A382A; }
@@ -120,16 +111,9 @@
             margin-bottom: 1rem;
             position: relative;
         }
+        /* IMPORTANT: This removes the bullets from individual timeline cards */
         .timeline-card::before {
-            content: '';
-            position: absolute;
-            top: 1.5rem;
-            left: -1.75rem; /* Adjust to align with the vertical line */
-            width: 0.75rem;
-            height: 0.75rem;
-            border-radius: 9999px;
-            background-color: #00A9E0; /* Teal dot */
-            border: 2px solid white;
+            content: none; 
         }
         .timeline-group-title {
             font-weight: bold;
@@ -312,7 +296,7 @@
         /* Specific adjustments for metric flip cards in Key Metrics & Stakeholder Overview */
         #metrics-stakeholders-section .flip-card {
             width: 100%; /* Make them fill their grid column */
-            height: 100px; /* Adjust height for metrics boxes */
+            height: 120px; /* Adjusted height for metrics boxes */
             padding: 0; /* Reset padding to be controlled by inner elements */
             box-shadow: none; /* Remove outer shadow, it will be applied to inner faces */
             overflow: visible; /* Ensure content is not clipped by fixed dimensions */
@@ -464,6 +448,31 @@
         /* Icon points right when collapsed */
         .stakeholder-card-toggle.collapsed .collapsible-icon {
             transform: rotate(-90deg); 
+        }
+
+        /* Custom bullet list styles */
+        .custom-bullet-list {
+            list-style: none; /* Remove default bullet */
+            padding-left: 0.8rem; /* Reduced indentation */
+        }
+
+        .custom-bullet-list li {
+            position: relative;
+            margin-bottom: 0.25rem; /* Space between list items */
+            color: #555; /* Default text color for list items */
+            text-align: left; /* Align text within bullet list */
+            padding-left: 1.2em; /* Adjusted padding-left to create space for the checkmark */
+        }
+
+        .custom-bullet-list li::before {
+            content: '\2713'; /* Checkmark icon (Unicode for heavy checkmark) */
+            color: #00A9E0; /* Blue color for the checkmark */
+            font-size: 0.9rem; /* Slightly smaller icon to not be too dominant */
+            position: absolute;
+            left: 0; /* Position at the very left of the li element */
+            top: 0.15em; /* Adjust vertical alignment */
+            line-height: 1; /* Ensure icon doesn't affect line height of text */
+            padding-right: 0.3rem; /* Space between icon and text */
         }
 
     </style>
@@ -631,7 +640,7 @@
                                 </div>
                                 <div id="core-project-team-content" class="stakeholder-card-content">
                                     <p class="text-sm text-gray-700 mt-2">Central driving force, responsible for strategic direction and project management.</p>
-                                    <ul class="text-sm text-gray-700 list-inside ml-4 mt-2">
+                                    <ul class="custom-bullet-list mt-2">
                                         <li><strong>Sarah</strong> (IT PMO Lead)</li>
                                         <li><strong>Laura</strong> (IT PMO)</li>
                                         <li>IT Managers</li>
@@ -647,7 +656,7 @@
                                 </div>
                                 <div id="it-stakeholders-content" class="stakeholder-card-content">
                                     <p class="text-sm text-gray-700 mt-2">Responsible for technical implementation, support, and alignment of new SPM processes.</p>
-                                    <ul class="text-sm text-gray-700 list-inside ml-4 mt-2">
+                                    <ul class="custom-bullet-list mt-2">
                                         <li>IT Product Owners</li>
                                         <li><strong>Pierre's Team</strong> (SN SMEs)</li>
                                         <li>IT Delivery Teams</li>
@@ -662,7 +671,7 @@
                                 </div>
                                 <div id="business-stakeholders-content" class="stakeholder-card-content">
                                     <p class="text-sm text-gray-700 mt-2">Key business leaders and PMO members who will utilize SPM for demand, project, and portfolio management.</p>
-                                    <ul class="text-sm text-gray-700 list-inside ml-4 mt-2">
+                                    <ul class="custom-bullet-list mt-2">
                                         <li>Business PMO (90% ID'd)</li>
                                         <li>Line of Business Leaders</li>
                                         <li>Portfolio Owners</li>
@@ -694,8 +703,7 @@
                         <h4 class="font-bold text-lg mb-2">Upgrade Analyzer Run</h4>
                         <p class="text-sm text-gray-700">Run an upgrade analyzer to identify divergent objects and assess customization impact.</p>
                     </div>
-                    <!-- Removed "On-Standby Technical Support" section as requested -->
-                </div>
+                    </div>
             </div>
         </section>
 
@@ -736,19 +744,19 @@
                         </div>
                         <div id="workshows-content" class="collapsible-content sub-collapsible-content collapsed">
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800">Demand</p>
+                                <p class="text-md font-semibold text-gray-800"><strong>1. Demand</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Wednesday, June 25, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-sm text-gray-600">Project</p>
+                                <p class="text-md font-semibold text-gray-800"><strong>2. Project</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 1, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-sm text-gray-600">Resource / Timecard</p>
+                                <p class="text-md font-semibold text-gray-800"><strong>3. Resource / Timecard</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 8, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
@@ -763,42 +771,36 @@
                         </div>
                         <div id="workshops-content" class="collapsible-content sub-collapsible-content collapsed">
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800">Demand – IT</p>
+                                <p class="text-md font-semibold text-gray-800"><strong>1. Demand – IT</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Thursday, July 10, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-sm text-gray-600">Demand – Business</p>
+                                <p class="text-sm text-gray-600"><strong>2. Demand – Business</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Friday, July 11, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-sm text-gray-600">Project – IT</p>
+                                <p class="text-md font-semibold text-gray-800"><strong>3. Project – IT</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 14, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-sm text-gray-600">Project – Business</p>
+                                <p class="text-sm text-gray-600"><strong>4. Project – Business</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 15, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-sm text-gray-600">Resource/TC – IT</p>
+                                <p class="text-sm text-gray-600"><strong>5. Resource/TC – IT</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 21, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
                             </div>
-                            <div class="timeline-card">
-                                <p class="text-sm text-gray-600">Resource/TC – Business</p>
-                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 22, 2025</p>
-                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 90 mins</span></span></p>
-                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
                             </div>
-                        </div>
                     </div>
 
                 </div>
