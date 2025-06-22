@@ -42,7 +42,7 @@
             border: 4px solid #00A9E0;
         }
         .timeline-item.yellow::before { border-color: #FFC107; }
-        .timeline-item.green::before { border-color: #4CAF50; }
+        .timeline.green::before { border-color: #4CAF50; }
 
         .flow-arrow {
             font-size: 2.5rem;
@@ -217,4 +217,807 @@
             opacity: 1;
             visibility: visible;
         }
-        .fade-
+        .fade-element.inactive-fade {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+
+        /* Glow effect for DISH box */
+        .dish-glow {
+            animation: glow 1.5s infinite alternate; /* Adjust duration and timing as needed */
+        }
+
+        /* H1 Glow effect (only when active) */
+        .h1-glow.active-fade {
+            animation: h1-glow 1.8s infinite alternate;
+        }
+        /* Ensure h1-glow is removed when inactive */
+        .h1-glow.inactive-fade {
+            animation: none;
+            text-shadow: none;
+        }
+
+        /* H1 text size reduction (20%) */
+        #mainTitle {
+            font-size: 1.5rem; /* 20% reduction from original text-3xl (1.875rem) */
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            #mainTitle {
+                font-size: 2.4rem; /* 20% reduction from original text-5xl (3rem) */
+            }
+        }
+
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px rgba(0, 169, 224, 0.5), 0 0 10px rgba(0, 169, 224, 0.2);
+            }
+            to {
+                box-shadow: 0 0 15px rgba(0, 169, 224, 0.8), 0 0 25px rgba(0, 169, 224, 0.4);
+            }
+        }
+
+        @keyframes h1-glow {
+            from {
+                text-shadow: 0 0 5px rgba(0, 169, 224, 0.5), 0 0 10px rgba(0, 169, 224, 0.2);
+            }
+            to {
+                text-shadow: 0 0 15px rgba(0, 169, 224, 0.8), 0 0 25px rgba(0, 169, 224, 0.4);
+            }
+        }
+
+        /* Logo Fade effect */
+        .logo-fade {
+            animation: fade-in-out 3s infinite alternate;
+        }
+
+        @keyframes fade-in-out {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        /* Logo Shrink state */
+        .logo-shrink {
+            height: 4rem; /* Reduced height, e.g., h-16 (64px) */
+            transition: height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 0.5; /* Slightly fade out when shrunk */
+        }
+
+
+        /* 3D Flip Card Styles - General for organizational boxes */
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px; /* Needed for 3D effect */
+            width: 140px; /* Fixed width for consistent size */
+            height: 140px; /* Fixed height for consistent card size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem; /* Match existing border-radius */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Match existing shadow */
+        }
+
+        /* Responsive adjustments for flip cards in general grid layouts */
+        @media (min-width: 768px) { /* md breakpoint */
+            .grid-cols-2 .flip-card,
+            .grid-cols-3 .flip-card, /* Added for general flip card responsiveness */
+            .grid-cols-7 .flip-card {
+                width: 140px;
+                height: 140px;
+            }
+        }
+
+        /* Specific adjustments for metric flip cards in Key Metrics & Stakeholder Overview */
+        #metrics-stakeholders-section .flip-card {
+            width: 100%; /* Make them fill their grid column */
+            height: 100px; /* Adjust height for metrics boxes */
+            padding: 0; /* Reset padding to be controlled by inner elements */
+            box-shadow: none; /* Remove outer shadow, it will be applied to inner faces */
+            overflow: visible; /* Ensure content is not clipped by fixed dimensions */
+        }
+
+        /* Styles for the inner parts of the flip card (front and back) */
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s; /* Smooth flip animation */
+            transform-style: preserve-3d; /* Keep children in 3D space */
+            border-radius: inherit; /* Inherit rounded corners */
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Hide the back of the card when flipped */
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem; /* Consistent padding for content inside */
+            border-radius: inherit; /* Inherit rounded corners from flip-card */
+            box-sizing: border-box; /* Include padding in the element's total width and height */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Apply shadow directly to front/back faces */
+        }
+        
+        /* Default styling for the back face for organizational cards */
+        .flip-card-back {
+            transform: rotateY(180deg); /* Initially hidden */
+            color: #fff; /* Default white text for organizational cards */
+            font-size: 0.8rem; /* Consistent font size */
+            line-height: 1.3;
+            text-align: center;
+        }
+
+        /* Apply background colors to front and back for organizational flip cards */
+        .dish-bg .flip-card-front, .dish-bg .flip-card-back { background-color: #00A9E0; color: white; }
+        .sling-bg .flip-card-front, .sling-bg .flip-card-back { background-color: #4CAF50; color: white; }
+        .video-services-bg .flip-card-front, .video-services-bg .flip-card-back { background-color: #7B1FA2; color: white; }
+        .shared-services-bg .flip-card-front, .shared-services-bg .flip-card-back { background-color: #FFC107; color: black; } /* Adjusted for visibility */
+        .corporate-bg .flip-card-front, .corporate-bg .flip-card-back { background-color: #F44336; color: white; }
+        .wireless-bg .flip-card-front, .wireless-bg .flip-card-back { background-color: #F37021; color: black; } /* Adjusted for visibility */
+        .hughes-bg .flip-card-front, .hughes-bg .flip-card-back { background-color: #81D4FA; color: black; } /* Adjusted for visibility */
+
+        /* Ensure text on yellow/red/orange backgrounds remains readable on both sides */
+        .shared-services-bg .flip-card-front strong,
+        .corporate-bg .flip-card-front strong,
+        .wireless-bg .flip-card-front strong {
+            color: inherit; /* Inherit color from parent .flip-card-front */
+        }
+        .shared-services-bg .flip-card-back,
+        .corporate-bg .flip-card-back,
+        .wireless-bg .flip-card-back {
+            color: inherit; /* Inherit color from parent .flip-card-back */
+        }
+
+
+        /* --- Specific Metric Flip Card Styling (Key Metrics Section) --- */
+        #metrics-stakeholders-section .flip-card-front {
+            color: white; /* Set all text on the front of metric cards to white */
+        }
+        #metrics-stakeholders-section .flip-card-front .teal-text {
+            color: white; /* Ensure the large number is also white on colored backgrounds */
+        }
+
+        /* Apply specific background colors to the front faces of metric cards */
+        #metrics-stakeholders-section .spm-modules-front { background-color: #007B9E; } /* Dark Teal */
+        #metrics-stakeholders-section .workshows-front { background-color: #0093BD; } /* Medium Teal */
+        #metrics-stakeholders-section .workshops-front { background-color: #00A9E0; } /* Light Teal */
+
+        /* Override general .flip-card-back styles for metric cards */
+        #metrics-stakeholders-section .flip-card-back {
+            background-color: white; /* White background for back face */
+            color: #00A9E0; /* Blue text for back face */
+            font-size: 0.85rem; /* Slightly larger font for metrics back */
+            line-height: 1.3;
+            text-align: center;
+        }
+
+        /* New styles for stakeholder group expandable cards */
+        .stakeholder-card {
+            background-color: white; /* Default background for entire card */
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem; /* Padding for the entire card */
+            margin-bottom: 1rem;
+            transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+            border: 1px solid transparent; /* Default border */
+        }
+        .stakeholder-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Lift effect on hover */
+            transform: translateY(-2px);
+        }
+
+        /* Specific colors for stakeholder cards */
+        .stakeholder-card.core-project-bg { background-color: #E0F2F7; /* Very Light Blue/Teal */ }
+        .stakeholder-card.it-stakeholder-bg { background-color: #CCEEF5; /* Lighter Blue/Teal */ }
+        .stakeholder-card.business-stakeholder-bg { background-color: #B3E0EB; /* Light Blue/Teal */ }
+
+        .stakeholder-card-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding-bottom: 0.5rem; /* Padding below toggle text */
+            border-bottom: 1px solid #e2e8f0; /* Subtle separator */
+            font-weight: bold;
+            color: #333;
+            transition: color 0.3s ease-in-out;
+        }
+        .stakeholder-card-toggle:hover {
+            color: #00A9E0; /* Teal on hover */
+        }
+        .stakeholder-card-content {
+            /* Default state (when not collapsed) is expanded */
+            max-height: 500px; /* Increased max-height for more content */
+            opacity: 1;
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding-top: 0.5rem; /* Padding when expanded */
+            padding-bottom: 0.5rem;
+        }
+        .stakeholder-card-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .stakeholder-card-toggle .collapsible-icon {
+            transition: transform 0.3s ease-in-out;
+            font-size: 1.25rem; /* Adjust icon size */
+            color: #9ca3af;
+            margin-left: 0.5rem; /* Space between text and icon */
+        }
+        /* Icon points down when expanded (no 'collapsed' class) */
+        .stakeholder-card-toggle:not(.collapsed) .collapsible-icon {
+            transform: rotate(0deg); 
+        }
+        /* Icon points right when collapsed */
+        .stakeholder-card-toggle.collapsed .collapsible-icon {
+            transform: rotate(-90deg); 
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+        
+        <header class="text-center sticky-header">
+            <div class="max-w-4xl mx-auto">
+                <img id="echostarLogo" src="EchoStar-Logo.wine FINAL.png" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-48 m-0 logo-fade" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo';">
+                <div id="header-text-carousel" class="relative overflow-hidden h-24 flex items-center justify-center">
+                    <h1 id="mainTitle" class="font-bold teal-text fade-element h1-glow active-fade">EchoStar ServiceNow SPM Implementation</h1>
+                    <p id="strategyText" class="text-base md:text-lg teal-text fade-element inactive-fade">
+                        Our deliberate strategy to unify diverse business units under a single EchoStar ServiceNow SPM instance. This infographic outlines the phased rollout and a structured engagement driving this transformation.
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <section id="organization-section" class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="organization-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Organizational Landscape</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="organization-content" class="collapsible-content collapsed">
+                <div class="flex justify-center items-center mb-4 mt-6">
+                     <p class="text-center font-bold text-lg text-gray-700">Single SPM Instance Goal - Phased Approach</p>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4 text-white text-center">
+                    
+<div class="flip-card dish-bg dish-glow">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>DISH</strong><br><span class="text-sm opacity-80">Primary Focus</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Traditional satellite TV business, primary focus for initial SPM implementation.
+                            </div>
+                        </div>
+                    </div>
+                    
+<div class="flip-card sling-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Sling</strong><br><span class="text-sm opacity-80">Video Streaming</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Video streaming services, aligned with DISH for implementation.
+                            </div>
+                        </div>
+                    </div>
+                    
+<div class="flip-card video-services-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Video Services</strong><br><span class="text-sm opacity-80">Marketing</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Marketing & retention, part of core video business implementation scope.
+                            </div>
+                        </div>
+                    </div>
+                    
+<div class="flip-card shared-services-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Shared Services</strong><br><span class="text-sm opacity-80">CXO Functions</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Centralized CXO functions, included in the foundational phase.
+                            </div>
+                        </div>
+                    </div>
+                    
+<div class="flip-card corporate-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Corporate</strong><br><span class="text-sm opacity-80">Legal, HR, CFO</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Legal, HR, CFO functions, part of the initial receptive group.
+                            </div>
+                        </div>
+                    </div>
+                    
+<div class="flip-card wireless-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Wireless</strong><br><span class="text-sm opacity-80">Inclined to maintain status quo</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Retail & M&L divisions, characterized by 'startup mentality', 'fast-moving', and 'inclined to maintain the status quo'.
+                            </div>
+                        </div>
+                    </div>
+                    
+<div class="flip-card hughes-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Hughes</strong><br><span class="text-sm opacity-80">Legacy EchoStar</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Rockets, military, Delta Wi-Fi; has own instance, targeted for later integration.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="metrics-stakeholders-section" class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="metrics-stakeholders-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Key Metrics & Stakeholder Overview</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="metrics-stakeholders-content" class="collapsible-content collapsed">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
+                    <div class="lg:col-span-1 grid grid-cols-2 md:grid-cols-2 gap-4">
+                        
+<div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front spm-modules-front rounded-lg shadow-md">
+                                    <p class="text-5xl font-bold teal-text">4</p>
+                                    <p class="font-semibold">SPM Modules</p>
+                                </div>
+                                <div class="flip-card-back rounded-lg shadow-md">
+                                    Demand, Project, Resource, and Time Cards are the core functionalities.
+                                </div>
+                            </div>
+                        </div>
+                        
+<div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front workshows-front rounded-lg shadow-md">
+                                    <p class="text-5xl font-bold teal-text">3</p>
+                                    <p class="font-semibold">Workshows</p>
+                                </div>
+                                <div class="flip-card-back rounded-lg shadow-md">
+                                    Workshows are demonstrations of out-of-the-box functionality.
+                                </div>
+                            </div>
+                        </div>
+                        
+<div class="col-span-2 flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front workshops-front rounded-lg shadow-md">
+                                    <p class="text-5xl font-bold teal-text">5</p>
+                                    <p class="font-semibold">Workshops</p>
+                                </div>
+                                <div class="flip-card-back rounded-lg shadow-md">
+                                    Workshops are detailed requirements gathering sessions where specific needs are captured.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-2xl font-bold text-center mb-4">Stakeholder Groups</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            
+<div class="stakeholder-card core-project-bg">
+                                <div class="stakeholder-card-toggle" data-target="core-project-team-content">
+                                    <h4 class="font-bold text-lg mb-0 text-gray-800">👤 Core Project Team</h4>
+                                    <span class="collapsible-icon">▼</span>
+                                </div>
+                                <div id="core-project-team-content" class="stakeholder-card-content">
+                                    <p class="text-sm text-gray-700 mt-2">Central driving force, responsible for strategic direction and project management.</p>
+                                    <ul class="text-sm text-gray-700 list-inside ml-4 mt-2">
+                                        <li><strong>Sarah</strong> (IT PMO Lead)</li>
+                                        <li><strong>Laura</strong> (IT PMO)</li>
+                                        <li>IT Managers</li>
+                                        <li>Business Managers</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+<div class="stakeholder-card it-stakeholder-bg">
+                                <div class="stakeholder-card-toggle" data-target="it-stakeholders-content">
+                                    <h4 class="font-bold text-lg mb-0 text-gray-800">👤 IT Stakeholders</h4>
+                                    <span class="collapsible-icon">▼</span>
+                                </div>
+                                <div id="it-stakeholders-content" class="stakeholder-card-content">
+                                    <p class="text-sm text-gray-700 mt-2">Responsible for technical implementation, support, and alignment of new SPM processes.</p>
+                                    <ul class="text-sm text-gray-700 list-inside ml-4 mt-2">
+                                        <li>IT Product Owners</li>
+                                        <li><strong>Pierre's Team</strong> (SN SMEs)</li>
+                                        <li>IT Delivery Teams</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+<div class="stakeholder-card business-stakeholder-bg">
+                                <div class="stakeholder-card-toggle" data-target="business-stakeholders-content">
+                                    <h4 class="font-bold text-lg mb-0 text-gray-800">👤 Business Stakeholders</h4>
+                                    <span class="collapsible-icon">▼</span>
+                                </div>
+                                <div id="business-stakeholders-content" class="stakeholder-card-content">
+                                    <p class="text-sm text-gray-700 mt-2">Key business leaders and PMO members who will utilize SPM for demand, project, and portfolio management.</p>
+                                    <ul class="text-sm text-gray-700 list-inside ml-4 mt-2">
+                                        <li>Business PMO (90% ID'd)</li>
+                                        <li>Line of Business Leaders</li>
+                                        <li>Portfolio Owners</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        <section id="technical-readiness-section" class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="technical-readiness-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Technical Environment Readiness</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="technical-readiness-content" class="collapsible-content collapsed">
+                <p class="text-center text-gray-500 text-sm mb-6 mt-6">Essential technical steps required to support the planned Workshows and Workshops.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg mb-2">Clone Production Instance</h4>
+                        <p class="text-sm text-gray-700">Ensure pre-production environment is a fresh clone of production, at the same patch level.</p>
+                    </div>
+                    <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg mb-2">SPM Plugin Installation</h4>
+                        <p class="text-sm text-gray-700">Install the SDM Pro plugin. Requires coordination with Pierre's team for entitlement/support.</p>
+                    </div>
+                    <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg mb-2">Upgrade Analyzer Run</h4>
+                        <p class="text-sm text-gray-700">Run an upgrade analyzer to identify divergent objects and assess customization impact.</p>
+                    </div>
+                    <!-- Removed "On-Standby Technical Support" section as requested -->
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline-section" class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="timeline-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Engagement Timeline</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="timeline-content" class="collapsible-content collapsed">
+                <p class="text-center text-gray-500 text-sm mb-6 mt-6">All times are listed in Mountain Time (MT).</p>
+                <div class="relative pl-8 border-l-4 border-gray-200">
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="previews-content">
+                            <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Planning Previews (2 sessions)</h4>
+                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+                        </div>
+                        <div id="previews-content" class="collapsible-content sub-collapsible-content collapsed">
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Preview A – Demand & Project</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 23, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 45 min</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core (Laura, Sarah, Managers and Intact leads)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-sm text-gray-600">Preview B – Resource & Timecard</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 30, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 45 min</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core team</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshows-content">
+                            <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Workshows (demos)</h4>
+                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+                        </div>
+                        <div id="workshows-content" class="collapsible-content sub-collapsible-content collapsed">
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Demand</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Wednesday, June 25, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90-120 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-sm text-gray-600">Project</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 1, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90-120 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-sm text-gray-600">Resource / Timecard</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 8, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90-120 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshops-content">
+                            <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Workshops (requirements-gathering)</h4>
+                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+                        </div>
+                        <div id="workshops-content" class="collapsible-content sub-collapsible-content collapsed">
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Demand – IT</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Thursday, July 10, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-sm text-gray-600">Demand – Business</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Friday, July 11, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-sm text-gray-600">Project – IT</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 14, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-sm text-gray-600">Project – Business</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 15, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-sm text-gray-600">Resource/TC – IT</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 21, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-sm text-gray-600">Resource/TC – Business</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 22, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="workshops-structure-section" class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="workshops-structure-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Workshows & Workshops Structure</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="workshops-structure-content" class="collapsible-content collapsed">
+                <p class="text-center text-gray-500 text-sm mb-6 mt-6">Our structured engagement process ensures alignment, demonstrates value, and captures detailed needs through an iterative cycle.</p>
+                <div class="flex flex-col md:flex-row items-center justify-around space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="text-center p-4 border-2 border-dashed border-gray-300 rounded-lg tooltip-container">
+                        <h4 class="font-bold">1. Preview Sessions</h4>
+                        <p class="text-xs text-gray-500">Core Team Only (1hr)</p>
+                        <p class="text-sm mt-1">High-level overview & content filtering.</p>
+                        <span class="tooltip tooltip-dark-green">Internal sessions to align the core project team and refine content before broader stakeholder engagement. **Purpose:** Prevent "opening a can of worms" by showing irrelevant or premature info.</span>
+                    </div>
+                    <div class="flow-arrow transform md:rotate-0">↓</div>
+                    <div class="text-center p-4 border-2 border-dashed border-teal-400 rounded-lg tooltip-container">
+                        <h4 class="font-bold">2. Workshows</h4>
+                        <p class="text-xs text-gray-500">Stakeholders (2hr)</p>
+                        <p class="text-sm mt-1">"See what you're getting" with OOTB demos.</p>
+                        <span class="tooltip tooltip-purple">Demonstrating out-of-the-box functionality to a wider audience. **Definition:** Purely for showing what it looks like and how it functions.</span>
+                    </div>
+                    <div class="flow-arrow transform md:rotate-0">↓</div>
+                    <div class="text-center p-4 border-2 border-dashed border-orange-400 rounded-lg tooltip-container">
+                        <h4 class="font-bold">3. Workshops</h4>
+                        <p class="text-xs text-gray-500">Stakeholders</p>
+                        <p class="text-sm mt-1">Capture gaps & configuration requirements.</p>
+                        <span class="tooltip tooltip-dark-brown">Detailed requirements gathering sessions to capture specific needs and identify configuration requirements. **Definition:** The "interview" phase to capture specific needs, document gaps, and gather input for configuration.</span>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6 mt-8">
+                    <h3 class="text-xl font-bold text-center mb-4">Business PMO Identification</h3>
+                    <div class="chart-container h-48 md:h-64">
+                        <canvas id="stakeholderChart"></canvas>
+                    </div>
+                    <p class="text-center text-gray-500 text-sm mt-4">A key success factor is having 90% of Business PMO contacts, our primary gatekeepers to IT, identified and engaged early.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="implementation-phases-section" class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="implementation-phases-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Long Term (18 Months) Implementation Strategy</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="implementation-phases-content" class="collapsible-content collapsed">
+                <p class="text-center text-gray-500 text-sm mb-8 mt-6 max-w-2xl mx-auto">We are building momentum with receptive divisions first, creating a showcase of success to encourage enterprise-wide adoption before approaching more resistant areas.</p>
+                <div class="flex flex-col md:flex-row items-center justify-around space-y-6 md:space-y-0 md:space-x-4">
+                    <div class="flex-1 p-4 tooltip-container">
+                        <div class="teal-bg text-white w-16 h-16 rounded-full flex items-center justify-content-center mx-auto mb-2 text-2xl font-bold">1</div>
+                        <h4 class="font-bold text-lg">Foundation</h4>
+                        <p class="text-sm text-gray-600">Focus on DISH/Corporate to establish a "sexy toy" showcase and build quick wins.</p>
+                        <span class="tooltip tooltip-dark-gray">Establish core SPM instance with receptive divisions to build momentum and demonstrate quick wins. **Concept:** "Flash your sexy toy" - show working solution, reduced tech debt, single source of truth.</span>
+                    </div>
+                    <div class="flow-arrow hidden md:block">→</div>
+                    <div class="flow-arrow block md:hidden">↓</div>
+                    <div class="flex-1 p-4 tooltip-container">
+                        <div class="lightblue-bg text-white w-16 h-16 rounded-full flex items-center justify-content-center mx-auto mb-2 text-2xl font-bold">2</div>
+                        <h4 class="font-bold text-lg">Expansion</h4>
+                        <p class="text-sm text-gray-600">Integrate Hughes/Legacy EchoStar, leveraging Phase 1 success stories.</p>
+                        <span class="tooltip tooltip-dark-blue">Integrate Hughes/Legacy EchoStar, leveraging success from Phase 1.</span>
+                    </div>
+                    <div class="flow-arrow hidden md:block">→</div>
+                    <div class="flow-arrow block md:hidden">↓</div>
+                    <div class="flex-1 p-4 tooltip-container">
+                        <div class="orange-bg text-white w-16 h-16 rounded-full flex items-center justify-content-center mx-auto mb-2 text-2xl font-bold">3</div>
+                        <h4 class="font-bold text-lg">Full Integration</h4>
+                        <p class="text-sm text-gray-600">Approach Wireless division after 3-12 months, requiring careful political navigation.</p>
+                        <span class="tooltip tooltip-dark-green">Approach Wireless division, requiring careful political navigation due to their resistance.</span>
+                    </div>
+                </div>
+                <p class="mt-8 text-center text-gray-600 text-sm font-semibold">
+                    Foundation for Multi-Million Dollar, Enterprise-Wide Expansion: This initial effort is a critical step towards broader organizational impact and future phases.
+                </p>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const stakeholderCtx = document.getElementById('stakeholderChart').getContext('2d');
+            new Chart(stakeholderCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Identified', 'To Be Identified'],
+                    datasets: [{
+                        label: 'Business PMO Contacts',
+                        data: [90, 10],
+                        backgroundColor: [
+                            '#00A9E0',
+                            '#e5e7eb'
+                        ],
+                        borderColor: [
+                            '#FFFFFF',
+                            '#FFFFFF'
+                        ],
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) {
+                                        return label.join(' ');
+                                    } else {
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Get the logo element
+            const echostarLogo = document.getElementById('echostarLogo');
+            // Convert NodeList to Array for .includes() method
+            const mainCollapsibleToggles = Array.from(document.querySelectorAll('#organization-section .collapsible-toggle, #metrics-stakeholders-section .collapsible-toggle, #technical-readiness-section .collapsible-toggle, #timeline-section .collapsible-toggle, #workshops-structure-section .collapsible-toggle, #implementation-phases-section .collapsible-toggle'));
+
+
+            // Collapsible sections logic - now targets both main and sub-collapsible toggles
+            document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle').forEach(toggle => {
+                const targetId = toggle.dataset.target;
+                const content = document.getElementById(targetId);
+
+                // Initialize all as collapsed by default by adding the class
+                // The 'collapsed' class in CSS handles initial state (max-height: 0, opacity: 0, overflow: hidden)
+                content.classList.add('collapsed');
+                toggle.classList.add('collapsed');
+
+                toggle.addEventListener('click', () => {
+                    // Toggle 'collapsed' class for content and the toggle element itself
+                    // The CSS then handles the animation and overflow property dynamically
+                    content.classList.toggle('collapsed');
+                    toggle.classList.toggle('collapsed');
+
+                    // Check if a MAIN section is being expanded/collapsed
+                    if (mainCollapsibleToggles.includes(toggle)) {
+                        // If expanding, shrink logo
+                        if (!content.classList.contains('collapsed')) { // Content is now expanded
+                            echostarLogo.classList.add('logo-shrink');
+                        } else { // Content is now collapsed
+                            // Check if ANY other main section is still expanded
+                            const anyMainSectionExpanded = Array.from(mainCollapsibleToggles).some(mainToggle => {
+                                const mainContent = document.getElementById(mainToggle.dataset.target);
+                                return !mainContent.classList.contains('collapsed');
+                            });
+
+                            if (!anyMainSectionExpanded) {
+                                echostarLogo.classList.remove('logo-shrink');
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Stakeholder Group Expandable Cards Logic
+            document.querySelectorAll('.stakeholder-card-toggle').forEach(toggle => {
+                const targetId = toggle.dataset.target;
+                const content = document.getElementById(targetId);
+
+                // Set initial state
+                content.classList.add('collapsed');
+                toggle.classList.add('collapsed');
+
+                toggle.addEventListener('click', () => {
+                    content.classList.toggle('collapsed');
+                    toggle.classList.toggle('collapsed'); // This will toggle the 'collapsed' class on the toggle itself
+                });
+            });
+
+
+            // Header Text Carousel Logic
+            const mainTitle = document.getElementById('mainTitle');
+            const strategyText = document.getElementById('strategyText');
+            let isTitleActive = true;
+
+            // Set initial state
+            mainTitle.classList.add('active-fade', 'h1-glow');
+            strategyText.classList.add('inactive-fade');
+
+
+            function toggleHeaderText() {
+                if (isTitleActive) {
+                    // Deactivate title, activate paragraph
+                    mainTitle.classList.remove('active-fade', 'h1-glow');
+                    mainTitle.classList.add('inactive-fade');
+                    strategyText.classList.remove('inactive-fade');
+                    strategyText.classList.add('active-fade');
+                } else {
+                    // Activate title, deactivate paragraph
+                    mainTitle.classList.remove('inactive-fade');
+                    mainTitle.classList.add('active-fade', 'h1-glow');
+                    strategyText.classList.remove('active-fade');
+                    strategyText.classList.add('inactive-fade');
+                }
+                isTitleActive = !isTitleActive;
+            }
+
+            // Start the carousel after a short delay (e.g., 5 seconds) and repeat every 5 seconds
+            setInterval(toggleHeaderText, 5000); // Adjust duration as needed
+        });
+    </script>
+
+</body>
+</html>
