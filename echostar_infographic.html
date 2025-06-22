@@ -469,7 +469,7 @@
             color: #00A9E0; /* Blue color for the checkmark */
             font-size: 0.9rem; /* Slightly smaller icon to not be too dominant */
             position: absolute;
-            left: 0; /* Position at the very left of the li element */
+            left: 0;
             top: 0.15em; /* Adjust vertical alignment */
             line-height: 1; /* Ensure icon doesn't affect line height of text */
             padding-right: 0.3rem; /* Space between icon and text */
@@ -652,7 +652,8 @@
         
         <header class="text-center sticky-header">
             <div class="max-w-4xl mx-auto">
-                <img id="echostarLogo" src="https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-24 m-0 logo-fade">
+                <!-- Updated logo source to point to raw GitHub content -->
+                <img id="echostarLogo" src="https://raw.githubusercontent.com/BillShah/echostar-infographic/main/EchoStar-Logo.wine%20FINAL.png" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-24 m-0 logo-fade" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo+Fallback';">
                 <div id="header-text-carousel" class="relative overflow-hidden h-24 flex items-center justify-center">
                     <h1 id="mainTitle" class="font-bold teal-text fade-element h1-glow active-fade">EchoStar ServiceNow SPM Implementation</h1>
                     <p id="strategyText" class="text-base md:text-lg teal-text fade-element inactive-fade">
@@ -1025,25 +1026,25 @@
                 
                 <!-- NEW 4-POINT HORIZONTAL TIMELINE -->
                 <div class="roadmap-timeline">
-                    <div class="roadmap-milestone active" data-phase="phase1">
+                    <div class="roadmap-milestone active" data-phase="phase1" style="flex-grow: 3;">
                         <div class="roadmap-dot">1</div>
                         <h4 class="font-bold text-base mt-2">Now</h4>
                         <small class="text-xs">June 20, 2025</small>
                     </div>
-                    <div class="roadmap-line active-line" style="flex-grow: 3;"></div> <!-- Line 1-2 -->
-                    <div class="roadmap-milestone active" data-phase="phase2">
+                    <div class="roadmap-line active-line"></div> <!-- Line 1-2 -->
+                    <div class="roadmap-milestone active" data-phase="phase2" style="flex-grow: 3;">
                         <div class="roadmap-dot">2</div>
                         <h4 class="font-bold text-base mt-2">Foundation</h4>
                         <small class="text-xs">Sept 20, 2025<br>(13-week Foundation Model)</small>
                     </div>
                     <div class="roadmap-line dashed-line hidden-element" id="line-2-3" style="flex-grow: 1;"></div> <!-- Line 2-3, hidden -->
-                    <div class="roadmap-milestone future hidden-element" data-phase="phase3" id="milestone-3">
+                    <div class="roadmap-milestone future hidden-element" data-phase="phase3" id="milestone-3" style="flex-grow: 1;">
                         <div class="roadmap-dot">3</div>
                         <h4 class="font-bold text-base mt-2">Expansion</h4>
                         <small class="text-xs">June 2026</small>
                     </div>
                     <div class="roadmap-line dashed-line hidden-element" id="line-3-4" style="flex-grow: 1;"></div> <!-- Line 3-4, hidden -->
-                    <div class="roadmap-milestone future hidden-element" data-phase="phase4" id="milestone-4">
+                    <div class="roadmap-milestone future hidden-element" data-phase="phase4" id="milestone-4" style="flex-grow: 1;">
                         <div class="roadmap-dot">4</div>
                         <h4 class="font-bold text-base mt-2">Full Integration</h4>
                         <small class="text-xs">Dec 2026</small>
@@ -1242,7 +1243,7 @@
 
             let futureStatesVisible = false;
 
-            // Initially hide the future detail cards
+            // Initially hide the future detail cards and timeline elements
             futureTimelineElements.forEach(el => {
                 el.classList.add('hidden-element');
                 el.style.display = 'none'; // Ensure they are initially display: none
@@ -1264,15 +1265,16 @@
                             } else {
                                 el.style.display = 'block'; // Lines can be block
                             }
-                            setTimeout(() => el.classList.add('show-element'), 10); // Trigger transition
+                            // Add a small delay to allow display change to register before starting transition
+                            setTimeout(() => el.classList.add('show-element'), 10); 
                         } else {
                             el.classList.remove('show-element');
-                            // Delay display: none to allow transition to finish
+                            // Listen for transition end to set display: none
                             el.addEventListener('transitionend', function handler() {
                                 el.style.display = 'none'; // Re-hide after transition
                                 el.removeEventListener('transitionend', handler);
                             }, { once: true });
-                            // Ensure display is set to none immediately if no transition (e.g., on initial load or if transition is skipped)
+                            // Fallback for cases where transition might not fire (e.g., if element wasn't visible)
                             if (getComputedStyle(el).transitionDuration === '0s' || getComputedStyle(el).opacity === '0') {
                                 el.style.display = 'none';
                             }
