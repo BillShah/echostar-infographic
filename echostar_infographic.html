@@ -27,7 +27,7 @@
         .workshops-front { background-color: #00A9E0; } /* Original teal for Workshops (lighter in context) */
 
 
-        .teal-text { color: #00A9E0; }
+        .teal-text { color: #00A9E0; } /* Define teal color for text */
         
         .timeline-item::before {
             content: '';
@@ -194,15 +194,60 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
+        /* Header Text Carousel Styles */
+        #header-text-carousel {
+            height: 100px; /* Adjust based on the tallest content (H1 or P) */
+            text-align: center;
+        }
+
+        .fade-element {
+            position: absolute;
+            width: 100%;
+            transition: opacity 1.5s ease-in-out; /* Smoother transition */
+            opacity: 0;
+            visibility: hidden;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center horizontally and vertically */
+            margin: 0 !important; /* Override any lingering margins */
+            padding: 0 !important; /* Override any lingering padding */
+        }
+
+        .fade-element.active-fade {
+            opacity: 1;
+            visibility: visible;
+        }
+        .fade-element.inactive-fade {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+
         /* Glow effect for DISH box */
         .dish-glow {
             animation: glow 1.5s infinite alternate; /* Adjust duration and timing as needed */
         }
 
-        /* H1 Glow effect */
-        .h1-glow {
+        /* H1 Glow effect (only when active) */
+        .h1-glow.active-fade {
             animation: h1-glow 1.8s infinite alternate;
         }
+        /* Ensure h1-glow is removed when inactive */
+        .h1-glow.inactive-fade {
+            animation: none;
+            text-shadow: none;
+        }
+
+        /* H1 text size reduction (20%) */
+        #mainTitle {
+            font-size: 1.5rem; /* 20% reduction from original text-3xl (1.875rem) */
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            #mainTitle {
+                font-size: 2.4rem; /* 20% reduction from original text-5xl (3rem) */
+            }
+        }
+
 
         @keyframes glow {
             from {
@@ -351,17 +396,19 @@
 
     </style>
 </head>
-<body class="text-gray-800">
+<body>
 
     <div class="container mx-auto p-4 md:p-8 max-w-7xl">
         
-        <header class="text-center mb-4 sticky-header">
+        <header class="text-center sticky-header">
             <div class="max-w-4xl mx-auto">
                 <img src="EchoStar-Logo.wine.png" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-48 m-0 logo-fade" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo';">
-                <h1 class="text-3xl md:text-5xl font-bold teal-text mb-2 h1-glow">EchoStar ServiceNow SPM Implementation</h1>
-                <p class="mt-4 text-gray-500">
-                    Our deliberate strategy to unify diverse business units under a single EchoStar ServiceNow SPM instance. This infographic outlines the phased rollout and a structured engagement driving this transformation.
-                </p>
+                <div id="header-text-carousel" class="relative overflow-hidden h-24 flex items-center justify-center">
+                    <h1 id="mainTitle" class="font-bold teal-text fade-element h1-glow active-fade">EchoStar ServiceNow SPM Implementation</h1>
+                    <p id="strategyText" class="text-base md:text-lg teal-text fade-element inactive-fade">
+                        Our deliberate strategy to unify diverse business units under a single EchoStar ServiceNow SPM instance. This infographic outlines the phased rollout and a structured engagement driving this transformation.
+                    </p>
+                </div>
             </div>
         </header>
 
@@ -813,6 +860,31 @@
                     toggle.classList.toggle('collapsed');
                 });
             });
+
+            // Header Text Carousel Logic
+            const mainTitle = document.getElementById('mainTitle');
+            const strategyText = document.getElementById('strategyText');
+            let isTitleActive = true;
+
+            function toggleHeaderText() {
+                if (isTitleActive) {
+                    // Deactivate title, activate paragraph
+                    mainTitle.classList.remove('active-fade', 'h1-glow');
+                    mainTitle.classList.add('inactive-fade');
+                    strategyText.classList.remove('inactive-fade');
+                    strategyText.classList.add('active-fade');
+                } else {
+                    // Activate title, deactivate paragraph
+                    mainTitle.classList.remove('inactive-fade');
+                    mainTitle.classList.add('active-fade', 'h1-glow');
+                    strategyText.classList.remove('active-fade');
+                    strategyText.classList.add('inactive-fade');
+                }
+                isTitleActive = !isTitleActive;
+            }
+
+            // Start the carousel after a short delay (e.g., 5 seconds) and repeat every 5 seconds
+            setInterval(toggleHeaderText, 5000); // Adjust duration as needed
         });
     </script>
 
