@@ -203,7 +203,7 @@
         .fade-element {
             position: absolute;
             width: 100%;
-            transition: opacity 1.5s ease-in-out; /* Smoother transition */
+            transition: opacity 2s ease-in-out; /* Smoother transition (2 seconds) */
             opacity: 0;
             visibility: hidden;
             top: 50%;
@@ -277,6 +277,14 @@
             50% { opacity: 1; }
             100% { opacity: 0.3; }
         }
+
+        /* Logo Shrink state */
+        .logo-shrink {
+            height: 4rem; /* Reduced height, e.g., h-16 (64px) */
+            transition: height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 0.5; /* Slightly fade out when shrunk */
+        }
+
 
         /* 3D Flip Card Styles - General for organizational boxes */
         .flip-card {
@@ -402,7 +410,7 @@
         
         <header class="text-center sticky-header">
             <div class="max-w-4xl mx-auto">
-                <img src="EchoStar-Logo.wine.png" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-48 m-0 logo-fade" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo';">
+                <img id="echostarLogo" src="EchoStar-Logo.wine.png" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-48 m-0 logo-fade" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo';">
                 <div id="header-text-carousel" class="relative overflow-hidden h-24 flex items-center justify-center">
                     <h1 id="mainTitle" class="font-bold teal-text fade-element h1-glow active-fade">EchoStar ServiceNow SPM Implementation</h1>
                     <p id="strategyText" class="text-base md:text-lg teal-text fade-element inactive-fade">
@@ -565,7 +573,7 @@
                             <div class="text-center md:text-left">
                                 <h4 class="font-bold text-lg mb-2 tooltip-container">👤 IT Stakeholders
                                     <span class="tooltip tooltip-dark-green">Responsible for technical implementation, support, and alignment of new SPM processes.</span>
-                                </h4>
+                                </b>
                                 <ul class="text-sm text-gray-600 list-inside">
                                     <li>IT Product Owners</li>
                                     <li><strong>Pierre's Team</strong> (SN SMEs)</li>
@@ -843,6 +851,12 @@
                 }
             });
 
+            // Get the logo element
+            const echostarLogo = document.getElementById('echostarLogo');
+            // Convert NodeList to Array for .includes() method
+            const mainCollapsibleToggles = Array.from(document.querySelectorAll('#organization-section .collapsible-toggle, #metrics-stakeholders-section .collapsible-toggle, #technical-readiness-section .collapsible-toggle, #timeline-section .collapsible-toggle, #workshops-structure-section .collapsible-toggle, #implementation-phases-section .collapsible-toggle'));
+
+
             // Collapsible sections logic - now targets both main and sub-collapsible toggles
             document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle').forEach(toggle => {
                 const targetId = toggle.dataset.target;
@@ -858,6 +872,24 @@
                     // The CSS then handles the animation and overflow property dynamically
                     content.classList.toggle('collapsed');
                     toggle.classList.toggle('collapsed');
+
+                    // Check if a MAIN section is being expanded/collapsed
+                    if (mainCollapsibleToggles.includes(toggle)) {
+                        // If expanding, shrink logo
+                        if (!content.classList.contains('collapsed')) { // Content is now expanded
+                            echostarLogo.classList.add('logo-shrink');
+                        } else { // Content is now collapsed
+                            // Check if ANY other main section is still expanded
+                            const anyMainSectionExpanded = Array.from(mainCollapsibleToggles).some(mainToggle => {
+                                const mainContent = document.getElementById(mainToggle.dataset.target);
+                                return !mainContent.classList.contains('collapsed');
+                            });
+
+                            if (!anyMainSectionExpanded) {
+                                echostarLogo.classList.remove('logo-shrink');
+                            }
+                        }
+                    }
                 });
             });
 
@@ -865,6 +897,11 @@
             const mainTitle = document.getElementById('mainTitle');
             const strategyText = document.getElementById('strategyText');
             let isTitleActive = true;
+
+            // Set initial state
+            mainTitle.classList.add('active-fade', 'h1-glow');
+            strategyText.classList.add('inactive-fade');
+
 
             function toggleHeaderText() {
                 if (isTitleActive) {
