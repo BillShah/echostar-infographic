@@ -13,7 +13,16 @@
         body {
             font-family: 'Open Sans', sans-serif;
             background-color: #f0f4ff; /* Lighter background for better contrast */
+            background-image: linear-gradient(135deg, #f0f4ff 0%, #e0eaff 100%); /* Subtle gradient */
+            background-size: 200% 200%; /* Make it larger than viewport */
+            animation: backgroundPan 30s linear infinite alternate; /* Slow, subtle pan animation */
         }
+
+        @keyframes backgroundPan {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
         /* Custom background colors for organizational units */
         .dish-bg { background-color: #00A9E0; } /* Teal */
         .sling-bg { background-color: #4CAF50; } /* Green */
@@ -112,6 +121,11 @@
             padding: 1rem;
             margin-bottom: 1rem;
             position: relative;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth hover for cards */
+        }
+        .timeline-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
         /* IMPORTANT: This removes the bullets from individual timeline cards */
         .timeline-card::before {
@@ -124,33 +138,26 @@
             margin-top: 1.5rem;
             margin-bottom: 1rem;
             text-align: left;
-            padding-left: 2rem; /* Align with the vertical line */
+            padding-left: 0; /* Removed padding to align with no vertical line */
             position: relative;
         }
+        /* REMOVED: .timeline-group-title::before for blue dot */
         .timeline-group-title::before {
-            content: '';
-            position: absolute;
-            top: 1.25rem;
-            left: -1.75rem; /* Adjust to align with the vertical line */
-            width: 0.75rem;
-            height: 0.75rem;
-            border-radius: 9999px;
-            background-color: #00A9E0; /* Teal dot */
-            border: 2px solid white;
+            content: none; /* Explicitly remove the blue dot */
         }
+
         /* Collapsible specific styles */
         .collapsible-content {
             transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
             opacity: 1;
             max-height: 2000px; /* A large enough value to accommodate content when open */
-            overflow: visible; /* Default to visible when open, allowing tooltips to escape */
+            overflow: hidden; /* Default to visible when open, allowing tooltips to escape */
             padding-top: 0.5rem; /* Ensure padding is controlled */
             padding-bottom: 0.5rem; /* Ensure padding is controlled */
         }
         .collapsible-content.collapsed {
             max-height: 0;
             opacity: 0;
-            overflow: hidden;
             padding-top: 0;
             padding-bottom: 0;
         }
@@ -176,9 +183,33 @@
             margin-bottom: 0;
         }
 
-        .sub-collapsible-toggle .collapsible-icon {
-            font-size: 1.5rem; /* Smaller icon for sub-sections */
+        /* NEW: Glowing Plus Icon Styles */
+        .sub-collapsible-toggle .collapsible-icon.glowing-plus {
+            font-size: 3rem; /* Make it big and bold */
+            color: #00A9E0; /* Base color for the plus */
+            text-shadow: 0 0 5px rgba(0, 169, 224, 0.5); /* Initial subtle shadow */
+            transition: transform 0.3s ease-in-out, text-shadow 0.5s ease-in-out;
+            animation: pulse-plus 2s infinite alternate; /* Apply a pulsing glow */
+            line-height: 1; /* Adjust line height to prevent extra space */
+            margin-left: 0; /* Override default margin-left */
+            margin-right: 0; /* Ensure no extra spacing */
+            width: 1em; /* Give it a fixed width so it doesn't shift */
+            text-align: center;
         }
+
+        .sub-collapsible-toggle:not(.collapsed) .collapsible-icon.glowing-plus {
+            transform: rotate(45deg); /* Turns plus into an 'X' when expanded */
+            animation: none; /* Stop pulsing when expanded */
+            text-shadow: none; /* Remove glow when expanded */
+        }
+
+        @keyframes pulse-plus {
+            from { text-shadow: 0 0 5px rgba(0, 169, 224, 0.5), 0 0 10px rgba(0, 169, 224, 0.2); }
+            to { text-shadow: 0 0 15px rgba(0, 169, 224, 0.8), 0 0 25px rgba(0, 169, 224, 0.4); }
+        }
+        /* END NEW: Glowing Plus Icon Styles */
+
+
         /* The .collapsible-content already handles padding: 0.5rem 0.5rem. For the sub-content, we'll control the background within the card itself. */
         .sub-collapsible-content {
             padding-left: 0; /* Remove default padding for content, content within the card will handle its own padding */
@@ -908,16 +939,21 @@
             <!-- UPDATED: Artifacts link moved to individual cards -->
             <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="timeline-content" tabindex="0" role="button" aria-expanded="false" aria-controls="timeline-content">
                 <h3 class="text-2xl font-bold teal-text mb-0">Engagement Timeline</h3>
+                <!-- NEW: Last Updated Timestamp for Timeline Section -->
+                <p id="timelineLastUpdated" class="text-xs text-gray-500 ml-auto mr-4">Last updated on...</p>
+                <!-- END NEW: Last Updated Timestamp -->
                 <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
             </div>
             <div id="timeline-content" class="collapsible-content collapsed">
                 <p class="text-center text-gray-500 text-sm mb-6 mt-6">All times are listed in Mountain Time (MT).</p>
-                <div class="relative pl-8 border-l-4 border-gray-200">
+                <!-- Removed pl-8 border-l-4 border-gray-200 from this div -->
+                <div class="relative"> 
                     
                     <div class="mb-4">
                         <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="previews-content" tabindex="0" role="button" aria-expanded="false" aria-controls="previews-content">
                             <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Planning Previews (2 sessions)</h4>
-                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+                            <!-- REPLACED ICON -->
+                            <span class="collapsible-icon glowing-plus">+</span>
                         </div>
                         <div id="previews-content" class="collapsible-content sub-collapsible-content collapsed">
                             <div class="timeline-card">
@@ -950,7 +986,8 @@
                     <div class="mb-4">
                         <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshows-content" tabindex="0" role="button" aria-expanded="false" aria-controls="workshows-content">
                             <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Workshows (demos)</h4>
-                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+                            <!-- REPLACED ICON -->
+                            <span class="collapsible-icon glowing-plus">+</span>
                         </div>
                         <div id="workshows-content" class="collapsible-content sub-collapsible-content collapsed">
                             <div class="timeline-card">
@@ -995,7 +1032,8 @@
                     <div class="mb-4">
                         <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshops-content" tabindex="0" role="button" aria-expanded="false" aria-controls="workshops-content">
                             <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Workshops (requirements-gathering)</h4>
-                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+                            <!-- REPLACED ICON -->
+                            <span class="collapsible-icon glowing-plus">+</span>
                         </div>
                         <div id="workshops-content" class="collapsible-content sub-collapsible-content collapsed">
                             <div class="timeline-card">
@@ -1024,6 +1062,7 @@
                             </div>
                             <div class="timeline-card">
                                 <p class="text-sm text-gray-600"><strong>3. Project – IT</strong></p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 14, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
                                 <!-- NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
@@ -1035,6 +1074,7 @@
                             </div>
                             <div class="timeline-card">
                                 <p class="text-sm text-gray-600"><strong>4. Project – Business</strong></p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 15, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
                                 <!-- NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
@@ -1121,7 +1161,7 @@
                             <li>Business Relationship Managers</li>
                             <li>Portfolio Managers</li>
                         </ul>
-                        <h5 class="font-bold text-md mt-4">Key Topics:</h5>
+                        <h5 class="font-bold text-md mt-4">Key Topics:</h4>
                         <ul class="custom-bullet-list">
                             <li>Demand Catalog Item</li>
                             <li>Demand Record</li>
@@ -1328,13 +1368,31 @@
                     if (isCollapsed) {
                         toggleElement.classList.add('collapsed');
                         toggleElement.setAttribute('aria-expanded', 'false');
-                        const icon = toggleElement.querySelector('.collapsible-icon');
-                        if (icon) icon.textContent = '▼'; // Point down when collapsed
+                        // Special handling for glowing-plus icon
+                        const glowingPlusIcon = toggleElement.querySelector('.collapsible-icon.glowing-plus');
+                        if (glowingPlusIcon) {
+                            glowingPlusIcon.textContent = '+'; // Ensure it's a plus
+                            glowingPlusIcon.classList.remove('rotate-45'); // Remove rotation
+                            glowingPlusIcon.style.animationPlayState = 'running'; // Resume animation
+                            glowingPlusIcon.style.textShadow = ''; // Restore text-shadow via CSS animation
+                        } else {
+                            const icon = toggleElement.querySelector('.collapsible-icon');
+                            if (icon) icon.textContent = '▼'; // Point down when collapsed
+                        }
                     } else {
                         toggleElement.classList.remove('collapsed');
                         toggleElement.setAttribute('aria-expanded', 'true');
-                        const icon = toggleElement.querySelector('.collapsible-icon');
-                        if (icon) icon.textContent = '▲'; // Point up when expanded
+                        // Special handling for glowing-plus icon
+                        const glowingPlusIcon = toggleElement.querySelector('.collapsible-icon.glowing-plus');
+                        if (glowingPlusIcon) {
+                            glowingPlusIcon.textContent = '+'; // Keep it a plus, CSS will rotate
+                            glowingPlusIcon.classList.add('rotate-45'); // Add rotation for 'X' effect
+                            glowingPlusIcon.style.animationPlayState = 'paused'; // Pause animation
+                            glowingPlusIcon.style.textShadow = 'none'; // Remove glow effect directly
+                        } else {
+                            const icon = toggleElement.querySelector('.collapsible-icon');
+                            if (icon) icon.textContent = '▲'; // Point up when expanded
+                        }
                     }
                 }
             }
@@ -1485,6 +1543,16 @@
                                 parentPanel.classList.add('hidden'); // Hide the entire panel container
                             }
                         }
+                        // For glowing-plus icons, ensure initial state is collapsed (plus sign) and animation is running
+                        if (toggle.querySelector('.collapsible-icon.glowing-plus')) {
+                            setCollapsedState(targetContentElement, toggle, true); // Ensure collapsed state
+                            const icon = toggle.querySelector('.collapsible-icon.glowing-plus');
+                            if (icon) {
+                                icon.classList.remove('rotate-45');
+                                icon.style.animationPlayState = 'running'; // Ensure animation is running
+                                icon.style.textShadow = ''; // Ensure text shadow is set by animation
+                            }
+                        }
                     } catch (error) {
                         console.error("Error during initial toggle setup:", error);
                     }
@@ -1612,7 +1680,7 @@
                                                         module.panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // Scroll to the panel
                                                     } else { // If it just became closed
                                                         module.toggle.classList.add('hidden'); // Hide toggle
-                                                        module.content.classList.remove(module.bgColorClass); // Remove background
+                                                        module.content.classList.remove('demand-bg-light', 'project-bg-light', 'resource-bg-light', 'time-bg-light'); // Remove background
                                                     }
                                                     
                                                 } else { // This is a different module, so hide it completely
@@ -1863,16 +1931,14 @@
             /**
              * Function to get and display the last update timestamp.
              * Formats the current date and time in Mountain Time (MT).
+             * @param {string} elementId - The ID of the HTML element to update.
              * @returns {void}
              */
-            function setLastUpdateTimestamp() {
+            function setTimestamp(elementId) {
                 try {
-                    const lastUpdatedElement = document.getElementById('lastUpdated');
-                    if (lastUpdatedElement) {
+                    const targetElement = document.getElementById(elementId);
+                    if (targetElement) {
                         const now = new Date();
-                        // Using toLocaleString with specific options to format for Mountain Time (approximated)
-                        // Note: Client-side JS date/time is based on the user's local settings,
-                        // but we can specify the time zone and format to match the request.
                         const options = { 
                             year: 'numeric', 
                             month: 'long', 
@@ -1883,13 +1949,12 @@
                             timeZone: 'America/Denver' // Mountain Time Zone
                         };
                         const formattedDate = now.toLocaleString('en-US', options);
-                        // Manually append "MT" as toLocaleString might use a full time zone name
-                        lastUpdatedElement.textContent = `This site was updated on ${formattedDate.replace(' AM', ' AM MT').replace(' PM', ' PM MT')}`;
+                        targetElement.textContent = `Last updated on ${formattedDate.replace(' AM', ' AM MT').replace(' PM', ' PM MT')}`;
                     } else {
-                        console.warn("setLastUpdateTimestamp: 'lastUpdated' element not found.");
+                        console.warn(`setTimestamp: Element with ID '${elementId}' not found.`);
                     }
                 } catch (error) {
-                    console.error("Error setting last update timestamp:", error);
+                    console.error(`Error setting timestamp for element '${elementId}':`, error);
                 }
             }
 
@@ -1934,7 +1999,9 @@
                 setupCollapsibleToggleListeners(allToggles, echostarLogo, mainCollapsibleTogglesForLogo, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
                 setupHeaderTextCarousel(mainTitle, strategyText);
                 setupFutureStatesToggle(showFutureButton, futureTimelineElements, futureDetailCards);
-                setLastUpdateTimestamp();
+                // Update timestamps for both main header and timeline section
+                setTimestamp('lastUpdated');
+                setTimestamp('timelineLastUpdated');
             });
 
         })(); // End of IIFE
