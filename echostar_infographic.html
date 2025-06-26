@@ -692,6 +692,39 @@
         .resource-bg-light { background-color: #FFFDE7; /* Light Yellow */ }
         .time-bg-light { background-color: #FFF3E0; /* Light Orange */ }
 
+        /* Styles for the omnipresent reset button */
+        #resetButton {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #F44336; /* Red color */
+            color: white;
+            border-radius: 9999px; /* Fully round */
+            padding: 1rem 1.25rem; /* Sufficient padding */
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Soft shadow */
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            z-index: 1000; /* Ensure it's always on top */
+            border: none; /* Remove default button border */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem; /* Space between icon and text */
+            text-align: center;
+        }
+
+        #resetButton:hover {
+            background-color: #D32F2F; /* Darker red on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        #resetButton i {
+            font-size: 1.25rem; /* Adjust icon size */
+        }
+
     </style>
 </head>
 <body>
@@ -1341,6 +1374,12 @@
 
     </div>
 
+    <!-- The omnipresent reset button -->
+    <button id="resetButton" aria-label="Reset View">
+        <i class="fas fa-undo-alt"></i>
+        <span>Reset View</span>
+    </button>
+
     <script>
         /**
          * The main entry point for the JavaScript logic, ensuring the DOM is fully loaded.
@@ -1958,6 +1997,52 @@
                 }
             }
 
+            /**
+             * Resets the view by collapsing all main sections and scrolling to the top.
+             * @param {NodeListOf<Element>} mainCollapsibleToggles - All main collapsible section toggles.
+             * @param {HTMLElement} echostarLogo - The EchoStar logo element.
+             * @param {HTMLElement} mainHeader - The main header element.
+             * @param {HTMLElement} workshopsStructureContent - Content for the Workshows & Workshops Structure section.
+             * @param {NodeListOf<Element>} spmModuleDetailPanels - All SPM module detail panels.
+             * @param {Array<string>} otherMainSectionContentIds - IDs of other main sections for header visibility.
+             * @returns {void}
+             */
+            function resetView(mainCollapsibleToggles, echostarLogo, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds) {
+                mainCollapsibleToggles.forEach(toggle => {
+                    const targetContentId = toggle.dataset.target;
+                    const targetContentElement = document.getElementById(targetContentId);
+                    if (targetContentElement) {
+                        setCollapsedState(targetContentElement, toggle, true); // Collapse the section
+                    }
+                });
+
+                // Ensure all SPM module detail panels are hidden
+                spmModuleDetailPanels.forEach(panel => {
+                    if (panel) {
+                        panel.classList.add('hidden');
+                        const content = panel.querySelector('[data-target]');
+                        const toggle = panel.querySelector('.sub-collapsible-toggle');
+                        if (content && toggle) {
+                            setCollapsedState(document.getElementById(content.dataset.target), toggle, true);
+                            toggle.classList.add('hidden');
+                            document.getElementById(content.dataset.target).classList.remove('demand-bg-light', 'project-bg-light', 'resource-bg-light', 'time-bg-light');
+                        }
+                    }
+                });
+
+                // Reset logo state
+                if (echostarLogo) {
+                    echostarLogo.classList.remove('logo-shrink');
+                }
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // Update header visibility after reset
+                manageHeaderVisibility(mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
+            }
+
+
             // Main execution block: Ensure DOM is loaded before running scripts
             document.addEventListener('DOMContentLoaded', function() {
                 // Cache frequently used DOM elements once
@@ -1972,6 +2057,7 @@
                 const showFutureButton = document.getElementById('show-future-button');
                 const futureTimelineElements = document.querySelectorAll('#line-2-3, #milestone-3, #line-3-4, #milestone-4');
                 const futureDetailCards = document.querySelectorAll('#phase-detail-3, #phase-detail-4');
+                const resetButton = document.getElementById('resetButton'); // Get the new reset button
 
                 // List of all main collapsible section content IDs (for header visibility logic)
                 const otherMainSectionContentIds = [
@@ -2002,6 +2088,15 @@
                 // Update timestamps for both main header and timeline section
                 setTimestamp('lastUpdated');
                 setTimestamp('timelineLastUpdated');
+
+                // Setup listener for the new reset button
+                if (resetButton) {
+                    resetButton.addEventListener('click', () => {
+                        resetView(mainCollapsibleTogglesForLogo, echostarLogo, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
+                    });
+                } else {
+                    console.warn("Reset button element not found.");
+                }
             });
 
         })(); // End of IIFE
