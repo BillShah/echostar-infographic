@@ -10,12 +10,53 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Define CSS Variables for the entire color palette */
+        :root {
+            --color-background-light: #f0f4ff;
+            --color-background-gradient-start: #f0f4ff;
+            --color-background-gradient-end: #e0eaff;
+            --color-primary-teal: #00A9E0;
+            --color-dark-teal: #007B9E;
+            --color-medium-teal: #0093BD;
+            --color-green: #4CAF50;
+            --color-deep-purple: #7B1FA2;
+            --color-yellow: #FFC107;
+            --color-red: #F44336;
+            --color-orange: #F37021;
+            --color-light-blue: #81D4FA;
+            --color-light-gray-100: #f3f4f6; /* Tailwind gray-100 */
+            --color-gray-200: #e5e7eb; /* Tailwind gray-200 */
+            --color-gray-300: #d1d5db; /* Tailwind gray-300 */
+            --color-gray-500: #6b7280; /* Tailwind gray-500 */
+            --color-gray-600: #4b5563; /* Tailwind gray-600 */
+            --color-gray-700: #374151; /* Tailwind gray-700 */
+            --color-gray-800: #1f2937; /* Tailwind gray-800 */
+            --color-white: #ffffff;
+            --color-black: #000000;
+            --color-red-500: #ef4444; /* For NEW! badge */
+            --color-red-600: #dc2626; /* For NEW! badge hover */
+            --color-yellow-500: #eab308; /* For folder icon */
+            --color-yellow-600: #ca8a04; /* For folder icon hover */
+            --color-tooltip-dark-blue: #2C3E50;
+            --color-tooltip-dark-green: #1A531A;
+            --color-tooltip-purple: #4A148C;
+            --color-tooltip-dark-brown: #5A382A;
+            --color-tooltip-dark-gray: #34495E;
+            --color-timeline-border: #e2e8f0; /* New variable for consistent border color */
+
+            /* Light background colors for module detail sections */
+            --color-demand-light: #E0F7FA;
+            --color-project-light: #D4EDDA;
+            --color-resource-light: #FFFDE7;
+            --color-time-light: #FFF3E0;
+        }
+
         body {
             font-family: 'Open Sans', sans-serif;
-            background-color: #f0f4ff; /* Lighter background for better contrast */
-            background-image: linear-gradient(135deg, #f0f4ff 0%, #e0eaff 100%); /* Subtle gradient */
-            background-size: 200% 200%; /* Make it larger than viewport */
-            animation: backgroundPan 30s linear infinite alternate; /* Slow, subtle pan animation */
+            background-color: var(--color-background-light);
+            background-image: linear-gradient(135deg, var(--color-background-gradient-start) 0%, var(--color-background-gradient-end) 100%);
+            background-size: 200% 200%;
+            animation: backgroundPan 30s linear infinite alternate;
         }
 
         @keyframes backgroundPan {
@@ -24,32 +65,32 @@
         }
 
         /* Custom background colors for organizational units */
-        .dish-bg { background-color: #00A9E0; } /* Teal */
-        .sling-bg { background-color: #4CAF50; } /* Green */
-        .video-services-bg { background-color: #7B1FA2; } /* Deep Purple */
-        .shared-services-bg { background-color: #FFC107; } /* Yellow */
-        .corporate-bg { background-color: #F44336; } /* Red */
-        .wireless-bg { background-color: #F37021; } /* Orange */
-        .hughes-bg { background-color: #81D4FA; } /* Light Blue */
+        .dish-bg { background-color: var(--color-primary-teal); }
+        .sling-bg { background-color: var(--color-green); }
+        .video-services-bg { background-color: var(--color-deep-purple); }
+        .shared-services-bg { background-color: var(--color-yellow); }
+        .corporate-bg { background-color: var(--color-red); }
+        .wireless-bg { background-color: var(--color-orange); }
+        .hughes-bg { background-color: var(--color-light-blue); }
 
         /* Teal shades for metrics section (backgrounds for front face) */
-        .spm-modules-front { background-color: #007B9E; } /* Darker teal for SPM Modules */
-        .workshows-front { background-color: #0093BD; } /* Medium teal for Workshows */
-        .workshops-front { background-color: #00A9E0; } /* Original teal for Workshops (lighter in context) */
+        .spm-modules-front { background-color: var(--color-dark-teal); }
+        .workshows-front { background-color: var(--color-medium-teal); }
+        .workshops-front { background-color: var(--color-primary-teal); }
 
 
-        .teal-text { color: #00A9E0; } /* Define teal color for text */
+        .teal-text { color: var(--color-primary-teal); }
         
         .timeline-item::before {
-            content: none; /* Explicitly remove the pseudo-element content for individual timeline items */
+            content: none;
         }
-        .timeline-item.yellow::before { border-color: #FFC107; }
-        .timeline.green::before { border-color: #4CAF50; }
+        .timeline-item.yellow::before { border-color: var(--color-yellow); }
+        .timeline.green::before { border-color: var(--color-green); }
 
         .flow-arrow {
             font-size: 2.5rem;
             line-height: 1;
-            color: #9ca3af;
+            color: var(--color-gray-500);
         }
         .chart-container {
             position: relative;
@@ -63,17 +104,17 @@
         /* Tooltip styles (kept for other sections, e.g., Stakeholder Groups - but now they will be in expandable cards) */
         .tooltip-container {
             position: relative;
-            display: inline-block; /* Or block, depending on parent */
+            display: inline-block;
         }
         .tooltip {
             visibility: hidden;
-            color: #fff;
+            color: var(--color-white);
             text-align: center;
             border-radius: 6px;
             padding: 5px 10px;
             position: absolute;
-            z-index: 100; /* Increased z-index */
-            bottom: 125%; /* Position the tooltip above the text */
+            z-index: 100;
+            bottom: 125%;
             left: 50%;
             transform: translateX(-50%);
             opacity: 0;
@@ -83,13 +124,13 @@
             font-size: 0.875rem;
             line-height: 1.2;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            pointer-events: none; /* Allows clicks on elements behind it */
+            pointer-events: none;
         }
 
         .tooltip::after {
             content: "";
             position: absolute;
-            top: 100%; /* At the bottom of the tooltip */
+            top: 100%;
             left: 50%;
             margin-left: -5px;
             border-width: 5px;
@@ -102,26 +143,26 @@
         }
 
         /* Specific tooltip background colors (kept for other sections) */
-        .tooltip.tooltip-dark-blue { background-color: #2C3E50; }
-        .tooltip.tooltip-dark-blue::after { border-color: #2C3E50 transparent transparent transparent; }
-        .tooltip.tooltip-dark-green { background-color: #1A531A; }
-        .tooltip.tooltip-green::after { border-color: #1A531A transparent transparent transparent; }
-        .tooltip.tooltip-purple { background-color: #4A148C; }
-        .tooltip.tooltip-purple::after { border-color: #4A148C transparent transparent transparent; }
-        .tooltip.tooltip-dark-brown { background-color: #5A382A; }
-        .tooltip.tooltip-dark-brown::after { border-color: #5A382A transparent transparent transparent; }
-        .tooltip.tooltip-dark-gray { background-color: #34495E; }
-        .tooltip.tooltip-gray::after { border-color: #34495E transparent transparent transparent; }
+        .tooltip.tooltip-dark-blue { background-color: var(--color-tooltip-dark-blue); }
+        .tooltip.tooltip-dark-blue::after { border-color: var(--color-tooltip-dark-blue) transparent transparent transparent; }
+        .tooltip.tooltip-dark-green { background-color: var(--color-tooltip-dark-green); }
+        .tooltip.tooltip-green::after { border-color: var(--color-tooltip-dark-green) transparent transparent transparent; }
+        .tooltip.tooltip-purple { background-color: var(--color-tooltip-purple); }
+        .tooltip.tooltip-purple::after { border-color: var(--color-tooltip-purple) transparent transparent transparent; }
+        .tooltip.tooltip-dark-brown { background-color: var(--color-tooltip-dark-brown); }
+        .tooltip.tooltip-dark-brown::after { border-color: var(--color-tooltip-dark-brown) transparent transparent transparent; }
+        .tooltip.tooltip-dark-gray { background-color: var(--color-tooltip-dark-gray); }
+        .tooltip.tooltip-gray::after { border-color: var(--color-tooltip-dark-gray) transparent transparent transparent; }
 
         /* Specific styles for the timeline cards */
         .timeline-card {
-            background-color: white;
+            background-color: var(--color-white);
             border-radius: 0.5rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             padding: 1rem;
             margin-bottom: 1rem;
             position: relative;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth hover for cards */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
         .timeline-card:hover {
             transform: translateY(-3px);
@@ -134,26 +175,25 @@
         .timeline-group-title {
             font-weight: bold;
             font-size: 1.25rem;
-            color: #00A9E0; /* Teal */
+            color: var(--color-primary-teal);
             margin-top: 1.5rem;
             margin-bottom: 1rem;
             text-align: left;
-            padding-left: 0; /* Removed padding to align with no vertical line */
+            padding-left: 0;
             position: relative;
         }
-        /* REMOVED: .timeline-group-title::before for blue dot */
         .timeline-group-title::before {
-            content: none; /* Explicitly remove the blue dot */
+            content: none;
         }
 
         /* Collapsible specific styles */
         .collapsible-content {
             transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
             opacity: 1;
-            max-height: 2000px; /* A large enough value to accommodate content when open */
-            overflow: hidden; /* Default to visible when open, allowing tooltips to escape */
-            padding-top: 0.5rem; /* Ensure padding is controlled */
-            padding-bottom: 0.5rem; /* Ensure padding is controlled */
+            max-height: 2000px;
+            overflow: hidden; /* Changed to hidden for consistent animation, JS controls visibility of internal tooltips */
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
         }
         .collapsible-content.collapsed {
             max-height: 0;
@@ -165,42 +205,42 @@
             transition: transform 0.3s ease-in-out;
         }
         .collapsible-toggle.collapsed .collapsible-icon {
-            transform: rotate(-90deg); /* Rotate up when collapsed */
+            transform: rotate(-90deg);
         }
         /* Adjustments for nested collapsible titles */
         .sub-collapsible-toggle {
-            padding-left: 0; /* Remove default padding from timeline-group-title */
+            padding-left: 0;
             margin-top: 1rem;
             margin-bottom: 0.5rem;
-            font-size: 1.125rem; /* Slightly smaller heading for sub-sections */
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* For showing/hiding header */
+            font-size: 1.125rem;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
         }
         .sub-collapsible-toggle.hidden {
             opacity: 0;
             visibility: hidden;
-            height: 0; /* Collapse height too */
+            height: 0;
             margin-top: 0;
             margin-bottom: 0;
         }
 
         /* NEW: Glowing Plus Icon Styles */
         .sub-collapsible-toggle .collapsible-icon.glowing-plus {
-            font-size: 3rem; /* Make it big and bold */
-            color: #00A9E0; /* Base color for the plus */
-            text-shadow: 0 0 5px rgba(0, 169, 224, 0.5); /* Initial subtle shadow */
+            font-size: 3rem;
+            color: var(--color-primary-teal);
+            text-shadow: 0 0 5px rgba(0, 169, 224, 0.5);
             transition: transform 0.3s ease-in-out, text-shadow 0.5s ease-in-out;
-            animation: pulse-plus 2s infinite alternate; /* Apply a pulsing glow */
-            line-height: 1; /* Adjust line height to prevent extra space */
-            margin-left: 0; /* Override default margin-left */
-            margin-right: 0; /* Ensure no extra spacing */
-            width: 1em; /* Give it a fixed width so it doesn't shift */
+            animation: pulse-plus 2s infinite alternate;
+            line-height: 1;
+            margin-left: 0;
+            margin-right: 0;
+            width: 1em;
             text-align: center;
         }
 
         .sub-collapsible-toggle:not(.collapsed) .collapsible-icon.glowing-plus {
-            transform: rotate(45deg); /* Turns plus into an 'X' when expanded */
-            animation: none; /* Stop pulsing when expanded */
-            text-shadow: none; /* Remove glow when expanded */
+            transform: rotate(45deg);
+            animation: none;
+            text-shadow: none;
         }
 
         @keyframes pulse-plus {
@@ -212,42 +252,42 @@
 
         /* The .collapsible-content already handles padding: 0.5rem 0.5rem. For the sub-content, we'll control the background within the card itself. */
         .sub-collapsible-content {
-            padding-left: 0; /* Remove default padding for content, content within the card will handle its own padding */
+            padding-left: 0;
         }
         /* Sticky header styles */
         .sticky-header {
             position: sticky;
             top: 0;
-            z-index: 20; /* Ensure it stays on top of other content */
-            background-color: #f0f4ff; /* Match body background or slightly different */
-            padding: 1rem; /* Adjust to ensure padding is maintained */
+            z-index: 20;
+            background-color: var(--color-background-light);
+            padding: 1rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Add transition for smooth hide/show */
+            transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out;
         }
         .sticky-header.hidden-header {
-            top: -100px; /* Move out of view */
-            opacity: 0; /* Fade out */
-            pointer-events: none; /* Disable interactions */
+            top: -100px;
+            opacity: 0;
+            pointer-events: none;
         }
 
 
         /* Header Text Carousel Styles */
         #header-text-carousel {
-            height: 100px; /* Adjust based on the tallest content (H1 or P) */
+            height: 100px;
             text-align: center;
         }
 
         .fade-element {
             position: absolute;
             width: 100%;
-            transition: opacity 2s ease-in-out; /* Smoother transition (2 seconds) */
+            transition: opacity 2s ease-in-out;
             opacity: 0;
             visibility: hidden;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); /* Center horizontally and vertically */
-            margin: 0 !important; /* Override any lingering margins */
-            padding: 0 !important; /* Override any lingering padding */
+            transform: translate(-50%, -50%);
+            margin: 0 !important;
+            padding: 0 !important;
         }
 
         .fade-element.active-fade {
@@ -262,7 +302,7 @@
 
         /* Glow effect for DISH box */
         .dish-glow {
-            animation: glow 1.5s infinite alternate; /* Adjust duration and timing as needed */
+            animation: glow 1.5s infinite alternate;
         }
 
         /* H1 Glow effect (only when active) */
@@ -277,11 +317,11 @@
 
         /* H1 text size reduction (20%) */
         #mainTitle {
-            font-size: 1.5rem; /* 20% reduction from original text-3xl (1.875rem) */
+            font-size: 1.5rem;
         }
         @media (min-width: 768px) { /* md breakpoint */
             #mainTitle {
-                font-size: 2.4rem; /* 20% reduction from original text-5xl (3rem) */
+                font-size: 2.4rem;
             }
         }
 
@@ -317,29 +357,29 @@
 
         /* Logo Shrink state */
         .logo-shrink {
-            height: 4rem; /* Reduced height, e.g., h-16 (64px) */
+            height: 4rem;
             transition: height 0.5s ease-in-out, opacity 0.5s ease-in-out;
-            opacity: 0.5; /* Slightly fade out when shrunk */
+            opacity: 0.5;
         }
 
 
         /* 3D Flip Card Styles - General for organizational boxes */
         .flip-card {
             background-color: transparent;
-            perspective: 1000px; /* Needed for 3D effect */
-            width: 140px; /* Fixed width for consistent size */
-            height: 140px; /* Fixed height for consistent card size */
+            perspective: 1000px;
+            width: 140px;
+            height: 140px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 0.5rem; /* Match existing border-radius */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Match existing shadow */
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         /* Responsive adjustments for flip cards in general grid layouts */
         @media (min-width: 768px) { /* md breakpoint */
             .grid-cols-2 .flip-card,
-            .grid-cols-3 .flip-card, /* Added for general flip card responsiveness */
+            .grid-cols-3 .flip-card,
             .grid-cols-7 .flip-card {
                 width: 140px;
                 height: 140px;
@@ -348,11 +388,11 @@
 
         /* Specific adjustments for metric flip cards in Key Metrics & Stakeholder Overview */
         #metrics-stakeholders-section .flip-card {
-            width: 100%; /* Make them fill their grid column */
-            height: 120px; /* Adjusted height for metrics boxes */
-            padding: 0; /* Reset padding to be controlled by inner elements */
-            box-shadow: none; /* Remove outer shadow, it will be applied to inner faces */
-            overflow: visible; /* Ensure content is not clipped by fixed dimensions */
+            width: 100%;
+            height: 120px;
+            padding: 0;
+            box-shadow: none;
+            overflow: visible;
         }
 
         /* Styles for the inner parts of the flip card (front and back) */
@@ -361,9 +401,9 @@
             width: 100%;
             height: 100%;
             text-align: center;
-            transition: transform 0.8s; /* Smooth flip animation */
-            transform-style: preserve-3d; /* Keep children in 3D space */
-            border-radius: inherit; /* Inherit rounded corners */
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            border-radius: inherit;
         }
 
         .flip-card:hover .flip-card-inner {
@@ -374,74 +414,74 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            -webkit-backface-visibility: hidden; /* Hide the back of the card when flipped */
+            -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 0.75rem; /* Consistent padding for content inside */
-            border-radius: inherit; /* Inherit rounded corners from flip-card */
-            box-sizing: border-box; /* Include padding in the element's total width and height */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Apply shadow directly to front/back faces */
+            padding: 0.75rem;
+            border-radius: inherit;
+            box-sizing: border-box;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         /* Default styling for the back face for organizational cards */
         .flip-card-back {
-            transform: rotateY(180deg); /* Initially hidden */
-            color: #fff; /* Default white text for organizational cards */
-            font-size: 0.8rem; /* Consistent font size */
+            transform: rotateY(180deg);
+            color: var(--color-white);
+            font-size: 0.8rem;
             line-height: 1.3;
             text-align: center;
         }
 
         /* Apply background colors to front and back for organizational flip cards */
-        .dish-bg .flip-card-front, .dish-bg .flip-card-back { background-color: #00A9E0; color: white; }
-        .sling-bg .flip-card-front, .sling-bg .flip-card-back { background-color: #4CAF50; color: white; }
-        .video-services-bg .flip-card-front, .video-services-bg .flip-card-back { background-color: #7B1FA2; color: white; }
-        .shared-services-bg .flip-card-front, .shared-services-bg .flip-card-back { background-color: #FFC107; color: black; } /* Adjusted for visibility */
-        .corporate-bg .flip-card-front, .corporate-bg .flip-card-back { background-color: #F44336; color: white; }
-        .wireless-bg .flip-card-front, .wireless-bg .flip-card-back { background-color: #F37021; color: black; } /* Adjusted for visibility */
-        .hughes-bg .flip-card-front, .hughes-bg .flip-card-back { background-color: #81D4FA; color: black; } /* Adjusted for visibility */
+        .dish-bg .flip-card-front, .dish-bg .flip-card-back { background-color: var(--color-primary-teal); color: var(--color-white); }
+        .sling-bg .flip-card-front, .sling-bg .flip-card-back { background-color: var(--color-green); color: var(--color-white); }
+        .video-services-bg .flip-card-front, .video-services-bg .flip-card-back { background-color: var(--color-deep-purple); color: var(--color-white); }
+        .shared-services-bg .flip-card-front, .shared-services-bg .flip-card-back { background-color: var(--color-yellow); color: var(--color-black); }
+        .corporate-bg .flip-card-front, .corporate-bg .flip-card-back { background-color: var(--color-red); color: var(--color-white); }
+        .wireless-bg .flip-card-front, .wireless-bg .flip-card-back { background-color: var(--color-orange); color: var(--color-black); }
+        .hughes-bg .flip-card-front, .hughes-bg .flip-card-back { background-color: var(--color-light-blue); color: var(--color-black); }
 
         /* Ensure text on yellow/red/orange backgrounds remains readable on both sides */
         .shared-services-bg .flip-card-front strong,
         .corporate-bg .flip-card-front strong,
         .wireless-bg .flip-card-front strong {
-            color: inherit; /* Inherit color from parent .flip-card-front */
+            color: inherit;
         }
         .shared-services-bg .flip-card-back,
         .corporate-bg .flip-card-back,
         .wireless-bg .flip-card-back {
-            color: inherit; /* Inherit color from parent .flip-card-back */
+            color: inherit;
         }
 
 
         /* --- Specific Metric Flip Card Styling (Key Metrics Section) --- */
         #metrics-stakeholders-section .flip-card-front {
-            color: white; /* Set all text on the front of metric cards to white */
+            color: var(--color-white);
         }
         #metrics-stakeholders-section .flip-card-front .teal-text {
-            color: white; /* Ensure the large number is also white on colored backgrounds */
+            color: var(--color-white);
         }
 
         /* Apply specific background colors to the front faces of metric cards */
-        #metrics-stakeholders-section .spm-modules-front { background-color: #007B9E; } /* Dark Teal */
-        .workshows-front { background-color: #0093BD; } /* Medium teal for Workshows */
-        .workshops-front { background-color: #00A9E0; } /* Light Teal */
+        #metrics-stakeholders-section .spm-modules-front { background-color: var(--color-dark-teal); }
+        .workshows-front { background-color: var(--color-medium-teal); }
+        .workshops-front { background-color: var(--color-primary-teal); }
 
         /* Override general .flip-card-back styles for metric cards */
         #metrics-stakeholders-section .flip-card-back {
-            background-color: white; /* White background for back face */
-            color: #00A9E0; /* Blue text for back face */
-            font-size: 0.85rem; /* Slightly larger font for metrics back */
+            background-color: var(--color-white);
+            color: var(--color-primary-teal);
+            font-size: 0.85rem;
             line-height: 1.3;
             text-align: center;
         }
 
         /* New styles for stakeholder group expandable cards */
         .stakeholder-card {
-            background-color: white;
+            background-color: var(--color-white);
             border-radius: 0.5rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             padding: 1rem;
@@ -465,13 +505,13 @@
             align-items: center;
             cursor: pointer;
             padding-bottom: 0.5rem;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid var(--color-timeline-border);
             font-weight: bold;
-            color: #333;
+            color: var(--color-gray-700);
             transition: color 0.3s ease-in-out;
         }
         .stakeholder-card-toggle:hover {
-            color: #00A9E0;
+            color: var(--color-primary-teal);
         }
         .stakeholder-card-content {
             max-height: 500px;
@@ -490,7 +530,7 @@
         .stakeholder-card-toggle .collapsible-icon {
             transition: transform 0.3s ease-in-out;
             font-size: 1.25rem;
-            color: #9ca3af;
+            color: var(--color-gray-500);
             margin-left: 0.5rem;
         }
         .stakeholder-card-toggle:not(.collapsed) .collapsible-icon {
@@ -509,14 +549,14 @@
         .custom-bullet-list li {
             position: relative;
             margin-bottom: 0.25rem;
-            color: #555;
+            color: var(--color-gray-600);
             text-align: left;
             padding-left: 1.2em;
         }
 
         .custom-bullet-list li::before {
             content: '\2713';
-            color: #00A9E0;
+            color: var(--color-primary-teal);
             font-size: 0.9rem;
             position: absolute;
             left: 0;
@@ -528,7 +568,7 @@
         /* NEW specific styles for the 4-point roadmap timeline */
         .roadmap-timeline {
             display: flex;
-            align-items: center; /* Ensures dots and lines are vertically centered relative to each other */
+            align-items: center;
             justify-content: space-between;
             margin: 40px auto;
             width: calc(100% - 20px);
@@ -543,16 +583,16 @@
             position: relative;
             z-index: 2;
             padding: 0 5px;
-            flex-basis: 0; /* Important for flex-grow */
+            flex-basis: 0;
         }
 
         .roadmap-milestone.active {
-            color: #000;
+            color: var(--color-black);
             font-weight: 600;
         }
 
         .roadmap-milestone.future {
-            color: #9aa3ad;
+            color: var(--color-gray-500);
         }
 
         .roadmap-dot {
@@ -565,27 +605,27 @@
             font-size: 1.5rem;
             font-weight: bold;
             box-sizing: border-box;
-            margin-bottom: 8px; /* Space between dot and label */
+            margin-bottom: 8px;
         }
 
         .roadmap-milestone.active .roadmap-dot {
-            background-color: #00A9E0;
-            color: white;
-            border: 2px solid #00A9E0;
+            background-color: var(--color-primary-teal);
+            color: var(--color-white);
+            border: 2px solid var(--color-primary-teal);
         }
 
         .roadmap-milestone.future .roadmap-dot {
             background-color: transparent;
-            border: 2px solid #9aa3ad;
-            color: #9aa3ad;
+            border: 2px solid var(--color-gray-500);
+            color: var(--color-gray-500);
         }
 
         /* Added a new class for the text content within milestones for consistent height */
         .roadmap-text-content {
-            min-height: 60px; /* ALIGNMENT FIX: Ensures consistent height for all text blocks */
+            min-height: 60px;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Vertically center text within its fixed height */
+            justify-content: center;
             align-items: center;
         }
 
@@ -598,12 +638,12 @@
         }
 
         .roadmap-line.active-line {
-            background-color: #00A9E0;
+            background-color: var(--color-primary-teal);
             flex-grow: 3;
         }
 
         .roadmap-line.dashed-line {
-            background-image: linear-gradient(to right, #9aa3ad 50%, transparent 50%);
+            background-image: linear-gradient(to right, var(--color-gray-500) 50%, transparent 50%);
             background-size: 16px 4px;
             background-repeat: repeat-x;
             flex-grow: 1;
@@ -625,8 +665,8 @@
 
         /* Future states button */
         .future-states-button {
-            background-color: #F37021;
-            color: white;
+            background-color: var(--color-orange);
+            color: var(--color-white);
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
             font-weight: bold;
@@ -638,13 +678,13 @@
             text-align: center;
         }
         .future-states-button:hover {
-            background-color: #E26012;
+            background-color: #E26012; /* Darker orange */
             transform: translateY(-2px);
         }
 
         /* Styles for detailed phase description cards */
         .phase-detail-card {
-            background-color: white;
+            background-color: var(--color-white);
             border-radius: 0.5rem;
             padding: 1.25rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.08);
@@ -653,14 +693,14 @@
             justify-content: space-between;
         }
         .phase-detail-card h5 {
-            color: #00A9E0;
+            color: var(--color-primary-teal);
             font-weight: bold;
             font-size: 1.125rem;
             margin-bottom: 0.5rem;
         }
         .phase-detail-card p {
             font-size: 0.875rem;
-            color: #333;
+            color: var(--color-gray-700);
             line-height: 1.4;
             margin-bottom: 0.75rem;
         }
@@ -674,11 +714,11 @@
             padding-left: 1.2em;
             margin-bottom: 0.25rem;
             font-size: 0.875rem;
-            color: #555;
+            color: var(--color-gray-600);
         }
         .phase-detail-card ul li::before {
             content: '\2713';
-            color: #00A9E0;
+            color: var(--color-primary-teal);
             font-size: 0.9em;
             position: absolute;
             left: 0;
@@ -686,43 +726,42 @@
         }
 
         /* NEW: Light background colors for module detail sections */
-        /* Apply to the content div for full background */
-        .demand-bg-light { background-color: #E0F7FA; /* Light Blue */ }
-        .project-bg-light { background-color: #D4EDDA; /* Light Green */ }
-        .resource-bg-light { background-color: #FFFDE7; /* Light Yellow */ }
-        .time-bg-light { background-color: #FFF3E0; /* Light Orange */ }
+        .demand-bg-light { background-color: var(--color-demand-light); }
+        .project-bg-light { background-color: var(--color-project-light); }
+        .resource-bg-light { background-color: var(--color-resource-light); }
+        .time-bg-light { background-color: var(--color-time-light); }
 
         /* Styles for the omnipresent reset button */
         #resetButton {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            background-color: #F44336; /* Red color */
-            color: white;
-            border-radius: 9999px; /* Fully round */
-            padding: 1rem 1.25rem; /* Sufficient padding */
+            background-color: var(--color-red);
+            color: var(--color-white);
+            border-radius: 9999px;
+            padding: 1rem 1.25rem;
             font-weight: bold;
             font-size: 1rem;
             cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Soft shadow */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            z-index: 1000; /* Ensure it's always on top */
-            border: none; /* Remove default button border */
+            z-index: 1000;
+            border: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem; /* Space between icon and text */
+            gap: 0.5rem;
             text-align: center;
         }
 
         #resetButton:hover {
             background-color: #D32F2F; /* Darker red on hover */
-            transform: scale(1.05); /* Slightly enlarge on hover */
+            transform: scale(1.05);
             box-shadow: 0 6px 12px rgba(0,0,0,0.3);
         }
 
         #resetButton i {
-            font-size: 1.25rem; /* Adjust icon size */
+            font-size: 1.25rem;
         }
 
     </style>
@@ -994,24 +1033,24 @@
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 23, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 45 min</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core (Laura, Sarah, Managers and Intact leads)</p>
-                                <!-- NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="https://drive.google.com/drive/u/1/home" target="_blank" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
+                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
                                     <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
                                     <span class="text-sm font-semibold">View Artifacts</span>
                                 </a>
-                                <!-- END NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800"><strong>2. Preview B – Resource & Timecard</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 30, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 45 min</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core team</p>
-                                <!-- NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="https://drive.google.com/drive/u/1/home" target="_blank" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
+                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
                                     <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
                                     <span class="text-sm font-semibold">View Artifacts</span>
                                 </a>
-                                <!-- END NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                         </div>
                     </div>
@@ -1028,36 +1067,36 @@
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Wednesday, June 25, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
-                                <!-- NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="https://drive.google.com/drive/u/1/home" target="_blank" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
+                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
                                     <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
                                     <span class="text-sm font-semibold">View Artifacts</span>
                                 </a>
-                                <!-- END NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800"><strong>2. Project</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 1, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
-                                <!-- NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="https://drive.google.com/drive/u/1/home" target="_blank" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
+                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
                                     <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
                                     <span class="text-sm font-semibold">View Artifacts</span>
                                 </a>
-                                <!-- END NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800"><strong>3. Resource / Timecard</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 8, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
-                                <!-- NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="https://drive.google.com/drive/u/1/home" target="_blank" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
+                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
                                     <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
                                     <span class="text-sm font-semibold">View Artifacts</span>
                                 </a>
-                                <!-- END NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                         </div>
                     </div>
@@ -1074,60 +1113,60 @@
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Thursday, July 10, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
-                                <!-- NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="https://drive.google.com/drive/u/1/home" target="_blank" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
+                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
                                     <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
                                     <span class="text-sm font-semibold">View Artifacts</span>
                                 </a>
-                                <!-- END NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800"><strong>2. Demand – Business</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Friday, July 11, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
-                                <!-- NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="https://drive.google.com/drive/u/1/home" target="_blank" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
+                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
                                     <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
                                     <span class="text-sm font-semibold">View Artifacts</span>
                                 </a>
-                                <!-- END NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
                                 <p class="text-sm text-gray-600"><strong>3. Project – IT</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 14, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
-                                <!-- NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="https://drive.google.com/drive/u/1/home" target="_blank" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
+                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
                                     <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
                                     <span class="text-sm font-semibold">View Artifacts</span>
                                 </a>
-                                <!-- END NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
                                 <p class="text-sm text-gray-600"><strong>4. Project – Business</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 15, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
-                                <!-- NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="https://drive.google.com/drive/u/1/home" target="_blank" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
+                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
                                     <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
                                     <span class="text-sm font-semibold">View Artifacts</span>
                                 </a>
-                                <!-- END NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800"><strong>5. Resource/TC – IT</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 21, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
-                                <!-- NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="https://drive.google.com/drive/u/1/home" target="_blank" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
+                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
                                     <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
                                     <span class="text-sm font-semibold">View Artifacts</span>
                                 </a>
-                                <!-- END NEW ARTIFACTS LINK FOR INDIVIDUAL CARD -->
+                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                         </div>
                     </div>
@@ -1387,6 +1426,10 @@
          */
         (function() { // Start of IIFE
 
+            // Centralized JavaScript Constants for frequently used values
+            const ARTIFACTS_FOLDER_URL = 'https://drive.google.com/drive/u/1/home';
+
+
             /**
              * Helper function to consistently manage the collapsed/expanded state of content sections.
              * This ensures proper class toggling, ARIA attribute updates, and icon changes.
@@ -1457,12 +1500,12 @@
                                 label: 'Business PMO Contacts',
                                 data: [90, 10],
                                 backgroundColor: [
-                                    '#00A9E0',
-                                    '#e5e7eb'
+                                    'var(--color-primary-teal)',
+                                    'var(--color-gray-200)'
                                 ],
                                 borderColor: [
-                                    '#FFFFFF',
-                                    '#FFFFFF'
+                                    'var(--color-white)',
+                                    'var(--color-white)'
                                 ],
                                 borderWidth: 4
                             }]
@@ -1627,12 +1670,12 @@
                                 label: 'Business PMO Contacts',
                                 data: [40, 30, 20, 10], // Relative sizes: Demand > Project > Resource > Time
                                 backgroundColor: [
-                                    '#00A9E0', // Teal for Demand
-                                    '#4CAF50', // Green for Project
-                                    '#FFC107', // Yellow for Resource
-                                    '#F37021'  // Orange for Time
+                                    'var(--color-primary-teal)',
+                                    'var(--color-green)',
+                                    'var(--color-yellow)',
+                                    'var(--color-orange)'
                                 ],
-                                borderColor: '#FFFFFF',
+                                borderColor: 'var(--color-white)',
                                 borderWidth: 4
                             }]
                         },
@@ -1644,7 +1687,7 @@
                                 legend: {
                                     position: 'bottom', // Show legend at the bottom
                                     labels: {
-                                        color: '#333' // Legend text color
+                                        color: 'var(--color-gray-700)'
                                     }
                                 },
                                 tooltip: {
@@ -2025,6 +2068,7 @@
                         if (content && toggle) {
                             setCollapsedState(document.getElementById(content.dataset.target), toggle, true);
                             toggle.classList.add('hidden');
+                            // Remove specific background classes
                             document.getElementById(content.dataset.target).classList.remove('demand-bg-light', 'project-bg-light', 'resource-bg-light', 'time-bg-light');
                         }
                     }
@@ -2078,6 +2122,10 @@
                     '#implementation-phases-section .collapsible-toggle'
                 ));
 
+                // Set artifacts links using the centralized constant
+                document.querySelectorAll('[data-artifacts-link="true"]').forEach(link => {
+                    link.href = ARTIFACTS_FOLDER_URL;
+                });
 
                 // Initialize all core functionalities
                 initializeCollapsibleSections(allToggles, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
