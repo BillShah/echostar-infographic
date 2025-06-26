@@ -675,6 +675,8 @@
                         Our deliberate strategy to unify diverse business units under a single EchoStar ServiceNow SPM instance. This infographic outlines the phased rollout and a structured engagement driving this transformation.
                     </p>
                 </div>
+                <!-- New element for last updated timestamp -->
+                <p id="lastUpdated" class="text-xs text-gray-500 mt-2">This site was updated on...</p>
             </div>
         </header>
 
@@ -1720,6 +1722,31 @@
                 });
             }
 
+            // Function to get and display the last update timestamp
+            function setLastUpdateTimestamp() {
+                const lastUpdatedElement = document.getElementById('lastUpdated');
+                if (lastUpdatedElement) {
+                    const now = new Date();
+                    // Using toLocaleString with specific options to format for Mountain Time (approximated)
+                    // Note: Client-side JS date/time is based on the user's local settings,
+                    // but we can specify the time zone and format to match the request.
+                    const options = { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric', 
+                        hour: '2-digit', 
+                        minute: '2-digit', 
+                        hour12: true, 
+                        timeZone: 'America/Denver' // Mountain Time Zone
+                    };
+                    const formattedDate = now.toLocaleString('en-US', options);
+                    // Manually append "MT" as toLocaleString might use a full time zone name
+                    lastUpdatedElement.textContent = `This site was updated on ${formattedDate.replace(' AM', ' AM MT').replace(' PM', ' PM MT')}`;
+                }
+            }
+
+            // Call the function to set the timestamp on page load
+            setLastUpdateTimestamp();
         });
     </script>
 
