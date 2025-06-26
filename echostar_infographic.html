@@ -1067,10 +1067,10 @@
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Wednesday, June 25, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
-                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
+                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD - UNIQUE LINK -->
+                                <a href="https://drive.google.com/drive/folders/1sMHDHscoBQf9d2EOlvRob4uEvkxGnvPh?usp=drive_link" target="_blank" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
                                     <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
-                                    <span class="text-sm font-semibold">View Artifacts</span>
+                                    <span class="text-sm font-semibold">View Artifacts (Demand Specific)</span>
                                 </a>
                                 <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
@@ -1427,7 +1427,9 @@
         (function() { // Start of IIFE
 
             // Centralized JavaScript Constants for frequently used values
-            const ARTIFACTS_FOLDER_URL = 'https://drive.google.com/drive/u/1/home';
+            const DEFAULT_ARTIFACTS_FOLDER_URL = 'https://drive.google.com/drive/u/1/home';
+            // Specific URL for the "1. Demand" workshow
+            const DEMAND_WORKSHOW_ARTIFACTS_URL = 'https://drive.google.com/drive/folders/1sMHDHscoBQf9d2EOlvRob4uEvkxGnvPh?usp=drive_link';
 
 
             /**
@@ -2122,9 +2124,13 @@
                     '#implementation-phases-section .collapsible-toggle'
                 ));
 
-                // Set artifacts links using the centralized constant
-                document.querySelectorAll('[data-artifacts-link="true"]').forEach(link => {
-                    link.href = ARTIFACTS_FOLDER_URL;
+                // Set artifacts links. Iterate over all artifact links and apply the default,
+                // unless a specific link is already present in the HTML.
+                document.querySelectorAll('a[data-artifacts-link="true"]').forEach(link => {
+                    if (link.href === window.location.href + '#' || link.href === '#') { // Check if href is still default or empty
+                        link.href = DEFAULT_ARTIFACTS_FOLDER_URL;
+                    }
+                    // If href is already set (like for "1. Demand"), leave it as is.
                 });
 
                 // Initialize all core functionalities
