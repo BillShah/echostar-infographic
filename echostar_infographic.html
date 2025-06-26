@@ -1238,26 +1238,32 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // New helper function to manage collapse state consistently
-            function setCollapsedState(element, toggle, isCollapsed) {
-                if (element) {
+            /**
+             * Helper function to consistently manage the collapsed/expanded state of content sections.
+             * This ensures proper class toggling, ARIA attribute updates, and icon changes.
+             * @param {HTMLElement} contentElement - The content div that needs to be collapsed or expanded.
+             * @param {HTMLElement} toggleElement - The toggle button/header associated with the content.
+             * @param {boolean} isCollapsed - True to collapse the element, false to expand it.
+             */
+            function setCollapsedState(contentElement, toggleElement, isCollapsed) {
+                if (contentElement) {
                     if (isCollapsed) {
-                        element.classList.add('collapsed');
+                        contentElement.classList.add('collapsed');
                     } else {
-                        element.classList.remove('collapsed');
+                        contentElement.classList.remove('collapsed');
                     }
                 }
-                if (toggle) {
+                if (toggleElement) {
                     if (isCollapsed) {
-                        toggle.classList.add('collapsed');
-                        toggle.setAttribute('aria-expanded', 'false');
-                        const icon = toggle.querySelector('.collapsible-icon');
-                        if (icon) icon.textContent = '▼';
+                        toggleElement.classList.add('collapsed');
+                        toggleElement.setAttribute('aria-expanded', 'false');
+                        const icon = toggleElement.querySelector('.collapsible-icon');
+                        if (icon) icon.textContent = '▼'; // Point down when collapsed
                     } else {
-                        toggle.classList.remove('collapsed');
-                        toggle.setAttribute('aria-expanded', 'true');
-                        const icon = toggle.querySelector('.collapsible-icon');
-                        if (icon) icon.textContent = '▲';
+                        toggleElement.classList.remove('collapsed');
+                        toggleElement.setAttribute('aria-expanded', 'true');
+                        const icon = toggleElement.querySelector('.collapsible-icon');
+                        if (icon) icon.textContent = '▲'; // Point up when expanded
                     }
                 }
             }
@@ -1310,75 +1316,91 @@
                 });
             }
 
-            // Centralized function to manage header visibility based on current expanded sections
+            /**
+             * Manages the visibility of the main header based on the expanded/collapsed state
+             * of various sections, particularly the "Workshows & Workshops Structure" and its
+             * detailed module panels.
+             *
+             * The header is hidden ONLY IF:
+             * 1. The "Workshows & Workshops Structure" section is open.
+             * 2. AND at least one of its module detail *panels* (Demand, Project, Resource, Time Management) is visible.
+             * 3. AND NO other primary top-level section (e.g., Organizational Landscape, Engagement Timeline) is open.
+             * In all other cases, the header remains sticky/visible.
+             */
             const manageHeaderVisibility = () => {
                 const mainHeader = document.getElementById('mainHeader');
 
-                // 1. Check state of the 'Workshows & Workshops Structure' section and its immediate module detail children
+                // 1. Check if the 'Workshows & Workshops Structure' main section is currently expanded.
                 const workshopsStructureContent = document.getElementById('workshops-structure-content');
                 const isWorkshopsStructureOpen = workshopsStructureContent && !workshopsStructureContent.classList.contains('collapsed');
 
-                // Get all SPM module detail panels
+                // 2. Check if any specific module detail *panel* within 'Workshows & Workshops Structure' is currently visible.
+                // These panels are the outer containers with class 'spm-module-detail-panel'.
                 const spmModuleDetailPanels = Array.from(document.querySelectorAll('.spm-module-detail-panel'));
                 const anyModuleDetailPanelVisible = spmModuleDetailPanels.some(panel => !panel.classList.contains('hidden'));
 
-
-                // 2. Check state of all other primary top-level sections
-                const otherMainSectionIds = [
+                // 3. Check if any *other* primary top-level section (excluding the 'Workshows & Workshops Structure' itself) is open.
+                const otherMainSectionContentIds = [
                     'organization-content',
                     'metrics-stakeholders-content',
                     'technical-readiness-content',
                     'timeline-content',
                     'implementation-phases-content'
                 ];
-                const anyOtherMainSectionOpen = otherMainSectionIds.some(id => {
+                const anyOtherMainSectionOpen = otherMainSectionContentIds.some(id => {
                     const content = document.getElementById(id);
+                    // Ensure the content element exists and is not collapsed
                     return content && !content.classList.contains('collapsed');
                 });
 
-                // The header should be hidden ONLY IF:
-                // - The 'Workshows & Workshops Structure' section is open
-                // - AND one of its module detail *panels* is visible (meaning a slice was clicked and it revealed its panel)
-                // - AND NO other primary section (outside of 'Workshows & Workshops Structure' and its module details) is open
+                // Determine if the header should be hidden based on the defined conditions.
                 const shouldHeaderBeHidden = isWorkshopsStructureOpen && anyModuleDetailPanelVisible && !anyOtherMainSectionOpen;
 
                 if (shouldHeaderBeHidden) {
                     mainHeader.classList.add('hidden-header');
-                    // console.log('Header HIDDEN - Condition met'); // For debugging
                 } else {
                     mainHeader.classList.remove('hidden-header');
-                    // console.log('Header VISIBLE - Condition NOT met or another section open'); // For debugging
                 }
             };
 
-            // Initial setup of collapsed states for all sections and header visibility
+            // Initial setup for all collapsible sections on page load:
+            // All sections start collapsed by default, except the SPM Modules Chart content.
+            // Also ensures module detail panels are hidden initially.
             document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle, .stakeholder-card-toggle').forEach(toggle => {
-                const targetId = toggle.dataset.target;
-                const content = document.getElementById(targetId);
-                if (!content) {
-                    console.error(`Error: Target content with ID "${targetId}" not found for toggle:`, toggle);
-                    return;
+                const targetContentId = toggle.dataset.target;
+                const targetContentElement = document.getElementById(targetContentId);
+                
+                if (!targetContentElement) {
+                    console.error(`Initialization Error: Target content with ID "${targetContentId}" not found for toggle:`, toggle);
+                    return; // Skip this toggle if its target content is missing
                 }
-                // Initialize all as collapsed by default, but exclude the SPM Modules Chart content
-                if (content.id !== 'spm-modules-chart-content') {
-                    setCollapsedState(content, toggle, true); // Set to collapsed
+
+                // If it's the SPM Modules Chart content, ensure it's uncollapsed initially.
+                if (targetContentId === 'spm-modules-chart-content') {
+                    setCollapsedState(targetContentElement, toggle, false); // Initialize as uncollapsed
                 } else {
-                    setCollapsedState(content, toggle, false); // Set to uncollapsed (it starts open)
+                    setCollapsedState(targetContentElement, toggle, true); // Initialize all other sections as collapsed
                 }
-                // Hide module detail headers initially AND their parent panels
-                if (content.id.includes('-details-content')) {
-                    toggle.classList.add('hidden'); // Hide toggle
-                    // Also hide the parent panel
-                    const parentPanel = content.closest('.spm-module-detail-panel');
+
+                // For specific module detail sections (Demand, Project, etc.), ensure their entire panel is hidden on load.
+                if (targetContentId.includes('-details-content')) {
+                    toggle.classList.add('hidden'); // Hide the toggle button itself
+                    const parentPanel = targetContentElement.closest('.spm-module-detail-panel');
                     if (parentPanel) {
-                        parentPanel.classList.add('hidden'); // This hides the entire panel
+                        parentPanel.classList.add('hidden'); // Hide the entire panel container
                     }
                 }
             });
-            manageHeaderVisibility(); // Call once on load to set initial state
 
+            // Call header visibility manager once after initial setup to set the correct state.
+            manageHeaderVisibility();
 
-            // SPM Modules Chart initialization and click handler
+            /**
+             * Initializes the SPM Modules doughnut chart and defines its click behavior.
+             * On slice click, it expands the parent 'Workshows & Workshops Structure' section
+             * (if collapsed), then hides all other module detail panels and reveals the clicked one.
+             * Finally, it updates the main header visibility.
+             */
             const spmModulesCtx = document.getElementById('spmModulesChart').getContext('2d');
             const spmModulesChart = new Chart(spmModulesCtx, { // Store chart instance
                 type: 'doughnut',
@@ -1416,19 +1438,22 @@
                         }
                     },
                     onClick: (event, elements) => {
+                        // Check if a slice was actually clicked
                         if (elements.length > 0) {
                             const clickedElementIndex = elements[0].index;
-                            const label = spmModulesChart.data.labels[clickedElementIndex];
+                            const clickedLabel = spmModulesChart.data.labels[clickedElementIndex];
 
                             const workshopsStructureToggle = document.querySelector('#workshops-structure-section .collapsible-toggle');
                             const workshopsStructureContent = document.getElementById('workshops-structure-content');
 
-                            // Ensure the parent 'Workshows & Workshops Structure' section is expanded
+                            // IMP: Ensure the parent 'Workshows & Workshops Structure' section is expanded
+                            // This ensures the header visibility logic has the correct parent state.
                             if (workshopsStructureContent && workshopsStructureContent.classList.contains('collapsed')) {
-                                setCollapsedState(workshopsStructureContent, workshopsStructureToggle, false); // Expand parent
+                                setCollapsedState(workshopsStructureContent, workshopsStructureToggle, false); // Explicitly expand parent
                             }
 
-                            const moduleDetailsMap = { // Map labels to their panel, content and toggle elements, and background classes
+                            // Map of all module details including their panel elements
+                            const moduleDetailsMap = {
                                 'Demand Management': {
                                     panel: document.getElementById('demand-management-details-panel'),
                                     content: document.getElementById('demand-management-details-content'),
@@ -1455,43 +1480,44 @@
                                 }
                             };
 
-                            // Iterate through all module details to manage their visibility
-                            for (const key in moduleDetailsMap) {
-                                const module = moduleDetailsMap[key];
+                            // Iterate through all module details to manage their visibility (hide others, show clicked)
+                            for (const labelKey in moduleDetailsMap) {
+                                const module = moduleDetailsMap[labelKey];
+                                // Ensure all necessary elements for this module exist
                                 if (module.panel && module.content && module.toggle) {
-                                    if (key === label) { // This is the clicked module
-                                        // If already open, close it (toggle behavior); otherwise, open it.
-                                        const isAlreadyOpen = !module.content.classList.contains('collapsed');
+                                    if (labelKey === clickedLabel) { // This is the module corresponding to the clicked slice
+                                        // Toggle visibility: If already open, close it; otherwise, open it.
+                                        const isCurrentlyOpen = !module.content.classList.contains('collapsed');
 
-                                        // Toggle the visibility of the panel itself
-                                        if (isAlreadyOpen) {
-                                            module.panel.classList.add('hidden'); // Hide the panel
+                                        // Manage the entire panel's visibility
+                                        if (isCurrentlyOpen) {
+                                            module.panel.classList.add('hidden'); // Hide the entire panel
                                         } else {
-                                            module.panel.classList.remove('hidden'); // Show the panel
+                                            module.panel.classList.remove('hidden'); // Show the entire panel
                                         }
                                         
-                                        // Toggle the content and its header/icon
-                                        setCollapsedState(module.content, module.toggle, isAlreadyOpen); // Set to collapsed if already open, else uncollapsed
+                                        // Manage the content and its toggle/icon
+                                        setCollapsedState(module.content, module.toggle, isCurrentlyOpen); // Set to collapsed if already open, else uncollapsed
 
-                                        if (!isAlreadyOpen) { // If it just became open
-                                            module.toggle.classList.remove('hidden'); // Show toggle
-                                            module.content.classList.add(module.bgColorClass); // Add background
-                                            module.panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                        if (!isCurrentlyOpen) { // If it just became open
+                                            module.toggle.classList.remove('hidden'); // Ensure toggle is visible
+                                            module.content.classList.add(module.bgColorClass); // Apply background color
+                                            module.panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // Scroll to the panel
                                         } else { // If it just became closed
                                             module.toggle.classList.add('hidden'); // Hide toggle
                                             module.content.classList.remove(module.bgColorClass); // Remove background
                                         }
                                         
-                                    } else { // This is NOT the clicked module, so hide it completely
+                                    } else { // This is a different module, so hide it completely
                                         setCollapsedState(module.content, module.toggle, true); // Collapse content
                                         module.toggle.classList.add('hidden'); // Hide toggle
                                         module.content.classList.remove(module.bgColorClass); // Remove background
-                                        module.panel.classList.add('hidden'); // Hide the entire panel
+                                        module.panel.classList.add('hidden'); // Hide the entire panel container
                                     }
                                 }
                             }
                             
-                            // Finally, call manageHeaderVisibility AFTER all relevant state changes for this click are complete.
+                            // IMPORTANT: Call manageHeaderVisibility after all panel and content states have been updated
                             manageHeaderVisibility();
                         }
                     }
@@ -1499,10 +1525,10 @@
             });
 
 
-            // Get the logo element and other general elements for global behaviors
+            // Get the logo element (for shrinking/expanding based on any main section state)
             const echostarLogo = document.getElementById('echostarLogo');
             
-            // This list is used for the logo shrinking behavior (when ANY main section opens)
+            // List of all main collapsible section toggles, used for the logo shrinking behavior.
             const mainCollapsibleTogglesForLogo = Array.from(document.querySelectorAll(
                 '#organization-section .collapsible-toggle, ' +
                 '#metrics-stakeholders-section .collapsible-toggle, ' +
@@ -1513,69 +1539,91 @@
             ));
 
 
-            // Unified Collapsible sections logic for all toggles
-            document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle, .stakeholder-card-toggle').forEach(toggle => {
-                const targetId = toggle.dataset.target;
-                const content = document.getElementById(targetId);
+            /**
+             * Unified event listener for all collapsible toggles (main sections, sub-sections, stakeholder cards).
+             * Handles expanding/collapsing content, managing related panel visibility, and triggering
+             * overall header visibility updates.
+             */
+            document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle, .stakeholder-card-toggle').forEach(toggleElement => {
+                const targetContentId = toggleElement.dataset.target;
+                const targetContentElement = document.getElementById(targetContentId);
                 
-                if (!content) { // Safety check: skip if target content is missing
-                    console.error(`Error: Target content with ID "${targetId}" not found for toggle:`, toggle);
-                    return;
+                if (!targetContentElement) {
+                    console.error(`Event Listener Setup Error: Target content with ID "${targetContentId}" not found for toggle:`, toggleElement);
+                    return; // Skip if target content is missing
                 }
 
-                const handleToggle = () => {
-                    const isCurrentlyCollapsed = content.classList.contains('collapsed');
-                    setCollapsedState(content, toggle, !isCurrentlyCollapsed); // Toggle state
+                const handleToggleClick = () => {
+                    const isCurrentlyCollapsed = targetContentElement.classList.contains('collapsed');
+                    
+                    // Toggle the state of the content and its associated toggle visual.
+                    setCollapsedState(targetContentElement, toggleElement, !isCurrentlyCollapsed);
 
-                    // For module detail sections, manage their parent panel visibility
-                    if (content.id.includes('-details-content')) {
-                        const parentPanel = content.closest('.spm-module-detail-panel');
+                    // Specific logic for SPM module detail panels: manage their overall visibility
+                    // This applies when a user manually clicks the sub-collapsible toggle for a module detail,
+                    // not just when clicking the donut slice.
+                    if (targetContentId.includes('-details-content')) {
+                        const parentPanel = targetContentElement.closest('.spm-module-detail-panel');
                         if (parentPanel) {
-                            if (!content.classList.contains('collapsed')) { // If content just became uncollapsed
-                                parentPanel.classList.remove('hidden'); // Show panel
+                            if (!targetContentElement.classList.contains('collapsed')) { // If content just became uncollapsed
+                                parentPanel.classList.remove('hidden'); // Show the entire panel
+                                toggleElement.classList.remove('hidden'); // Ensure its own toggle is visible
                             } else { // If content just became collapsed
-                                parentPanel.classList.add('hidden'); // Hide panel
+                                parentPanel.classList.add('hidden'); // Hide the entire panel
+                                toggleElement.classList.add('hidden'); // Hide its own toggle
                             }
                         }
-                        // Also, when a module detail is toggled, ensure its own sub-collapsible-toggle hidden state is managed
-                        if (toggle.classList.contains('sub-collapsible-toggle')) {
-                            if (content.classList.contains('collapsed')) {
-                                toggle.classList.add('hidden');
-                            } else {
-                                toggle.classList.remove('hidden');
+                    } else if (targetContentId === 'workshops-structure-content' && targetContentElement.classList.contains('collapsed')) {
+                        // If the main "Workshows & Workshops Structure" section is being manually collapsed,
+                        // ensure all its module detail panels are also hidden.
+                        const spmDetailPanels = document.querySelectorAll('.spm-module-detail-panel');
+                        spmDetailPanels.forEach(panel => {
+                            panel.classList.add('hidden'); // Hide the panel
+                            const content = document.getElementById(panel.querySelector('[data-target]').dataset.target);
+                            const toggle = panel.querySelector('.sub-collapsible-toggle');
+                            if (content && toggle) {
+                                setCollapsedState(content, toggle, true); // Ensure content is collapsed
+                                toggle.classList.add('hidden'); // Hide toggle
+                                content.classList.remove('demand-bg-light', 'project-bg-light', 'resource-bg-light', 'time-bg-light'); // Remove background
                             }
-                        }
+                        });
                     }
 
-                    // Logo shrink/expand logic
-                    if (mainCollapsibleTogglesForLogo.includes(toggle)) {
-                        if (!content.classList.contains('collapsed')) { // This main section is now expanded
+                    // Logic for shrinking/expanding the EchoStar logo in the header
+                    if (mainCollapsibleTogglesForLogo.includes(toggleElement)) {
+                        if (!targetContentElement.classList.contains('collapsed')) { // This main section is now expanded
                             echostarLogo.classList.add('logo-shrink');
                         } else { // This main section is now collapsed
                             // Check if ANY other main section is still expanded to keep logo shrunk
-                            const anyMainSectionExpandedForLogo = Array.from(mainCollapsibleTogglesForLogo).some(mainToggle => {
-                                const mainContent = document.getElementById(mainToggle.dataset.target);
-                                return mainContent && !mainContent.classList.contains('collapsed');
+                            const anyOtherMainSectionExpandedForLogo = Array.from(mainCollapsibleTogglesForLogo).some(otherToggle => {
+                                const otherContent = document.getElementById(otherToggle.dataset.target);
+                                // Make sure 'otherContent' exists, is not the current 'targetContentElement', and is not collapsed
+                                return otherContent && (otherContent.id !== targetContentElement.id) && !otherContent.classList.contains('collapsed');
                             });
-                            if (!anyMainSectionExpandedForLogo) {
+
+                            if (!anyOtherMainSectionExpandedForLogo) {
                                 echostarLogo.classList.remove('logo-shrink');
                             }
                         }
                     }
-                    // Always call the centralized header visibility manager after any toggle action
+                    
+                    // Always call the centralized header visibility manager after any toggle action.
                     manageHeaderVisibility();
                 };
 
-                toggle.addEventListener('click', handleToggle);
-                toggle.addEventListener('keydown', (e) => {
+                toggleElement.addEventListener('click', handleToggleClick);
+                toggleElement.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault(); // Prevent default scroll behavior for spacebar
-                        handleToggle();
+                        e.preventDefault(); // Prevent default scroll behavior for spacebar and enter
+                        handleToggleClick();
                     }
                 });
             });
 
-            // Header Text Carousel Logic
+            /**
+             * Manages the text carousel effect in the header.
+             * Alternates between the main title and a strategic descriptive paragraph.
+             */
             const mainTitle = document.getElementById('mainTitle');
             const strategyText = document.getElementById('strategyText');
             let isTitleActive = true;
@@ -1604,7 +1652,10 @@
             setInterval(toggleHeaderText, 5000); // Adjust duration as needed
 
 
-            // Logic for "Show Future States" button
+            /**
+             * Controls the visibility of future roadmap phases and their details.
+             * Toggles elements with 'hidden-element' and 'show-element' classes.
+             */
             const showFutureButton = document.getElementById('show-future-button');
             const futureTimelineElements = document.querySelectorAll('#line-2-3, #milestone-3, #line-3-4, #milestone-4');
             const futureDetailCards = document.querySelectorAll('#phase-detail-3, #phase-detail-4');
@@ -1614,35 +1665,29 @@
             // Initially hide the future detail cards and timeline elements
             futureTimelineElements.forEach(el => {
                 el.classList.add('hidden-element');
-                el.style.display = 'none'; // Ensure they are initially display: none
+                el.style.display = 'none'; // Ensure they are initially display: none for layout
             });
-            futureDetailCards.forEach(card => card.classList.add('hidden-element'));
-
+            futureDetailCards.forEach(card => card.classList.add('hidden-element')); // Hide with opacity and height collapse
 
             if (showFutureButton) {
                 showFutureButton.addEventListener('click', () => {
                     futureStatesVisible = !futureStatesVisible;
 
-                    // Toggle visibility for timeline elements
+                    // Toggle visibility for roadmap timeline elements
                     futureTimelineElements.forEach(el => {
                         if (futureStatesVisible) {
                             el.classList.remove('hidden-element');
-                            // For flex items, explicitly set display to flex to make them participate in layout
-                            if (el.classList.contains('roadmap-milestone')) {
-                                el.style.display = 'flex'; // Milestones are flex
-                            } else {
-                                el.style.display = 'block'; // Lines can be block
-                            }
-                            // Add a small delay to allow display change to register before starting transition
-                            setTimeout(() => el.classList.add('show-element'), 10); 
+                            // Use flex/block display to participate in layout before opacity transition
+                            el.style.display = el.classList.contains('roadmap-milestone') ? 'flex' : 'block'; 
+                            setTimeout(() => el.classList.add('show-element'), 10); // Trigger opacity transition after display
                         } else {
                             el.classList.remove('show-element');
-                            // Listen for transition end to set display: none after transition
+                            // Hide element completely after opacity transition is done
                             el.addEventListener('transitionend', function handler() {
                                 el.style.display = 'none';
                                 el.removeEventListener('transitionend', handler);
                             }, { once: true });
-                            // Fallback for cases where transition might not fire (e.g., if element wasn't visible or transition is 0s)
+                            // Fallback for cases where transition might not fire (e.g., if already hidden)
                             if (getComputedStyle(el).transitionDuration === '0s' || getComputedStyle(el).opacity === '0') {
                                 el.style.display = 'none';
                             }
@@ -1650,7 +1695,7 @@
                         }
                     });
 
-                    // Toggle visibility for detail cards
+                    // Toggle visibility for detailed phase description cards
                     futureDetailCards.forEach(card => {
                         if (futureStatesVisible) {
                             card.classList.remove('hidden-element');
@@ -1658,12 +1703,10 @@
                             setTimeout(() => card.classList.add('show-element'), 10);
                         } else {
                             card.classList.remove('show-element');
-                            // Listen for transition end to set display: none after transition
                             card.addEventListener('transitionend', function handler() {
                                 card.style.display = 'none';
                                 card.removeEventListener('transitionend', handler);
                             }, { once: true });
-                            // Fallback for cases where transition might not fire
                             if (getComputedStyle(card).transitionDuration === '0s' || getComputedStyle(card).opacity === '0') {
                                 card.style.display = 'none';
                             }
@@ -1671,7 +1714,7 @@
                         }
                     });
 
-                    // Change button text and aria-expanded state
+                    // Update button text and ARIA expanded state
                     showFutureButton.textContent = futureStatesVisible ? 'Hide Future States' : 'Show Future States';
                     showFutureButton.setAttribute('aria-expanded', String(futureStatesVisible));
                 });
