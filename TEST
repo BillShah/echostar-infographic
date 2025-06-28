@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoStar SPM Implementation: Stakeholder Engagement Strategy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f0f4ff; /* Lighter background for better contrast */
+        }
+        /* Custom background colors for organizational units */
+        .dish-bg { background-color: #00A9E0; } /* Teal */
+        .sling-bg { background-color: #4CAF50; } /* Green */
+        .video-services-bg { background-color: #7B1FA2; } /* Deep Purple */
+        .shared-services-bg { background-color: #FFC107; } /* Yellow */
+        .corporate-bg { background-color: #F44336; } /* Red */
+        .wireless-bg { background-color: #F37021; } /* Orange */
+        .hughes-bg { background-color: #81D4FA; } /* Light Blue */
+
+        /* Teal shades for metrics section (backgrounds for front face) */
+        .spm-modules-front { background-color: #007B9E; } /* Darker teal for SPM Modules */
+        .workshows-front { background-color: #0093BD; } /* Medium teal for Workshows */
+        .workshops-front { background-color: #00A9E0; } /* Original teal for Workshops (lighter in context) */
+
+
+        .teal-text { color: #00A9E0; } /* Define teal color for text */
+        
+        .timeline-item::before {
+            content: none; /* Explicitly remove the pseudo-element content for individual timeline items */
+        }
+        .timeline-item.yellow::before { border-color: #FFC107; }
+        .timeline.green::before { border-color: #4CAF50; }
+
+        .flow-arrow {
+            font-size: 2.5rem;
+            line-height: 1;
+            color: #9ca3af;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        /* Tooltip styles (kept for other sections, e.g., Stakeholder Groups - but now they will be in expandable cards) */
+        .tooltip-container {
+            position: relative;
+            display: inline-block; /* Or block, depending on parent */
+        }
+        .tooltip {
+            visibility: hidden;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 100; /* Increased z-index */
+            bottom: 125%; /* Position the tooltip above the text */
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            min-width: 150px;
+            max-width: 250px;
+            font-size: 0.875rem;
+            line-height: 1.2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            pointer-events: none; /* Allows clicks on elements behind it */
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%; /* At the bottom of the tooltip */
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+        }
+
+        .tooltip-container:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Specific tooltip background colors (kept for other sections) */
+        .tooltip.tooltip-dark-blue { background-color: #2C3E50; }
+        .tooltip.tooltip-dark-blue::after { border-color: #2C3E50 transparent transparent transparent; }
+        .tooltip.tooltip-dark-green { background-color: #1A531A; }
+        .tooltip.tooltip-green::after { border-color: #1A531A transparent transparent transparent; }
+        .tooltip.tooltip-purple { background-color: #4A148C; }
+        .tooltip.tooltip-purple::after { border-color: #4A148C transparent transparent transparent; }
+        .tooltip.tooltip-dark-brown { background-color: #5A382A; }
+        .tooltip.tooltip-dark-brown::after { border-color: #5A382A transparent transparent transparent; }
+        .tooltip.tooltip-dark-gray { background-color: #34495E; }
+        .tooltip.tooltip-gray::after { border-color: #34495E transparent transparent transparent; }
+
+        /* Specific styles for the timeline cards */
+        .timeline-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        /* IMPORTANT: This removes the bullets from individual timeline cards */
+        .timeline-card::before {
+            content: none; 
+        }
+        .timeline-group-title {
+            font-weight: bold;
+            font-size: 1.25rem;
+            color: #00A9E0; /* Teal */
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: left;
+            padding-left: 2rem; /* Align with the vertical line */
+            position: relative;
+        }
+        .timeline-group-title::before {
+            content: '';
+            position: absolute;
+            top: 1.25rem;
+            left: -1.75rem; /* Adjust to align with the vertical line */
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 9999px;
+            background-color: #00A9E0; /* Teal dot */
+            border: 2px solid white;
+        }
+        /* Collapsible specific styles */
+        .collapsible-content {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, overflow 0.1s ease-in-out 0.4s;
+            opacity: 1;
+            max-height: 2000px; /* A large enough value to accommodate content when open */
+            overflow: visible; /* Allow tooltips and content to escape when open */
+            padding-top: 0.5rem; /* Ensure padding is controlled */
+            padding-bottom: 0.5rem; /* Ensure padding is controlled */
+        }
+        .collapsible-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden; /* Hide content during collapse, but transition to visible when expanding */
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, overflow 0.1s ease-in-out;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .collapsible-toggle .collapsible-icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        .collapsible-toggle.collapsed .collapsible-icon {
+            transform: rotate(-90deg); /* Rotate up when collapsed */
+        }
+        /* Adjustments for nested collapsible titles */
+        .sub-collapsible-toggle {
+            padding-left: 0; /* Remove default padding from timeline-group-title */
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.125rem; /* Slightly smaller heading for sub-sections */
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* For showing/hiding header */
+        }
+        .sub-collapsible-toggle.hidden {
+            opacity: 0;
+            visibility: hidden;
+            height: 0; /* Collapse height too */
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .sub-collapsible-toggle .collapsible-icon {
+            font-size: 1.5rem; /* Smaller icon for sub-sections */
+        }
+        /* The .collapsible-content already handles padding: 0.5rem 0.5rem. For the sub-content, we'll control the background within the card itself. */
+        .sub-collapsible-content {
+            padding-left: 0; /* Remove default padding for content, content within the card will handle its own padding */
+        }
+        /* Sticky header styles */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 20; /* Ensure it stays on top of other content */
+            background-color: #f0f4ff; /* Match body background or slightly different */
+            padding: 1rem; /* Adjust to ensure padding is maintained */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Add transition for smooth hide/show */
+        }
+        .sticky-header.hidden-header {
+            top: -100px; /* Move out of view */
+            opacity: 0; /* Fade out */
+            pointer-events: none; /* Disable interactions */
+        }
+
+
+        /* Header Text Carousel Styles */
+        #header-text-carousel {
+            height: 100px; /* Adjust based on the tallest content (H1 or P) */
+            text-align: center;
+        }
+
+        .fade-element {
+            position: absolute;
+            width: 100%;
+            transition: opacity 2s ease-in-out; /* Smoother transition (2 seconds) */
+            opacity: 0;
+            visibility: hidden;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center horizontally and vertically */
+            margin: 0 !important; /* Override any lingering margins */
+            padding: 0 !important; /* Override any lingering padding */
+        }
+
+        .fade-element.active-fade {
+            opacity: 1;
+            visibility: visible;
+        }
+        .fade-element.inactive-fade {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+
+        /* Glow effect for DISH box */
+        .dish-glow {
+            animation: glow 1.5s infinite alternate; /* Adjust duration and timing as needed */
+        }
+
+        /* H1 Glow effect (only when active) */
+        .h1-glow.active-fade {
+            animation: h1-glow 1.8s infinite alternate;
+        }
+        /* Ensure h1-glow is removed when inactive */
+        .h1-glow.inactive-fade {
+            animation: none;
+            text-shadow: none;
+        }
+
+        /* H1 text size reduction (20%) */
+        #mainTitle {
+            font-size: 1.5rem; /* 20% reduction from original text-3xl (1.875rem) */
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            #mainTitle {
+                font-size: 2.4rem; /* 20% reduction from original text-5xl (3rem) */
+            }
+        }
+
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px rgba(0, 169, 224, 0.5), 0 0 10px rgba(0, 169, 224, 0.2);
+            }
+            to {
+                box-shadow: 0 0 15px rgba(0, 169, 224, 0.8), 0 0 25px rgba(0, 169, 224, 0.4);
+            }
+        }
+
+        @keyframes h1-glow {
+            from {
+                text-shadow: 0 0 5px rgba(0, 169, 224, 0.5), 0 0 10px rgba(0, 169, 224, 0.2);
+            }
+            to {
+                text-shadow: 0 0 15px rgba(0, 169, 224, 0.8), 0 0 25px rgba(0, 169, 224, 0.4);
+            }
+        }
+
+        /* Logo Fade effect */
+        .logo-fade {
+            animation: fade-in-out 3s infinite alternate;
+        }
+
+        @keyframes fade-in-out {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        /* Logo Shrink state */
+        .logo-shrink {
+            height: 4rem; /* Reduced height, e.g., h-16 (64px) */
+            transition: height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 0.5; /* Slightly fade out when shrunk */
+        }
+
+
+        /* 3D Flip Card Styles - General for organizational boxes */
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px; /* Needed for 3D effect */
+            width: 140px; /* Fixed width for consistent size */
+            height: 140px; /* Fixed height for consistent card size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem; /* Match existing border-radius */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Match existing shadow */
+        }
+
+        /* Responsive adjustments for flip cards in general grid layouts */
+        @media (min-width: 768px) { /* md breakpoint */
+            .grid-cols-2 .flip-card,
+            .grid-cols-3 .flip-card, /* Added for general flip card responsiveness */
+            .grid-cols-7 .flip-card {
+                width: 140px;
+                height: 140px;
+            }
+        }
+
+        /* Specific adjustments for metric flip cards in Key Metrics & Stakeholder Overview */
+        #metrics-stakeholders-section .flip-card {
+            width: 100%; /* Make them fill their grid column */
+            height: 120px; /* Adjusted height for metrics boxes */
+            padding: 0; /* Reset padding to be controlled by inner elements */
+            box-shadow: none; /* Remove outer shadow, it will be applied to inner faces */
+            overflow: visible; /* Ensure content is not clipped by fixed dimensions */
+        }
+
+        /* Styles for the inner parts of the flip card (front and back) */
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s; /* Smooth flip animation */
+            transform-style: preserve-3d; /* Keep children in 3D space */
+            border-radius: inherit; /* Inherit rounded corners */
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Hide the back of the card when flipped */
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem; /* Consistent padding for content inside */
+            border-radius: inherit; /* Inherit rounded corners from flip-card */
+            box-sizing: border-box; /* Include padding in the element's total width and height */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Apply shadow directly to front/back faces */
+        }
+        
+        /* Default styling for the back face for organizational cards */
+        .flip-card-back {
+            transform: rotateY(180deg); /* Initially hidden */
+            color: #fff; /* Default white text for organizational cards */
+            font-size: 0.8rem; /* Consistent font size */
+            line-height: 1.3;
+            text-align: center;
+        }
+
+        /* Apply background colors to front and back for organizational flip cards */
+        .dish-bg .flip-card-front, .dish-bg .flip-card-back { background-color: #00A9E0; color: white; }
+        .sling-bg .flip-card-front, .sling-bg .flip-card-back { background-color: #4CAF50; color: white; }
+        .video-services-bg .flip-card-front, .video-services-bg .flip-card-back { background-color: #7B1FA2; color: white; }
+        .shared-services-bg .flip-card-front, .shared-services-bg .flip-card-back { background-color: #FFC107; color: black; } /* Adjusted for visibility */
+        .corporate-bg .flip-card-front, .corporate-bg .flip-card-back { background-color: #F44336; color: white; }
+        .wireless-bg .flip-card-front, .wireless-bg .flip-card-back { background-color: #F37021; color: black; } /* Adjusted for visibility */
+        .hughes-bg .flip-card-front, .hughes-bg .flip-card-back { background-color: #81D4FA; color: black; } /* Adjusted for visibility */
+
+        /* Ensure text on yellow/red/orange backgrounds remains readable on both sides */
+        .shared-services-bg .flip-card-front strong,
+        .corporate-bg .flip-card-front strong,
+        .wireless-bg .flip-card-front strong {
+            color: inherit; /* Inherit color from parent .flip-card-front */
+        }
+        .shared-services-bg .flip-card-back,
+        .corporate-bg .flip-card-back,
+        .wireless-bg .flip-card-back {
+            color: inherit; /* Inherit color from parent .flip-card-back */
+        }
+
+
+        /* --- Specific Metric Flip Card Styling (Key Metrics Section) --- */
+        #metrics-stakeholders-section .flip-card-front {
+            color: white; /* Set all text on the front of metric cards to white */
+        }
+        #metrics-stakeholders-section .flip-card-front .teal-text {
+            color: white; /* Ensure the large number is also white on colored backgrounds */
+        }
+
+        /* Apply specific background colors to the front faces of metric cards */
+        #metrics-stakeholders-section .spm-modules-front { background-color: #007B9E; } /* Dark Teal */
+        .workshows-front { background-color: #0093BD; } /* Medium teal for Workshows */
+        .workshops-front { background-color: #00A9E0; } /* Light Teal */
+
+        /* Override general .flip-card-back styles for metric cards */
+        #metrics-stakeholders-section .flip-card-back {
+            background-color: white; /* White background for back face */
+            color: #00A9E0; /* Blue text for back face */
+            font-size: 0.85rem; /* Slightly larger font for metrics back */
+            line-height: 1.3;
+            text-align: center;
+        }
+
+        /* New styles for stakeholder group expandable cards */
+        .stakeholder-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease-in-out;
+            border: 1px solid transparent;
+        }
+        .stakeholder-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Specific colors for stakeholder cards */
+        .stakeholder-card.core-project-bg { background-color: #E0F2F7; }
+        .stakeholder-card.it-stakeholder-bg { background-color: #CCEEF5; }
+        .stakeholder-card.business-stakeholder-bg { background-color: #B3E0EB; }
+
+        .stakeholder-card-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: bold;
+            color: #333;
+            transition: color 0.3s ease-in-out;
+        }
+        .stakeholder-card-toggle:hover {
+            color: #00A9E0;
+        }
+        .stakeholder-card-content {
+            max-height: 500px;
+            opacity: 1;
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        .stakeholder-card-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .stakeholder-card-toggle .collapsible-icon {
+            transition: transform 0.3s ease-in-out;
+            font-size: 1.25rem;
+            color: #9ca3af;
+            margin-left: 0.5rem;
+        }
+        .stakeholder-card-toggle:not(.collapsed) .collapsible-icon {
+            transform: rotate(0deg); 
+        }
+        .stakeholder-card-toggle.collapsed .collapsible-icon {
+            transform: rotate(-90deg); 
+        }
+
+        /* Custom bullet list styles */
+        .custom-bullet-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .custom-bullet-list li {
+            position: relative;
+            margin-bottom: 0.25rem;
+            color: #555;
+            text-align: left;
+            padding-left: 1.2em;
+        }
+
+        .custom-bullet-list li::before {
+            content: '\2713';
+            color: #00A9E0;
+            font-size: 0.9rem;
+            position: absolute;
+            left: 0;
+            top: 0.15em;
+            line-height: 1;
+            padding-right: 0.3rem;
+        }
+
+        /* NEW specific styles for the 4-point roadmap timeline */
+        .roadmap-timeline {
+            display: flex;
+            align-items: center; /* Ensures dots and lines are vertically centered relative to each other */
+            justify-content: space-between;
+            margin: 40px auto;
+            width: calc(100% - 20px);
+            padding: 0 10px;
+        }
+
+        .roadmap-milestone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 0 5px;
+            flex-basis: 0; /* Important for flex-grow */
+        }
+
+        .roadmap-milestone.active {
+            color: #000;
+            font-weight: 600;
+        }
+
+        .roadmap-milestone.future {
+            color: #9aa3ad;
+        }
+
+        .roadmap-dot {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-sizing: border-box;
+            margin-bottom: 8px; /* Space between dot and label */
+        }
+
+        .roadmap-milestone.active .roadmap-dot {
+            background-color: #00A9E0;
+            color: white;
+            border: 2px solid #00A9E0;
+        }
+
+        .roadmap-milestone.future .roadmap-dot {
+            background-color: transparent;
+            border: 2px solid #9aa3ad;
+            color: #9aa3ad;
+        }
+
+        /* Added a new class for the text content within milestones for consistent height */
+        .roadmap-text-content {
+            min-height: 60px; /* ALIGNMENT FIX: Ensures consistent height for all text blocks */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Vertically center text within its fixed height */
+            align-items: center;
+        }
+
+        /* Connecting line elements */
+        .roadmap-line {
+            height: 4px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .roadmap-line.active-line {
+            background-color: #00A9E0;
+            flex-grow: 3;
+        }
+
+        .roadmap-line.dashed-line {
+            background-image: linear-gradient(to right, #9aa3ad 50%, transparent 50%);
+            background-size: 16px 4px;
+            background-repeat: repeat-x;
+            flex-grow: 1;
+        }
+
+        /* Hidden elements for future phases */
+        .hidden-element {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .show-element {
+            opacity: 1;
+        }
+        /* Specific display rules for elements being shown/hidden */
+        .roadmap-milestone.show-element { display: flex !important; }
+        .roadmap-line.show-element { display: flex !important; }
+        .phase-detail-card.show-element { display: flex !important; }
+
+        /* Future states button */
+        .future-states-button {
+            background-color: #F37021;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+            border: none;
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .future-states-button:hover {
+            background-color: #E26012;
+            transform: translateY(-2px);
+        }
+
+        /* Styles for detailed phase description cards */
+        .phase-detail-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .phase-detail-card h5 {
+            color: #00A9E0;
+            font-weight: bold;
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+        .phase-detail-card p {
+            font-size: 0.875rem;
+            color: #333;
+            line-height: 1.4;
+            margin-bottom: 0.75rem;
+        }
+        .phase-detail-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 0.5rem;
+        }
+        .phase-detail-card ul li {
+            position: relative;
+            padding-left: 1.2em;
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem;
+            color: #555;
+        }
+        .phase-detail-card ul li::before {
+            content: '\2713';
+            color: #00A9E0;
+            font-size: 0.9em;
+            position: absolute;
+            left: 0;
+            top: 0.15em;
+        }
+
+        /* NEW: Light background colors for module detail sections */
+        /* Apply to the content div for full background */
+        .demand-bg-light { background-color: #E0F7FA; /* Light Blue */ }
+        .project-bg-light { background-color: #D4EDDA; /* Light Green */ }
+        .resource-bg-light { background-color: #FFFDE7; /* Light Yellow */ }
+        .time-bg-light { background-color: #FFF3E0; /* Light Orange */ }
+
+    </style>
+</head>
+<body>
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+        
+        <header id="mainHeader" class="text-center sticky-header"> <!-- Added ID to header -->
+            <div class="max-w-4xl mx-auto">
+                <!-- Updated logo source to point to raw GitHub content -->
+                <img id="echostarLogo" src="https://raw.githubusercontent.com/BillShah/echostar-infographic/main/EchoStar-Logo.wine%20FINAL.png" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-24 m-0 logo-fade" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo+Fallback';">
+                <div id="header-text-carousel" class="relative overflow-hidden h-24 flex items-center justify-center">
+                    <h1 id="mainTitle" class="font-bold teal-text fade-element active-fade">EchoStar ServiceNow SPM Implementation</h1>
+                    <p id="strategyText" class="text-base md:text-lg teal-text fade-element inactive-fade">
+                        Our deliberate strategy to unify diverse business units under a single EchoStar ServiceNow SPM instance. This infographic outlines the phased rollout and a structured engagement driving this transformation.
+                    </p>
+                </div>
+                <!-- New element for last updated timestamp -->
+                <p id="lastUpdated" class="text-xs text-gray-500 mt-2">This site was updated on...</p>
+            </div>
+        </header>
+
+        <section id="organization-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="organization-content" tabindex="0" role="button" aria-expanded="false" aria-controls="organization-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Organizational Landscape</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="organization-content" class="collapsible-content collapsed">
+                <div class="flex justify-center items-center mb-4 mt-6">
+                    <p class="text-center font-bold text-lg text-gray-700">Single SPM Instance Goal - Phased Approach</p>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4 text-white text-center">
+                    
+                    <div class="flip-card dish-bg dish-glow">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>DISH</strong><br><span class="text-sm opacity-80">Primary Focus</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Traditional satellite TV business, primary focus for initial SPM implementation.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card sling-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Sling</strong><br><span class="text-sm opacity-80">Video Streaming</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Video streaming services, aligned with DISH for implementation.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card video-services-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Video Services</strong><br><span class="text-sm opacity-80">Marketing</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Marketing & retention, part of core video business implementation scope.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card shared-services-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Shared Services</strong><br><span class="text-sm opacity-80">CXO Functions</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Centralized CXO functions, included in the foundational phase.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card corporate-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Corporate</strong><br><span class="text-sm opacity-80">Legal, HR, CFO</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Legal, HR, CFO functions, part of the initial receptive group.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card wireless-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Wireless</strong><br><span class="text-sm opacity-80">Inclined to maintain status quo</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Retail & M&L divisions, characterized by 'startup mentality', 'fast-moving', and 'inclined to maintain the status quo'.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card hughes-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Hughes</strong><br><span class="text-sm opacity-80">Legacy EchoStar</span>
+                            </div>
+                            <div class="flip-card-back">
+                                Rockets, military, Delta Wi-Fi; has own instance, targeted for later integration.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="metrics-stakeholders-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="metrics-stakeholders-content" tabindex="0" role="button" aria-expanded="false" aria-controls="metrics-stakeholders-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Key Metrics & Stakeholder Overview</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="metrics-stakeholders-content" class="collapsible-content collapsed">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
+
+                    <!-- Metrics Cards (now in their own column on large screens) -->
+                    <div class="lg:col-span-1 flex flex-col items-center">
+                        <h3 class="text-2xl font-bold text-center mb-4 text-gray-800">Key Metrics</h3>
+                        <div class="grid grid-cols-2 gap-4 w-full max-w-sm md:max-w-none mx-auto"> 
+                            
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front spm-modules-front rounded-lg shadow-md">
+                                        <p class="text-5xl font-bold teal-text">4</p>
+                                        <p class="font-semibold">SPM Modules</p>
+                                    </div>
+                                    <div class="flip-card-back rounded-lg shadow-md">
+                                        Demand, Project, Resource, and Time Cards are the core functionalities.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front workshows-front rounded-lg shadow-md">
+                                        <p class="text-5xl font-bold teal-text">3</p>
+                                        <p class="font-semibold">Workshows</p>
+                                    </div>
+                                    <div class="flip-card-back rounded-lg shadow-md">
+                                        Workshows are demonstrations of out-of-the-box functionality.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-span-2 flip-card"> <!-- col-span-2 ensures it spans across two columns on grid-cols-2 -->
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front workshops-front rounded-lg shadow-md">
+                                        <p class="text-5xl font-bold teal-text">5</p>
+                                        <p class="font-semibold">Workshops</p>
+                                    </div>
+                                    <div class="flip-card-back rounded-lg shadow-md">
+                                        Workshops are detailed requirements gathering sessions where specific needs are captured.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stakeholder Groups (now taking two columns on large screens) -->
+                    <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-2xl font-bold text-center mb-4 text-gray-800">Stakeholder Groups</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            
+                            <div class="stakeholder-card core-project-bg">
+                                <div class="stakeholder-card-toggle" data-target="core-project-team-content" tabindex="0" role="button" aria-expanded="false" aria-controls="core-project-team-content">
+                                    <h4 class="font-bold text-lg mb-0 text-gray-800">👤 Core Project Team</h4>
+                                    <span class="collapsible-icon">▼</span>
+                                </div>
+                                <div id="core-project-team-content" class="stakeholder-card-content collapsed">
+                                    <p class="text-sm text-gray-700 mt-2">Central driving force, responsible for strategic direction and project management.</p>
+                                    <ul class="custom-bullet-list mt-2">
+                                        <li><strong>Sarah</strong> (IT PMO Lead)</li>
+                                        <li><strong>Laura</strong> (IT PMO)</li>
+                                        <li>IT Managers</li>
+                                        <li>Business Managers</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="stakeholder-card it-stakeholder-bg">
+                                <div class="stakeholder-card-toggle" data-target="it-stakeholders-content" tabindex="0" role="button" aria-expanded="false" aria-controls="it-stakeholders-content">
+                                    <h4 class="font-bold text-lg mb-0 text-gray-800">👤 IT Stakeholders</h4>
+                                    <span class="collapsible-icon">▼</span>
+                                </div>
+                                <div id="it-stakeholders-content" class="stakeholder-card-content collapsed">
+                                    <p class="text-sm text-gray-700 mt-2">Responsible for technical implementation, support, and alignment of new SPM processes.</p>
+                                    <ul class="custom-bullet-list mt-2">
+                                        <li>IT Product Owners</li>
+                                        <li><strong>Pierre's Team</strong> (SN SMEs)</li>
+                                        <li>IT Delivery Teams</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="stakeholder-card business-stakeholder-bg">
+                                <div class="stakeholder-card-toggle" data-target="business-stakeholders-content" tabindex="0" role="button" aria-expanded="false" aria-controls="business-stakeholders-content">
+                                    <h4 class="font-bold text-lg mb-0 text-gray-800">👤 Business Stakeholders</h4>
+                                    <span class="collapsible-icon">▼</span>
+                                </div>
+                                <div id="business-stakeholders-content" class="stakeholder-card-content collapsed">
+                                    <p class="text-sm text-gray-700 mt-2">Key business leaders and PMO members who will utilize SPM for demand, project, and portfolio management.</p>
+                                    <ul class="custom-bullet-list mt-2">
+                                        <li>Business PMO (90% ID'd)</li>
+                                        <li>Line of Business Leaders</li>
+                                        <li>Portfolio Owners</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="technical-readiness-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="technical-readiness-content" tabindex="0" role="button" aria-expanded="false" aria-controls="technical-readiness-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Technical Environment Readiness</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="technical-readiness-content" class="collapsible-content collapsed">
+                <p class="text-center text-gray-500 text-sm mb-6 mt-6">Essential technical steps required to support the planned Workshows and Workshops.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg mb-2">Clone Production Instance</h4>
+                        <p class="text-sm text-gray-700">Ensure pre-production environment is a fresh clone of production, at the same patch level.</p>
+                    </div>
+                    <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg mb-2">SPM Plugin Installation</h4>
+                        <p class="text-sm text-gray-700">Install the SDM Pro plugin. Requires coordination with Pierre's team for entitlement/support.</p>
+                    </div>
+                    <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg mb-2">Upgrade Analyzer Run</h4>
+                        <p class="text-sm text-gray-700">Run an upgrade analyzer to identify divergent objects and assess customization impact.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="timeline-content" tabindex="0" role="button" aria-expanded="false" aria-controls="timeline-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Engagement Timeline</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="timeline-content" class="collapsible-content collapsed">
+                <p class="text-center text-gray-500 text-sm mb-6 mt-6">All times are listed in Mountain Time (MT).</p>
+                <div class="relative pl-8 border-l-4 border-gray-200">
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="previews-content" tabindex="0" role="button" aria-expanded="false" aria-controls="previews-content">
+                            <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Planning Previews (2 sessions)</h4>
+                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+                        </div>
+                        <div id="previews-content" class="collapsible-content sub-collapsible-content collapsed">
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800">Preview A – Demand & Project</p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 23, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 45 min</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core (Laura, Sarah, Managers and Intact leads)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800"><strong>2. Preview B – Resource & Timecard</strong></p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 30, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 45 min</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core team</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshows-content" tabindex="0" role="button" aria-expanded="false" aria-controls="workshows-content">
+                            <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Workshows (demos)</h4>
+                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+                        </div>
+                        <div id="workshows-content" class="collapsible-content sub-collapsible-content collapsed">
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800"><strong>1. Demand</strong></p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Wednesday, June 25, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90-120 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800"><strong>2. Project</strong></p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 1, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90-120 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800"><strong>3. Resource / Timecard</strong></p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 8, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90-120 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshops-content" tabindex="0" role="button" aria-expanded="false" aria-controls="workshops-content">
+                            <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Workshops (requirements-gathering)</h4>
+                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+                        </div>
+                        <div id="workshops-content" class="collapsible-content sub-collapsible-content collapsed">
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800"><strong>1. Demand – IT</strong></p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Thursday, July 10, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800"><strong>2. Demand – Business</strong></p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Friday, July 11, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800"><strong>3. Project – IT</strong></p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-sm text-gray-600"><strong>4. Project – Business</strong></p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
+                            </div>
+                            <div class="timeline-card">
+                                <p class="text-md font-semibold text-gray-800"><strong>5. Resource/TC – IT</strong></p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 21, 2025</p>
+                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="workshops-structure-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="workshops-structure-content" tabindex="0" role="button" aria-expanded="false" aria-controls="workshops-structure-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Workshows & Workshops Structure</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="workshops-structure-content" class="collapsible-content collapsed">
+                <p class="text-center text-gray-500 text-sm mb-6 mt-6">Our structured engagement process ensures alignment, demonstrates value, and captures detailed needs through an iterative cycle.</p>
+                <div class="flex flex-col md:flex-row items-center justify-around space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="text-center p-4 border-2 border-dashed border-gray-300 rounded-lg tooltip-container">
+                        <h4 class="font-bold">1. Preview Sessions</h4>
+                        <p class="text-xs text-gray-500">Core Team Only (1hr)</p>
+                        <p class="text-sm mt-1">High-level overview & content filtering.</p>
+                        <span class="tooltip tooltip-dark-green">Internal sessions to align the core project team and refine content before broader stakeholder engagement. **Purpose:** Prevent "opening a can of worms" by showing irrelevant or premature info.</span>
+                    </div>
+                    <div class="flow-arrow transform md:rotate-0">↓</div>
+                    <div class="text-center p-4 border-2 border-dashed border-teal-400 rounded-lg tooltip-container">
+                        <h4 class="font-bold">2. Workshows</h4>
+                        <p class="text-xs text-gray-500">Stakeholders (2hr)</p>
+                        <p class="text-sm mt-1">"See what you're getting" with OOTB demos.</p>
+                        <span class="tooltip tooltip-purple">Demonstrating out-of-the-box functionality to a wider audience. **Definition:** Purely for showing what it looks like and how it functions.</span>
+                    </div>
+                    <div class="flow-arrow transform md:rotate-0">↓</div>
+                    <div class="text-center p-4 border-2 border-dashed border-orange-400 rounded-lg tooltip-container">
+                        <h4 class="font-bold">3. Workshops</h4>
+                        <p class="text-xs text-gray-500">Stakeholders</p>
+                        <p class="text-sm mt-1">Capture gaps & configuration requirements.</p>
+                        <span class="tooltip tooltip-dark-brown">Detailed requirements gathering sessions to capture specific needs and identify configuration requirements. **Definition:** The "interview" phase to capture specific needs, document gaps, and gather input for configuration.</span>
+                    </div>
+                </div>
+
+                <!-- Container for the SPM Modules Chart -->
+                <div class="mt-8 bg-white rounded-lg shadow-md p-6">
+                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle" data-target="spm-modules-chart-content" tabindex="0" role="button" aria-expanded="true" aria-controls="spm-modules-chart-content">
+                        <h4 class="font-bold text-lg text-gray-800 mb-0">SPM Modules Overview (Click for Details!)</h4>
+                        <span class="collapsible-icon">▲</span>
+                    </div>
+                    <div id="spm-modules-chart-content" class="collapsible-content sub-collapsible-content"> <!-- Uncollapsed by default -->
+                        <div class="chart-container h-48 md:h-64 mt-4">
+                            <canvas id="spmModulesChart"></canvas>
+                        </div>
+                        <p class="text-center text-gray-500 text-sm mt-4">Click on a slice for more details.</p>
+                    </div>
+                </div>
+
+                <!-- Collapsible content for Demand Management details -->
+                <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel" id="demand-management-details-panel">
+                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed hidden" data-target="demand-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="demand-management-details-content">
+                        <h4 class="font-bold text-lg text-gray-800 mb-0">Demand Management Details</h4>
+                        <span class="collapsible-icon">▼</span>
+                    </div>
+                    <div id="demand-management-details-content" class="collapsible-content sub-collapsible-content collapsed demand-bg-light">
+                        <p class="text-sm text-gray-700 mt-2"><strong>Purpose:</strong> Structured intake of business requests and ideas.</p>
+                        <h5 class="font-bold text-md mt-4">Key Personas:</h5>
+                        <ul class="custom-bullet-list pl-4">
+                            <li>Demand Managers</li>
+                            <li>Business Relationship Managers</li>
+                            <li>Portfolio Managers</li>
+                        </ul>
+                        <h5 class="font-bold text-md mt-4">Key Topics:</h5>
+                        <ul class="custom-bullet-list">
+                            <li>Demand Catalog Item</li>
+                            <li>Demand Record</li>
+                            <li>Demand Tasks</li>
+                            <li>Demand Workflow Process</li>
+                            <li>Workbench</li>
+                            <li>Integration w/ Project & Resource Management</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Collapsible content for Project Management details -->
+                <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel" id="project-management-details-panel">
+                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed hidden" data-target="project-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="demand-management-details-content">
+                        <h4 class="font-bold text-lg text-gray-800 mb-0">Project Management Details</h4>
+                        <span class="collapsible-icon">▼</span>
+                    </div>
+                    <div id="project-management-details-content" class="collapsible-content sub-collapsible-content collapsed project-bg-light">
+                        <p class="text-sm text-gray-700 mt-2"><strong>Purpose:</strong> Execute approved work using Waterfall or Agile methods.</p>
+                        <h5 class="font-bold text-md mt-4">Key Personas:</h5>
+                        <ul class="custom-bullet-list pl-4">
+                            <li>Project Managers</li>
+                            <li>Portfolio Managers</li>
+                            <li>Team Members</li>
+                        </ul>
+                        <h5 class="font-bold text-md mt-4">Key Topics:</h5>
+                        <ul class="custom-bullet-list">
+                            <li>Project Initiation</li>
+                            <li>Project Planning</li>
+                            <li>Project Workspace</li>
+                            <li>Status Reports</li>
+                            <li>Export to PowerPoint – Customer Note: G-Suite mostly so Google Slides… can likely remove this topic.</li>
+                            <li>Integration w/ Demand & Resource Management</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- NEW: Collapsible content for Resource Management details -->
+                <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel" id="resource-management-details-panel">
+                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed hidden" data-target="resource-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="demand-management-details-content">
+                        <h4 class="font-bold text-lg text-gray-800 mb-0">Resource Management Details</h4>
+                        <span class="collapsible-icon">▼</span>
+                    </div>
+                    <div id="resource-management-details-content" class="collapsible-content sub-collapsible-content collapsed resource-bg-light">
+                        <p class="text-sm text-gray-700 mt-2"><strong>Purpose:</strong> Allocate resources based on capacity and demand.</p>
+                        <h5 class="font-bold text-md mt-4">Key Personas:</h5>
+                        <ul class="custom-bullet-list pl-4">
+                            <li>Resource Managers</li>
+                            <li>PMs</li>
+                            <li>Department Heads</li>
+                        </ul>
+                        <h5 class="font-bold text-md mt-4">Key Topics:</h5>
+                        <ul class="custom-bullet-list">
+                            <li>Resource assignment form</li>
+                            <li>Resource Capacity</li>
+                            <li>Project Workspace>Resource Assignments</li>
+                            <li>Skills & Roles</li>
+                            <li>My Calendar view</li>
+                            <li>Integration w/ Demand & Project</li>
+                            <li><span class="italic text-gray-600">Customer Note: Resource Manager is not necessarily a role to focus on since RM is usually done in JIRA. Discussion focuses on capabilities and Capex best practices/use cases.</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- NEW: Collapsible content for Time Management details -->
+                <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel" id="time-management-details-panel">
+                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed hidden" data-target="time-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="demand-management-details-content">
+                        <h4 class="font-bold text-lg text-gray-800 mb-0">Time Management Details</h4>
+                        <span class="collapsible-icon">▼</span>
+                    </div>
+                    <div id="time-management-details-content" class="collapsible-content sub-collapsible-content collapsed time-bg-light">
+                        <p class="text-sm text-gray-700 mt-2"><strong>Purpose:</strong> Track time spent across work for insights and reporting.</p>
+                        <h5 class="font-bold text-md mt-4">Key Personas:</h5>
+                        <ul class="custom-bullet-list pl-4">
+                            <li>Team Members</li>
+                            <li>Resource Managers</li>
+                            <li>Finance</li>
+                        </ul>
+                        <h5 class="font-bold text-md mt-4">Key Topics:</h5>
+                        <ul class="custom-bullet-list">
+                            <li>Timecard Form</li>
+                            <li>Timecard Submission/Approval/Rejection</li>
+                            <li>Time Sheet Portal</li>
+                            <li>Rate Types</li>
+                            <li>Project Time Categories</li>
+                            <li>Time Sheet Tracking</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="implementation-phases-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="implementation-phases-content" tabindex="0" role="button" aria-expanded="false" aria-controls="implementation-phases-content">
+                <h3 class="text-2xl font-bold teal-text mb-0">Long Term (18 Months) Implementation Strategy</h3>
+                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
+            </div>
+            <div id="implementation-phases-content" class="collapsible-content collapsed">
+                <p class="text-center text-gray-500 text-sm mb-8 mt-6 max-w-2xl mx-auto">We are building momentum with receptive divisions first, creating a showcase of success to encourage enterprise-wide adoption before approaching more resistant areas.</p>
+                
+                <!-- NEW 4-POINT HORIZONTAL TIMELINE -->
+                <div class="roadmap-timeline">
+                    <div class="roadmap-milestone active" data-phase="phase1" style="flex-grow: 3;">
+                        <div class="roadmap-dot">1</div>
+                        <div class="roadmap-text-content">
+                            <h4 class="font-bold text-base">Now</h4>
+                            <small class="text-xs">June 20, 2025</small>
+                        </div>
+                    </div>
+                    <div class="roadmap-line active-line"></div> <!-- Line 1-2 -->
+                    <div class="roadmap-milestone active" data-phase="phase2" style="flex-grow: 3;">
+                        <div class="roadmap-dot">2</div>
+                        <div class="roadmap-text-content">
+                            <h4 class="font-bold text-base">Foundation</h4>
+                            <small class="text-xs">Sept 20, 2025<br>(13-week Foundation Model)</small>
+                        </div>
+                    </div>
+                    <div class="roadmap-line dashed-line hidden-element" id="line-2-3" style="flex-grow: 1;"></div> <!-- Line 2-3, hidden -->
+                    <div class="roadmap-milestone future hidden-element" data-phase="phase3" id="milestone-3" style="flex-grow: 1;">
+                        <div class="roadmap-dot">3</div>
+                        <div class="roadmap-text-content">
+                            <h4 class="font-bold text-base">Expansion</h4>
+                            <small class="text-xs">June 2026</small>
+                        </div>
+                    </div>
+                    <div class="roadmap-line dashed-line hidden-element" id="line-3-4" style="flex-grow: 1;"></div> <!-- Line 3-4, hidden -->
+                    <div class="roadmap-milestone future hidden-element" data-phase="phase4" id="milestone-4" style="flex-grow: 1;">
+                        <div class="roadmap-dot">4</div>
+                        <div class="roadmap-text-content">
+                            <h4 class="font-bold text-base">Full Integration</h4>
+                            <small class="text-xs">Dec 2026</small>
+                        </div>
+                    </div>
+                </div>
+                <!-- END NEW 4-POINT HORIZONTAL TIMELINE -->
+
+                <button id="show-future-button" class="future-states-button" tabindex="0" role="button" aria-expanded="false" aria-controls="future-phases-details timeline-future-visuals">
+                    Show Future States
+                </button>
+
+                <!-- DETAILED DESCRIPTIONS FOR EACH PHASE -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+                    <!-- Phase 1 Detail: Now -->
+                    <div class="phase-detail-card">
+                        <h5 class="font-bold text-lg text-teal-700 mb-2">Phase 1: Now</h5>
+                        <p class="text-sm text-gray-700">Initial planning and setup, team alignment, and foundational environment readiness for the SPM implementation.</p>
+                    </div>
+                    <!-- Phase 2 Detail: Foundation (formerly "Foundation" phase 1) -->
+                    <div class="phase-detail-card">
+                        <h5 class="font-bold text-lg text-teal-700 mb-2">Phase 2: Foundation</h5>
+                        <p class="text-sm text-gray-700">Deploy SPM Professional to DISH/Corporate with out-of-the-box best practices, delivering portfolio visibility, quick wins, and a scalable core platform.</p>
+                        <ul class="custom-bullet-list text-sm mt-2">
+                            <li>Activate PPM, Resource, Demand &amp; Time Card modules</li>
+                            <li>Configure governance and reporting dashboards</li>
+                            <li>Train pilot user group &bull; Capture success metrics</li>
+                        </ul>
+                    </div>
+                    <!-- Phase 3 Detail: Expansion (formerly "Expansion" phase 2) -->
+                    <div class="phase-detail-card hidden-element" id="phase-detail-3">
+                        <h5 class="font-bold text-lg text-teal-700 mb-2">Phase 3: Expansion</h5>
+                        <p class="text-sm text-gray-700">Extend SPM capabilities to additional EchoStar divisions (e.g., Hughes/Legacy EchoStar), standardizing processes enterprise-wide and leveraging Phase 2 success stories.</p>
+                    </div>
+                    <!-- Phase 4 Detail: Full Integration (formerly "Full Integration" phase 3) -->
+                    <div class="phase-detail-card hidden-element" id="phase-detail-4">
+                        <h5 class="font-bold text-lg text-teal-700 mb-2">Phase 4: Full Integration</h5>
+                        <p class="text-sm text-gray-700">Unify portfolio data and processes across all EchoStar business units, including Wireless, integrating SPM deeply with financial and engineering systems for holistic, real-time insights.</p>
+                    </div>
+                </div>
+                <!-- END DETAILED DESCRIPTIONS -->
+
+                <p class="mt-8 text-center text-gray-600 text-sm font-semibold">
+                    Foundation for Multi-Million Dollar, Enterprise-Wide Expansion: This initial effort is a critical step towards broader organizational impact and future phases.
+                </p>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        /**
+         * The main entry point for the JavaScript logic, ensuring the DOM is fully loaded.
+         * All primary event listeners, initial setups, and complex logic are encapsulated here.
+         */
+        (function() { // Start of IIFE
+
+            /**
+             * Helper function to consistently manage the collapsed/expanded state of content sections.
+             * This ensures proper class toggling, ARIA attribute updates, icon changes, and overflow management.
+             * @param {HTMLElement} contentElement - The content div that needs to be collapsed or expanded.
+             * @param {HTMLElement} toggleElement - The toggle button/header associated with the content.
+             * @param {boolean} isCollapsed - True to collapse the element, false to expand it.
+             */
+            function setCollapsedState(contentElement, toggleElement, isCollapsed) {
+                if (contentElement) {
+                    if (isCollapsed) {
+                        contentElement.classList.add('collapsed');
+                    } else {
+                        contentElement.classList.remove('collapsed');
+                        // Ensure overflow is visible immediately when expanding to prevent clipping
+                        setTimeout(() => {
+                            if (!contentElement.classList.contains('collapsed')) {
+                                contentElement.style.overflow = 'visible';
+                            }
+                        }, 50); // Small delay to allow transition to start
+                    }
+                }
+                if (toggleElement) {
+                    if (isCollapsed) {
+                        toggleElement.classList.add('collapsed');
+                        toggleElement.setAttribute('aria-expanded', 'false');
+                        const icon = toggleElement.querySelector('.collapsible-icon');
+                        if (icon) icon.textContent = '▼'; // Point down when collapsed
+                    } else {
+                        toggleElement.classList.remove('collapsed');
+                        toggleElement.setAttribute('aria-expanded', 'true');
+                        const icon = toggleElement.querySelector('.collapsible-icon');
+                        if (icon) icon.textContent = '▲'; // Point up when expanded
+                    }
+                }
+            }
+
+            // Original Stakeholder Chart (Not currently used by any visible canvas element in your layout, but kept for completeness if needed elsewhere)
+            const stakeholderCanvas = document.getElementById('stakeholderChart');
+            if (stakeholderCanvas) {
+                try {
+                    const stakeholderCtx = stakeholderCanvas.getContext('2d');
+                    new Chart(stakeholderCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Identified', 'To Be Identified'],
+                            datasets: [{
+                                label: 'Business PMO Contacts',
+                                data: [90, 10],
+                                backgroundColor: [
+                                    '#00A9E0',
+                                    '#e5e7eb'
+                                ],
+                                borderColor: [
+                                    '#FFFFFF',
+                                    '#FFFFFF'
+                                ],
+                                borderWidth: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '70%',
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        title: function(tooltipItems) {
+                                            const item = tooltipItems[0];
+                                            let label = item.chart.data.labels[item.dataIndex];
+                                            if (Array.isArray(label)) {
+                                                return label.join(' ');
+                                            } else {
+                                                return label;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                } catch (error) {
+                    console.error("Error initializing stakeholder chart:", error);
+                }
+            }
+
+            /**
+             * Manages the visibility of the main header based on the expanded/collapsed state
+             * of various sections, particularly the "Workshows & Workshops Structure" and its
+             * detailed module panels.
+             *
+             * The header is hidden ONLY IF:
+             * 1. The "Workshows & Workshops Structure" section is open.
+             * 2. AND at least one of its module detail *panels* (Demand, Project, Resource, Time Management) is visible.
+             * 3. AND NO other primary top-level section (e.g., Organizational Landscape, Engagement Timeline) is open.
+             * In all other cases, the header remains sticky/visible.
+             */
+            const manageHeaderVisibility = () => {
+                try {
+                    const mainHeader = document.getElementById('mainHeader');
+                    if (!mainHeader) {
+                        console.warn("manageHeaderVisibility: Main header element not found.");
+                        return;
+                    }
+
+                    // 1. Check if the 'Workshows & Workshops Structure' main section is currently expanded.
+                    const workshopsStructureContent = document.getElementById('workshops-structure-content');
+                    const isWorkshopsStructureOpen = workshopsStructureContent && !workshopsStructureContent.classList.contains('collapsed');
+
+                    // 2. Check if any specific module detail *panel* within 'Workshows & Workshops Structure' is currently visible.
+                    // These panels are the outer containers with class 'spm-module-detail-panel'.
+                    const spmModuleDetailPanels = Array.from(document.querySelectorAll('.spm-module-detail-panel'));
+                    const anyModuleDetailPanelVisible = spmModuleDetailPanels.some(panel => !panel.classList.contains('hidden'));
+
+                    // 3. Check if any *other* primary top-level section (excluding the 'Workshows & Workshops Structure' itself) is open.
+                    const otherMainSectionContentIds = [
+                        'organization-content',
+                        'metrics-stakeholders-content',
+                        'technical-readiness-content',
+                        'timeline-content',
+                        'implementation-phases-content'
+                    ];
+                    const anyOtherMainSectionOpen = otherMainSectionContentIds.some(id => {
+                        const content = document.getElementById(id);
+                        // Ensure the content element exists and is not collapsed
+                        return content && !content.classList.contains('collapsed');
+                    });
+
+                    // Determine if the header should be hidden based on the defined conditions.
+                    const shouldHeaderBeHidden = isWorkshopsStructureOpen && anyModuleDetailPanelVisible && !anyOtherMainSectionOpen;
+
+                    if (shouldHeaderBeHidden) {
+                        mainHeader.classList.add('hidden-header');
+                    } else {
+                        mainHeader.classList.remove('hidden-header');
+                    }
+                } catch (error) {
+                    console.error("Error in manageHeaderVisibility:", error);
+                }
+            };
+
+            /**
+             * Initial setup for all collapsible sections on page load:
+             * All sections start collapsed by default, except the SPM Modules Chart content.
+             * Also ensures module detail panels are hidden initially.
+             */
+            function initializeCollapsibleSections() {
+                document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle, .stakeholder-card-toggle').forEach(toggle => {
+                    try {
+                        const targetContentId = toggle.dataset.target;
+                        const targetContentElement = document.getElementById(targetContentId);
+                        
+                        if (!targetContentElement) {
+                            console.error(`Initialization Error: Target content with ID "${targetContentId}" not found for toggle:`, toggle);
+                            return; // Skip this toggle if its target content is missing
+                        }
+
+                        // If it's the SPM Modules Chart content, ensure it's uncollapsed initially.
+                        if (targetContentId === 'spm-modules-chart-content') {
+                            setCollapsedState(targetContentElement, toggle, false); // Initialize as uncollapsed
+                        } else {
+                            setCollapsedState(targetContentElement, toggle, true); // Initialize all other sections as collapsed
+                        }
+
+                        // For specific module detail sections (Demand, Project, etc.), ensure their entire panel is hidden on load.
+                        if (targetContentId.includes('-details-content')) {
+                            toggle.classList.add('hidden'); // Hide the toggle button itself
+                            const parentPanel = targetContentElement.closest('.spm-module-detail-panel');
+                            if (parentPanel) {
+                                parentPanel.classList.add('hidden'); // Hide the entire panel container
+                            }
+                        }
+                    } catch (error) {
+                        console.error("Error during initial toggle setup:", error);
+                    }
+                });
+                manageHeaderVisibility(); // Call header visibility manager once after initial setup.
+            }
+
+            /**
+             * Extracts computed color values from CSS to ensure Chart.js compatibility.
+             * Chart.js doesn't resolve CSS variables, so we need actual color values.
+             */
+            function getChartColors() {
+                // Create temporary elements to extract computed colors
+                const tempDiv = document.createElement('div');
+                tempDiv.style.position = 'absolute';
+                tempDiv.style.visibility = 'hidden';
+                document.body.appendChild(tempDiv);
+
+                // Define color classes and extract their computed values
+                const colorClasses = {
+                    teal: 'teal-text',
+                    green: 'sling-bg', 
+                    yellow: 'shared-services-bg',
+                    orange: 'wireless-bg'
+                };
+
+                const colors = {};
+                
+                for (const [key, className] of Object.entries(colorClasses)) {
+                    tempDiv.className = className;
+                    const computedStyle = window.getComputedStyle(tempDiv);
+                    colors[key] = computedStyle.backgroundColor || computedStyle.color;
+                }
+
+                document.body.removeChild(tempDiv);
+
+                // Fallback to hardcoded values if computed extraction fails
+                return {
+                    teal: colors.teal || '#00A9E0',
+                    green: colors.green || '#4CAF50', 
+                    yellow: colors.yellow || '#FFC107',
+                    orange: colors.orange || '#F37021'
+                };
+            }
+
+            /**
+             * Initializes the SPM Modules doughnut chart and defines its click behavior.
+             * On slice click, it expands the parent 'Workshows & Workshops Structure' section
+             * (if collapsed), then hides all other module detail panels and reveals the clicked one.
+             * Finally, it updates the main header visibility.
+             */
+            function initializeSpmModulesChart() {
+                const spmModulesCtxElement = document.getElementById('spmModulesChart'); // Renamed for clarity
+                if (spmModulesCtxElement) {
+                    try {
+                        // Get computed color values to ensure Chart.js compatibility
+                        const chartColors = getChartColors();
+                        
+                        const spmModulesChart = new Chart(spmModulesCtxElement.getContext('2d'), { // Store chart instance
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Demand Management', 'Project Management', 'Resource Management', 'Time Management'],
+                                datasets: [{
+                                    data: [40, 30, 20, 10], // Relative sizes: Demand > Project > Resource > Time
+                                    backgroundColor: [
+                                        chartColors.teal,   // Teal for Demand
+                                        chartColors.green,  // Green for Project  
+                                        chartColors.yellow, // Yellow for Resource
+                                        chartColors.orange  // Orange for Time
+                                    ],
+                                    borderColor: '#FFFFFF',
+                                    borderWidth: 4
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                cutout: '70%',
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom', // Show legend at the bottom
+                                        labels: {
+                                            color: '#333' // Legend text color
+                                        }
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(tooltipItem) {
+                                                return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                                            }
+                                        }
+                                    }
+                                },
+                                onClick: (event, elements) => {
+                                    try {
+                                        // Check if a slice was actually clicked
+                                        if (elements.length > 0) {
+                                            const clickedElementIndex = elements[0].index;
+                                            const clickedLabel = spmModulesChart.data.labels[clickedElementIndex];
+
+                                            const workshopsStructureToggle = document.querySelector('#workshops-structure-section .collapsible-toggle');
+                                            const workshopsStructureContent = document.getElementById('workshops-structure-content');
+
+                                            // IMP: Ensure the parent 'Workshows & Workshops Structure' section is expanded
+                                            // This ensures the header visibility logic has the correct parent state.
+                                            if (workshopsStructureContent && workshopsStructureContent.classList.contains('collapsed')) {
+                                                setCollapsedState(workshopsStructureContent, workshopsStructureToggle, false); // Explicitly expand parent
+                                            }
+
+                                            // Map of all module details including their panel elements
+                                            const moduleDetailsMap = {
+                                                'Demand Management': {
+                                                    panel: document.getElementById('demand-management-details-panel'),
+                                                    content: document.getElementById('demand-management-details-content'),
+                                                    toggle: document.getElementById('demand-management-details-content').previousElementSibling,
+                                                    bgColorClass: 'demand-bg-light'
+                                                },
+                                                'Project Management': {
+                                                    panel: document.getElementById('project-management-details-panel'),
+                                                    content: document.getElementById('project-management-details-content'),
+                                                    toggle: document.getElementById('project-management-details-content').previousElementSibling,
+                                                    bgColorClass: 'project-bg-light'
+                                                },
+                                                'Resource Management': {
+                                                    panel: document.getElementById('resource-management-details-panel'),
+                                                    content: document.getElementById('resource-management-details-content'),
+                                                    toggle: document.getElementById('resource-management-details-content').previousElementSibling,
+                                                    bgColorClass: 'resource-bg-light'
+                                                },
+                                                'Time Management': {
+                                                    panel: document.getElementById('time-management-details-panel'),
+                                                    content: document.getElementById('time-management-details-content'),
+                                                    toggle: document.getElementById('time-management-details-content').previousElementSibling,
+                                                    bgColorClass: 'time-bg-light'
+                                                }
+                                            };
+
+                                            // Iterate through all module details to manage their visibility (hide others, show clicked)
+                                            for (const labelKey in moduleDetailsMap) {
+                                                const module = moduleDetailsMap[labelKey];
+                                                // Ensure all necessary elements for this module exist
+                                                if (module.panel && module.content && module.toggle) {
+                                                    if (labelKey === clickedLabel) { // This is the module corresponding to the clicked slice
+                                                        // Toggle visibility: If already open, close it; otherwise, open it.
+                                                        const isCurrentlyOpen = !module.content.classList.contains('collapsed');
+
+                                                        // Manage the entire panel's visibility
+                                                        if (isCurrentlyOpen) {
+                                                            module.panel.classList.add('hidden'); // Hide the entire panel
+                                                        } else {
+                                                            module.panel.classList.remove('hidden'); // Show the entire panel
+                                                        }
+                                                        
+                                                        // Manage the content and its toggle/icon
+                                                        setCollapsedState(module.content, module.toggle, isCurrentlyOpen); // Set to collapsed if already open, else uncollapsed
+
+                                                        if (!isCurrentlyOpen) { // If it just became open
+                                                            module.toggle.classList.remove('hidden'); // Ensure toggle is visible
+                                                            module.content.classList.add(module.bgColorClass); // Apply background color
+                                                            module.panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // Scroll to the panel
+                                                        } else { // If it just became closed
+                                                            module.toggle.classList.add('hidden'); // Hide toggle
+                                                            module.content.classList.remove(module.bgColorClass); // Remove background
+                                                        }
+                                                        
+                                                    } else { // This is a different module, so hide it completely
+                                                        setCollapsedState(module.content, module.toggle, true); // Collapse content
+                                                        module.toggle.classList.add('hidden'); // Hide toggle
+                                                        module.content.classList.remove(module.bgColorClass); // Remove background
+                                                        module.panel.classList.add('hidden'); // Hide the entire panel container
+                                                    }
+                                                }
+                                            }
+                                            
+                                            // IMPORTANT: Call manageHeaderVisibility after all panel and content states have been updated
+                                            manageHeaderVisibility();
+                                        }
+                                    } catch (error) {
+                                        console.error("Error in Chart.js onClick handler:", error);
+                                    }
+                                }
+                            }
+                        });
+                    } catch (error) {
+                        console.error("Error initializing SPM Modules Chart:", error);
+                    }
+                }
+            }
+
+
+            // Get the logo element (for shrinking/expanding based on any main section state)
+            const echostarLogo = document.getElementById('echostarLogo');
+            
+            // List of all main collapsible section toggles, used for the logo shrinking behavior.
+            const mainCollapsibleTogglesForLogo = Array.from(document.querySelectorAll(
+                '#organization-section .collapsible-toggle, ' +
+                '#metrics-stakeholders-section .collapsible-toggle, ' +
+                '#technical-readiness-section .collapsible-toggle, ' +
+                '#timeline-section .collapsible-toggle, ' +
+                '#workshops-structure-section .collapsible-toggle, ' +
+                '#implementation-phases-section .collapsible-toggle'
+            ));
+
+
+            /**
+             * Unified event listener for all collapsible toggles (main sections, sub-sections, stakeholder cards).
+             * Handles expanding/collapsing content, managing related panel visibility, and triggering
+             * overall header visibility updates.
+             */
+            function setupCollapsibleToggleListeners() {
+                document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle, .stakeholder-card-toggle').forEach(toggleElement => {
+                    try {
+                        const targetContentId = toggleElement.dataset.target;
+                        const targetContentElement = document.getElementById(targetContentId);
+                        
+                        if (!targetContentElement) {
+                            console.error(`Event Listener Setup Error: Target content with ID "${targetContentId}" not found for toggle:`, toggleElement);
+                            return; // Skip if target content is missing
+                        }
+
+                        const handleToggleClick = () => {
+                            const isCurrentlyCollapsed = targetContentElement.classList.contains('collapsed');
+                            
+                            // Toggle the state of the content and its associated toggle visual.
+                            setCollapsedState(targetContentElement, toggleElement, !isCurrentlyCollapsed);
+
+                            // Specific logic for SPM module detail panels: manage their overall visibility
+                            // This applies when a user manually clicks the sub-collapsible toggle for a module detail,
+                            // not just when clicking the donut slice.
+                            if (targetContentId.includes('-details-content')) {
+                                const parentPanel = targetContentElement.closest('.spm-module-detail-panel');
+                                if (parentPanel) {
+                                    if (!targetContentElement.classList.contains('collapsed')) { // If content just became uncollapsed
+                                        parentPanel.classList.remove('hidden'); // Show the entire panel
+                                        toggleElement.classList.remove('hidden'); // Ensure its own toggle is visible
+                                    } else { // If content just became collapsed
+                                        parentPanel.classList.add('hidden'); // Hide the entire panel
+                                        toggleElement.classList.add('hidden'); // Hide its own toggle
+                                    }
+                                }
+                            } else if (targetContentId === 'workshops-structure-content' && targetContentElement.classList.contains('collapsed')) {
+                                // If the main "Workshows & Workshops Structure" section is being manually collapsed,
+                                // ensure all its module detail panels are also hidden.
+                                const spmDetailPanels = document.querySelectorAll('.spm-module-detail-panel');
+                                spmDetailPanels.forEach(panel => {
+                                    panel.classList.add('hidden'); // Hide the panel
+                                    const content = document.getElementById(panel.querySelector('[data-target]').dataset.target);
+                                    const toggle = panel.querySelector('.sub-collapsible-toggle');
+                                    if (content && toggle) {
+                                        setCollapsedState(content, toggle, true); // Ensure content is collapsed
+                                        toggle.classList.add('hidden'); // Hide toggle
+                                        content.classList.remove('demand-bg-light', 'project-bg-light', 'resource-bg-light', 'time-bg-light'); // Remove background
+                                    }
+                                });
+                            }
+
+                            // Logic for shrinking/expanding the
