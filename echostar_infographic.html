@@ -21,7 +21,7 @@
         .wireless-bg { background-color: #F37021; } /* Orange */
         .hughes-bg { background-color: #81D4FA; } /* Light Blue (retained for consistency) */
 
-        /* Teal shades for metrics section (backgrounds for front face) */
+        /* Teal shades for metrics section (backgrounds for front face) - retained for SPM modules section */
         .spm-modules-front { background-color: #007B9E; } /* Darker teal for SPM Modules */
         .workshows-front { background-color: #0093BD; } /* Medium teal for Workshows */
         .workshops-front { background-color: #00A9E0; } /* Original teal for Workshops (lighter in context) */
@@ -289,9 +289,10 @@
         }
 
         /* Specific adjustments for metric flip cards in Key Metrics & Stakeholder Overview */
+        /* Removed specific height/padding overrides for metrics flip cards as they are now stakeholder cards */
         #metrics-stakeholders-section .flip-card {
             width: 100%; /* Make them fill their grid column */
-            height: 120px; /* Adjusted height for metrics boxes (these remain smaller) */
+            height: 220px; /* Ensure consistent height for all stakeholder tiles */
             padding: 0; /* Reset padding to be controlled by inner elements */
             box-shadow: none; /* Remove outer shadow, it will be applied to inner faces */
             overflow: visible; /* Ensure content is not clipped by fixed dimensions */
@@ -360,6 +361,11 @@
             color: white; /* Override the default gray from .custom-bullet-list li */
             font-size: 1rem; /* Adjust list item font size for readability */
         }
+        /* Ensure the checkmark for list items on flip card backs is also white */
+        .flip-card-back .custom-bullet-list li::before {
+            color: white; /* Ensure checkmarks are white on flip card backs */
+        }
+
 
         /* Increase font size for front of tiles */
         .flip-card-front strong {
@@ -378,30 +384,43 @@
         }
 
 
-        /* --- Specific Metric Flip Card Styling (Key Metrics Section) --- */
-        #metrics-stakeholders-section .flip-card-front {
-            color: white; /* Set all text on the front of metric cards to white */
-        }
-        #metrics-stakeholders-section .flip-card-front .teal-text {
-            color: white; /* Ensure the large number is also white on colored backgrounds */
-        }
+        /* --- NEW Stakeholder Overview Flip Card Styling --- */
+        /* Core Project Team - Dark Teal */
+        .core-project-team-bg .flip-card-front, .core-project-team-bg .flip-card-back { background-color: #007B9E; }
+        /* IT Decision Makers - Medium Teal */
+        .it-decision-makers-bg .flip-card-front, .it-decision-makers-bg .flip-card-back { background-color: #0093BD; }
+        /* Steering Committee - Light Teal */
+        .steering-committee-bg .flip-card-front, .steering-committee-bg .flip-card-back { background-color: #00A9E0; }
+        /* Stakeholders - Indigo (New Color) */
+        .stakeholders-bg .flip-card-front, .stakeholders-bg .flip-card-back { background-color: #3F51B5; }
 
-        /* Apply specific background colors to the front faces of metric cards */
-        #metrics-stakeholders-section .spm-modules-front { background-color: #007B9E; } /* Dark Teal */
-        .workshows-front { background-color: #0093BD; } /* Medium teal for Workshows */
-        .workshops-front { background-color: #00A9E0; } /* Light Teal */
 
-        /* Override general .flip-card-back styles for metric cards */
-        #metrics-stakeholders-section .flip-card-back {
-            background-color: white; /* White background for back face */
-            color: #00A9E0; /* Blue text for back face */
-            font-size: 0.85rem; /* Slightly larger font for metrics back */
-            line-height: 1.3;
-            text-align: center;
+        /* IMPORTANT: Ensure text on all new stakeholder tiles is white */
+        .core-project-team-bg .flip-card-front strong,
+        .it-decision-makers-bg .flip-card-front strong,
+        .steering-committee-bg .flip-card-front strong,
+        .stakeholders-bg .flip-card-front strong {
+            color: white;
         }
 
-        /* New styles for stakeholder group expandable cards */
-        .stakeholder-card {
+        .core-project-team-bg .flip-card-back,
+        .it-decision-makers-bg .flip-card-back,
+        .steering-committee-bg .flip-card-back,
+        .stakeholders-bg .flip-card-back {
+            color: white;
+        }
+
+        /* Ensure checkmarks are white on new stakeholder flip card backs */
+        .core-project-team-bg .flip-card-back .custom-bullet-list li::before,
+        .it-decision-makers-bg .flip-card-back .custom-bullet-list li::before,
+        .steering-committee-bg .flip-card-back .custom-bullet-list li::before,
+        .stakeholders-bg .flip-card-back .custom-bullet-list li::before {
+            color: white;
+        }
+
+
+        /* New styles for stakeholder group expandable cards - REMOVED AS THEY ARE NOW FLIP CARDS */
+        /* .stakeholder-card {
             background-color: white;
             border-radius: 0.5rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -415,12 +434,13 @@
             transform: translateY(-2px);
         }
 
-        /* Specific colors for stakeholder cards */
+        Specific colors for stakeholder cards
         .stakeholder-card.core-project-bg { background-color: #E0F2F7; }
         .stakeholder-card.it-stakeholder-bg { background-color: #CCEEF5; }
-        .stakeholder-card.business-stakeholder-bg { background-color: #B3E0EB; }
+        .stakeholder-card.business-stakeholder-bg { background-color: #B3E0EB; } */
 
-        .stakeholder-card-toggle {
+        /* Collapsible content for the old stakeholder cards - REMOVED */
+        /* .stakeholder-card-toggle {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -459,7 +479,8 @@
         }
         .stakeholder-card-toggle.collapsed .collapsible-icon {
             transform: rotate(-90deg);
-        }
+        } */
+
 
         /* Custom bullet list styles */
         .custom-bullet-list {
@@ -749,113 +770,80 @@
             </div>
         </section>
 
+        <!-- START: RENAMED AND RESTRUCTURED SECTION -->
         <section id="metrics-stakeholders-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
             <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="metrics-stakeholders-content" tabindex="0" role="button" aria-expanded="false" aria-controls="metrics-stakeholders-content">
-                <h3 class="text-2xl font-bold teal-text mb-0">Key Metrics & Stakeholder Overview</h3>
+                <h3 class="text-2xl font-bold teal-text mb-0">Stakeholder Overview</h3>
                 <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
             </div>
             <div id="metrics-stakeholders-content" class="collapsible-content collapsed">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
-
-                    <!-- Metrics Cards (now in their own column on large screens) -->
-                    <div class="lg:col-span-1 flex flex-col items-center">
-                        <h3 class="text-2xl font-bold text-center mb-4 text-gray-800">Key Metrics</h3>
-                        <div class="grid grid-cols-2 gap-4 w-full max-w-sm md:max-w-none mx-auto">
-                            
-                            <div class="flip-card">
-                                <div class="flip-card-inner">
-                                    <div class="flip-card-front spm-modules-front rounded-lg shadow-md">
-                                        <p class="text-5xl font-bold teal-text">4</p>
-                                        <p class="font-semibold">SPM Modules</p>
-                                    </div>
-                                    <div class="flip-card-back rounded-lg shadow-md">
-                                        Demand, Project, Resource, and Time Cards are the core functionalities.
-                                    </div>
-                                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-white text-center mt-6">
+                    
+                    <!-- Core Project Team Tile -->
+                    <div class="flip-card core-project-team-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Core Project Team</strong>
                             </div>
-                            
-                            <div class="flip-card">
-                                <div class="flip-card-inner">
-                                    <div class="flip-card-front workshows-front rounded-lg shadow-md">
-                                        <p class="text-5xl font-bold teal-text">3</p>
-                                        <p class="font-semibold">Workshows</p>
-                                    </div>
-                                    <div class="flip-card-back rounded-lg shadow-md">
-                                        Workshows are demonstrations of out-of-the-box functionality.
-                                    </div>
-                                </div>
+                            <div class="flip-card-back">
+                                <ul class="text-xs custom-bullet-list px-2" style="list-style-type: none; padding-left: 0; margin: 0; text-align: left;">
+                                    <li><strong>Sarah</strong> (IT PMO Lead)</li>
+                                    <li><strong>Laura</strong> (IT PMO)</li>
+                                    <li>IT PMO Managers</li>
+                                    <li><strong>Pierre's Team</strong> (SN SMEs)</li>
+                                </ul>
                             </div>
-                            
-                            <div class="col-span-2 flip-card"> <!-- col-span-2 ensures it spans across two columns on grid-cols-2 -->
-                                <div class="flip-card-inner">
-                                    <div class="flip-card-front workshops-front rounded-lg shadow-md">
-                                        <p class="text-5xl font-bold teal-text">5</p>
-                                        <p class="font-semibold">Workshops</p>
-                                    </div>
-                                    <div class="flip-card-back rounded-lg shadow-md">
-                                        Workshops are detailed requirements gathering sessions where specific needs are captured.
-                                    </div>
-                                </div>
+                        </div>
+                    </div>
+                    
+                    <!-- IT Decision Makers Tile (formerly IT Stakeholders) -->
+                    <div class="flip-card it-decision-makers-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>IT Decision Makers</strong>
+                            </div>
+                            <div class="flip-card-back">
+                                <ul class="text-xs custom-bullet-list px-2" style="list-style-type: none; padding-left: 0; margin: 0; text-align: left;">
+                                    <li>IT Product Owners</li>
+                                    <li>IT Delivery Teams</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Steering Committee Tile (formerly Business Stakeholders) -->
+                    <div class="flip-card steering-committee-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Steering Committee</strong>
+                            </div>
+                            <div class="flip-card-back">
+                                <ul class="text-xs custom-bullet-list px-2" style="list-style-type: none; padding-left: 0; margin: 0; text-align: left;">
+                                    <li>Key business leaders and PMO members who will utilize SPM for demand, project, and portfolio management.</li>
+                                    <li>Line of Business Leaders</li>
+                                    <li>Portfolio Owners</li>
+                                    <li><em>Names on this tile will be updated soon</em></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Stakeholder Groups (now taking two columns on large screens) -->
-                    <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
-                        <h3 class="text-2xl font-bold text-center mb-4 text-gray-800">Stakeholder Groups</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            
-                            <div class="stakeholder-card core-project-bg">
-                                <div class="stakeholder-card-toggle" data-target="core-project-team-content" tabindex="0" role="button" aria-expanded="false" aria-controls="core-project-team-content">
-                                    <h4 class="font-bold text-lg mb-0 text-gray-800">👤 Core Project Team</h4>
-                                    <span class="collapsible-icon">▼</span>
-                                </div>
-                                <div id="core-project-team-content" class="stakeholder-card-content collapsed">
-                                    <p class="text-sm text-gray-700 mt-2">Central driving force, responsible for strategic direction and project management.</p>
-                                    <ul class="custom-bullet-list mt-2">
-                                        <li><strong>Sarah</strong> (IT PMO Lead)</li>
-                                        <li><strong>Laura</strong> (IT PMO)</li>
-                                        <li>IT Managers</li>
-                                        <li>Business Managers</li>
-                                    </ul>
-                                </div>
+                    <!-- NEW Stakeholders Tile -->
+                    <div class="flip-card stakeholders-bg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <strong>Stakeholders</strong>
                             </div>
-                            
-                            <div class="stakeholder-card it-stakeholder-bg">
-                                <div class="stakeholder-card-toggle" data-target="it-stakeholders-content" tabindex="0" role="button" aria-expanded="false" aria-controls="it-stakeholders-content">
-                                    <h4 class="font-bold text-lg mb-0 text-gray-800">👤 IT Stakeholders</h4>
-                                    <span class="collapsible-icon">▼</span>
-                                </div>
-                                <div id="it-stakeholders-content" class="stakeholder-card-content collapsed">
-                                    <p class="text-sm text-gray-700 mt-2">Responsible for technical implementation, support, and alignment of new SPM processes.</p>
-                                    <ul class="custom-bullet-list mt-2">
-                                        <li>IT Product Owners</li>
-                                        <li><strong>Pierre's Team</strong> (SN SMEs)</li>
-                                        <li>IT Delivery Teams</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="stakeholder-card business-stakeholder-bg">
-                                <div class="stakeholder-card-toggle" data-target="business-stakeholders-content" tabindex="0" role="button" aria-expanded="false" aria-controls="business-stakeholders-content">
-                                    <h4 class="font-bold text-lg mb-0 text-gray-800">👤 Business Stakeholders</h4>
-                                    <span class="collapsible-icon">▼</span>
-                                </div>
-                                <div id="business-stakeholders-content" class="stakeholder-card-content collapsed">
-                                    <p class="text-sm text-gray-700 mt-2">Key business leaders and PMO members who will utilize SPM for demand, project, and portfolio management.</p>
-                                    <ul class="custom-bullet-list mt-2">
-                                        <li>Business PMO (90% ID'd)</li>
-                                        <li>Line of Business Leaders</li>
-                                        <li>Portfolio Owners</li>
-                                    </ul>
-                                </div>
+                            <div class="flip-card-back">
+                                Names to be provided by customer.
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
-
+        <!-- END: RENAMED AND RESTRUCTURED SECTION -->
         
         <section id="timeline-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
             <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="timeline-content" tabindex="0" role="button" aria-expanded="false" aria-controls="timeline-content">
@@ -1141,65 +1129,7 @@
                 }
             }
 
-            /**
-             * Initializes the optional Stakeholder Chart. This chart is not actively displayed
-             * in the current HTML layout but its initialization logic is maintained for completeness.
-             * @param {HTMLCanvasElement} stakeholderCanvas - The canvas element for the stakeholder chart.
-             * @returns {void}
-             */
-            function initializeStakeholderChart(stakeholderCanvas) {
-                if (!stakeholderCanvas) {
-                    console.warn("initializeStakeholderChart: Canvas element not found, skipping initialization.");
-                    return;
-                }
-                try {
-                    const stakeholderCtx = stakeholderCanvas.getContext('2d');
-                    new Chart(stakeholderCtx, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['Identified', 'To Be Identified'],
-                            datasets: [{
-                                label: 'Business PMO Contacts',
-                                data: [90, 10],
-                                backgroundColor: [
-                                    '#00A9E0',
-                                    '#e5e7eb'
-                                ],
-                                borderColor: [
-                                    '#FFFFFF',
-                                    '#FFFFFF'
-                                ],
-                                borderWidth: 4
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            cutout: '70%',
-                            plugins: {
-                                legend: {
-                                    display: false
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        title: function(tooltipItems) {
-                                            const item = tooltipItems[0];
-                                            let label = item.chart.data.labels[item.dataIndex];
-                                            if (Array.isArray(label)) {
-                                                return label.join(' ');
-                                            } else {
-                                                return label;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                } catch (error) {
-                    console.error("Error initializing stakeholder chart:", error);
-                }
-            }
+            // Removed initializeStakeholderChart as per the requirements.
 
             /**
              * Manages the visibility of the main header based on the expanded/collapsed state
@@ -1224,12 +1154,12 @@
                         return;
                     }
 
-                    // Safely declare and assign isWorkshopsStructureOpen
-                    let isWorkshopsStructureOpen = false;
+                    // Safely declare and assign isWorkshowsStructureOpen
+                    let isWorkshowsStructureOpen = false;
                     if (workshopsStructureContent && workshopsStructureContent.classList) {
-                        isWorkshopsStructureOpen = !workshopsStructureContent.classList.contains('collapsed');
+                        isWorkshowsStructureOpen = !workshopsStructureContent.classList.contains('collapsed');
                     } else {
-                        console.warn("manageHeaderVisibility: workshopsStructureContent or its classList is unexpectedly missing. Defaulting isWorkshopsStructureOpen to false.");
+                        console.warn("manageHeaderVisibility: workshopsStructureContent or its classList is unexpectedly missing. Defaulting isWorkshowsStructureOpen to false.");
                         // Continue execution with default false, or return if this state is unrecoverable
                     }
                     
@@ -1245,7 +1175,7 @@
                     });
 
                     // Determine if the header should be hidden based on the defined conditions.
-                    const shouldHeaderBeHidden = isWorkshopsStructureOpen && anyModuleDetailPanelVisible && !anyOtherMainSectionOpen;
+                    const shouldHeaderBeHidden = isWorkshowsStructureOpen && anyModuleDetailPanelVisible && !anyOtherMainSectionOpen;
 
                     if (shouldHeaderBeHidden) {
                         mainHeader.classList.add('hidden-header');
@@ -1696,17 +1626,17 @@
                 // List of all main collapsible section content IDs (for header visibility logic)
                 const otherMainSectionContentIds = [
                     'organization-content',
-                    'metrics-stakeholders-content',
+                    'metrics-stakeholders-content', // This is now 'Stakeholder Overview'
                     'timeline-content',
                     'workshops-structure-content'
                 ];
 
                 // List of all general toggles for event listener setup
-                const allToggles = document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle, .stakeholder-card-toggle');
+                const allToggles = document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle'); // Removed .stakeholder-card-toggle as they are now flip-cards
                 // Main collapsible toggles that affect the logo size
                 const mainCollapsibleTogglesForLogo = Array.from(document.querySelectorAll(
                     '#organization-section .collapsible-toggle, ' +
-                    '#metrics-stakeholders-section .collapsible-toggle, ' +
+                    '#metrics-stakeholders-section .collapsible-toggle, ' + // Updated for Stakeholder Overview
                     '#timeline-section .collapsible-toggle, ' +
                     '#workshops-structure-section .collapsible-toggle'
                 ));
