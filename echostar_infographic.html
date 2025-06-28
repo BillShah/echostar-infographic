@@ -850,30 +850,7 @@
             </div>
         </section>
 
-        <section id="technical-readiness-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
-            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="technical-readiness-content" tabindex="0" role="button" aria-expanded="false" aria-controls="technical-readiness-content">
-                <h3 class="text-2xl font-bold teal-text mb-0">Technical Environment Readiness</h3>
-                <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
-            </div>
-            <div id="technical-readiness-content" class="collapsible-content collapsed">
-                <p class="text-center text-gray-500 text-sm mb-6 mt-6">Essential technical steps required to support the planned Workshows and Workshops.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
-                        <h4 class="font-bold text-lg mb-2">Clone Production Instance</h4>
-                        <p class="text-sm text-gray-700">Ensure pre-production environment is a fresh clone of production, at the same patch level.</p>
-                    </div>
-                    <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
-                        <h4 class="font-bold text-lg mb-2">SPM Plugin Installation</h4>
-                        <p class="text-sm text-gray-700">Install the SDM Pro plugin. Requires coordination with Pierre's team for entitlement/support.</p>
-                    </div>
-                    <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
-                        <h4 class="font-bold text-lg mb-2">Upgrade Analyzer Run</h4>
-                        <p class="text-sm text-gray-700">Run an upgrade analyzer to identify divergent objects and assess customization impact.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+        
         <section id="timeline-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
             <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="timeline-content" tabindex="0" role="button" aria-expanded="false" aria-controls="timeline-content">
                 <h3 class="text-2xl font-bold teal-text mb-0">Engagement Timeline</h3>
@@ -1703,18 +1680,19 @@
                 const workshopsStructureContent = document.getElementById('workshops-structure-content');
                 const spmModulesCtxElement = document.getElementById('spmModulesChart');
                 const spmModuleDetailPanels = document.querySelectorAll('.spm-module-detail-panel'); // All individual module panels
-                const showFutureButton = document.getElementById('show-future-button');
-                const futureTimelineElements = document.querySelectorAll('#line-2-3, #milestone-3, #line-3-4, #milestone-4');
-                const futureDetailCards = document.querySelectorAll('#phase-detail-3, #phase-detail-4');
+                // Removed references to future roadmap elements as the section is being removed
+                // const showFutureButton = document.getElementById('show-future-button');
+                // const futureTimelineElements = document.querySelectorAll('#line-2-3, #milestone-3, #line-3-4, #milestone-4');
+                // const futureDetailCards = document.querySelectorAll('#phase-detail-3, #phase-detail-4');
 
                 // List of all main collapsible section content IDs (for header visibility logic)
                 const otherMainSectionContentIds = [
                     'organization-content',
                     'metrics-stakeholders-content',
-                    'technical-readiness-content',
+                    // Removed 'technical-readiness-content'
                     'timeline-content',
-                    'workshops-structure-content', // Include this as it's a main section
-                    'implementation-phases-content'
+                    'workshops-structure-content'
+                    // Removed 'implementation-phases-content'
                 ];
 
                 // List of all general toggles for event listener setup
@@ -1723,10 +1701,10 @@
                 const mainCollapsibleTogglesForLogo = Array.from(document.querySelectorAll(
                     '#organization-section .collapsible-toggle, ' +
                     '#metrics-stakeholders-section .collapsible-toggle, ' +
-                    '#technical-readiness-section .collapsible-toggle, ' +
+                    // Removed '#technical-readiness-section .collapsible-toggle, ' +
                     '#timeline-section .collapsible-toggle, ' +
-                    '#workshops-structure-section .collapsible-toggle, ' +
-                    '#implementation-phases-section .collapsible-toggle'
+                    '#workshops-structure-section .collapsible-toggle'
+                    // Removed '#implementation-phases-section .collapsible-toggle'
                 ));
 
                 // Initialize all core functionalities
@@ -1734,7 +1712,8 @@
                 initializeSpmModulesChart(spmModulesCtxElement, workshopsStructureToggle, workshopsStructureContent, mainHeader, spmModuleDetailPanels, otherMainSectionContentIds);
                 setupCollapsibleToggleListeners(allToggles, echostarLogo, mainCollapsibleTogglesForLogo, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
                 setupHeaderTextCarousel(mainTitle, strategyText);
-                setupFutureStatesToggle(showFutureButton, futureTimelineElements, futureDetailCards);
+                // Removed setupFutureStatesToggle call
+                // setupFutureStatesToggle(showFutureButton, futureTimelineElements, futureDetailCards);
                 setLastUpdateTimestamp();
             });
 
