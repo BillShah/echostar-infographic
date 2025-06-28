@@ -1547,7 +1547,7 @@
                 }
                 
                 try {
-                    setInterval(toggleHeaderText, 5000); // Adjust duration as needed
+                    setInterval(toggleHeaderText, 8000); // Adjusted from 5000ms to 8000ms
                 } catch (error) {
                     console.error("Error starting header text carousel interval:", error);
                 }
@@ -1689,10 +1689,8 @@
                 const otherMainSectionContentIds = [
                     'organization-content',
                     'metrics-stakeholders-content',
-                    // Removed 'technical-readiness-content'
                     'timeline-content',
                     'workshops-structure-content'
-                    // Removed 'implementation-phases-content'
                 ];
 
                 // List of all general toggles for event listener setup
@@ -1701,10 +1699,8 @@
                 const mainCollapsibleTogglesForLogo = Array.from(document.querySelectorAll(
                     '#organization-section .collapsible-toggle, ' +
                     '#metrics-stakeholders-section .collapsible-toggle, ' +
-                    // Removed '#technical-readiness-section .collapsible-toggle, ' +
                     '#timeline-section .collapsible-toggle, ' +
                     '#workshops-structure-section .collapsible-toggle'
-                    // Removed '#implementation-phases-section .collapsible-toggle'
                 ));
 
                 // Initialize all core functionalities
@@ -1712,7 +1708,7 @@
                 initializeSpmModulesChart(spmModulesCtxElement, workshopsStructureToggle, workshopsStructureContent, mainHeader, spmModuleDetailPanels, otherMainSectionContentIds);
                 setupCollapsibleToggleListeners(allToggles, echostarLogo, mainCollapsibleTogglesForLogo, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
                 setupHeaderTextCarousel(mainTitle, strategyText);
-                // Removed setupFutureStatesToggle call
+                // Removed setupFutureStatesToggle call as the related HTML section is removed
                 // setupFutureStatesToggle(showFutureButton, futureTimelineElements, futureDetailCards);
                 setLastUpdateTimestamp();
             });
