@@ -1,3 +1,4 @@
+Now see if you see any improvements compared to the last code i shared:
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,90 +8,38 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Define CSS Variables for the entire color palette */
-        :root {
-            --color-background-light: #f0f4ff;
-            --color-background-gradient-start: #f0f4ff;
-            --color-background-gradient-end: #e0eaff;
-            --color-primary-teal: #00A9E0;
-            --color-dark-teal: #007B9E;
-            --color-medium-teal: #0093BD;
-            --color-green: #4CAF50;
-            --color-deep-purple: #7B1FA2;
-            --color-yellow: #FFC107;
-            --color-red: #F44336;
-            --color-orange: #F37021;
-            --color-light-blue: #81D4FA;
-            --color-light-gray-100: #f3f4f6; /* Tailwind gray-100 */
-            --color-gray-200: #e5e7eb; /* Tailwind gray-200 */
-            --color-gray-300: #d1d5db; /* Tailwind gray-300 */
-            --color-gray-500: #6b7280; /* Tailwind gray-500 */
-            --color-gray-600: #4b5563; /* Tailwind gray-600 */
-            --color-gray-700: #374151; /* Tailwind gray-700 */
-            --color-gray-800: #1f2937; /* Tailwind gray-800 */
-            --color-white: #ffffff;
-            --color-black: #000000;
-            --color-red-500: #ef4444; /* For NEW! badge */
-            --color-red-600: #dc2626; /* For NEW! badge hover */
-            --color-yellow-500: #eab308; /* For folder icon */
-            --color-yellow-600: #ca8a04; /* For folder icon hover */
-            --color-tooltip-dark-blue: #2C3E50;
-            --color-tooltip-dark-green: #1A531A;
-            --color-tooltip-purple: #4A148C;
-            --color-tooltip-dark-brown: #5A382A;
-            --color-tooltip-dark-gray: #34495E;
-            --color-timeline-border: #e2e8f0; /* New variable for consistent border color */
-
-            /* Light background colors for module detail sections */
-            --color-demand-light: #E0F7FA;
-            --color-project-light: #D4EDDA;
-            --color-resource-light: #FFFDE7;
-            --color-time-light: #FFF3E0;
-        }
-
         body {
             font-family: 'Open Sans', sans-serif;
-            background-color: var(--color-background-light);
-            background-image: linear-gradient(135deg, var(--color-background-gradient-start) 0%, var(--color-background-gradient-end) 100%);
-            background-size: 200% 200%;
-            animation: backgroundPan 30s linear infinite alternate;
+            background-color: #f0f4ff; /* Lighter background for better contrast */
         }
-
-        @keyframes backgroundPan {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 100% 100%; }
-        }
-
         /* Custom background colors for organizational units */
-        .dish-bg { background-color: var(--color-primary-teal); }
-        .sling-bg { background-color: var(--color-green); }
-        .video-services-bg { background-color: var(--color-deep-purple); }
-        .shared-services-bg { background-color: var(--color-yellow); }
-        .corporate-bg { background-color: var(--color-red); }
-        .wireless-bg { background-color: var(--color-orange); }
-        .hughes-bg { background-color: var(--color-light-blue); }
+        .dish-bg { background-color: #00A9E0; } /* Teal */
+        .sling-bg { background-color: #4CAF50; } /* Green */
+        .video-services-bg { background-color: #7B1FA2; } /* Deep Purple */
+        .shared-services-bg { background-color: #FFC107; } /* Yellow */
+        .corporate-bg { background-color: #F44336; } /* Red */
+        .wireless-bg { background-color: #F37021; } /* Orange */
+        .hughes-bg { background-color: #81D4FA; } /* Light Blue */
 
         /* Teal shades for metrics section (backgrounds for front face) */
-        .spm-modules-front { background-color: var(--color-dark-teal); }
-        .workshows-front { background-color: var(--color-medium-teal); }
-        .workshops-front { background-color: var(--color-primary-teal); }
+        .spm-modules-front { background-color: #007B9E; } /* Darker teal for SPM Modules */
+        .workshows-front { background-color: #0093BD; } /* Medium teal for Workshows */
+        .workshops-front { background-color: #00A9E0; } /* Original teal for Workshops (lighter in context) */
 
 
-        .teal-text { color: var(--color-primary-teal); }
+        .teal-text { color: #00A9E0; } /* Define teal color for text */
         
         .timeline-item::before {
-            content: none;
+            content: none; /* Explicitly remove the pseudo-element content for individual timeline items */
         }
-        .timeline-item.yellow::before { border-color: var(--color-yellow); }
-        .timeline.green::before { border-color: var(--color-green); }
+        .timeline-item.yellow::before { border-color: #FFC107; }
+        .timeline.green::before { border-color: #4CAF50; }
 
         .flow-arrow {
             font-size: 2.5rem;
             line-height: 1;
-            color: var(--color-gray-500);
+            color: #9ca3af;
         }
         .chart-container {
             position: relative;
@@ -104,17 +53,17 @@
         /* Tooltip styles (kept for other sections, e.g., Stakeholder Groups - but now they will be in expandable cards) */
         .tooltip-container {
             position: relative;
-            display: inline-block;
+            display: inline-block; /* Or block, depending on parent */
         }
         .tooltip {
             visibility: hidden;
-            color: var(--color-white);
+            color: #fff;
             text-align: center;
             border-radius: 6px;
             padding: 5px 10px;
             position: absolute;
-            z-index: 100;
-            bottom: 125%;
+            z-index: 100; /* Increased z-index */
+            bottom: 125%; /* Position the tooltip above the text */
             left: 50%;
             transform: translateX(-50%);
             opacity: 0;
@@ -124,13 +73,13 @@
             font-size: 0.875rem;
             line-height: 1.2;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            pointer-events: none;
+            pointer-events: none; /* Allows clicks on elements behind it */
         }
 
         .tooltip::after {
             content: "";
             position: absolute;
-            top: 100%;
+            top: 100%; /* At the bottom of the tooltip */
             left: 50%;
             margin-left: -5px;
             border-width: 5px;
@@ -143,30 +92,25 @@
         }
 
         /* Specific tooltip background colors (kept for other sections) */
-        .tooltip.tooltip-dark-blue { background-color: var(--color-tooltip-dark-blue); }
-        .tooltip.tooltip-dark-blue::after { border-color: var(--color-tooltip-dark-blue) transparent transparent transparent; }
-        .tooltip.tooltip-dark-green { background-color: var(--color-tooltip-dark-green); }
-        .tooltip.tooltip-green::after { border-color: var(--color-tooltip-dark-green) transparent transparent transparent; }
-        .tooltip.tooltip-purple { background-color: var(--color-tooltip-purple); }
-        .tooltip.tooltip-purple::after { border-color: var(--color-tooltip-purple) transparent transparent transparent; }
-        .tooltip.tooltip-dark-brown { background-color: var(--color-tooltip-dark-brown); }
-        .tooltip.tooltip-dark-brown::after { border-color: var(--color-tooltip-dark-brown) transparent transparent transparent; }
-        .tooltip.tooltip-dark-gray { background-color: var(--color-tooltip-dark-gray); }
-        .tooltip.tooltip-gray::after { border-color: var(--color-tooltip-dark-gray) transparent transparent transparent; }
+        .tooltip.tooltip-dark-blue { background-color: #2C3E50; }
+        .tooltip.tooltip-dark-blue::after { border-color: #2C3E50 transparent transparent transparent; }
+        .tooltip.tooltip-dark-green { background-color: #1A531A; }
+        .tooltip.tooltip-green::after { border-color: #1A531A transparent transparent transparent; }
+        .tooltip.tooltip-purple { background-color: #4A148C; }
+        .tooltip.tooltip-purple::after { border-color: #4A148C transparent transparent transparent; }
+        .tooltip.tooltip-dark-brown { background-color: #5A382A; }
+        .tooltip.tooltip-dark-brown::after { border-color: #5A382A transparent transparent transparent; }
+        .tooltip.tooltip-dark-gray { background-color: #34495E; }
+        .tooltip.tooltip-gray::after { border-color: #34495E transparent transparent transparent; }
 
         /* Specific styles for the timeline cards */
         .timeline-card {
-            background-color: var(--color-white);
+            background-color: white;
             border-radius: 0.5rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             padding: 1rem;
             margin-bottom: 1rem;
             position: relative;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-        .timeline-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
         /* IMPORTANT: This removes the bullets from individual timeline cards */
         .timeline-card::before {
@@ -175,29 +119,37 @@
         .timeline-group-title {
             font-weight: bold;
             font-size: 1.25rem;
-            color: var(--color-primary-teal);
+            color: #00A9E0; /* Teal */
             margin-top: 1.5rem;
             margin-bottom: 1rem;
             text-align: left;
-            padding-left: 0;
+            padding-left: 2rem; /* Align with the vertical line */
             position: relative;
         }
         .timeline-group-title::before {
-            content: none;
+            content: '';
+            position: absolute;
+            top: 1.25rem;
+            left: -1.75rem; /* Adjust to align with the vertical line */
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 9999px;
+            background-color: #00A9E0; /* Teal dot */
+            border: 2px solid white;
         }
-
         /* Collapsible specific styles */
         .collapsible-content {
             transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
             opacity: 1;
-            max-height: 2000px;
-            overflow: hidden; /* Changed to hidden for consistent animation, JS controls visibility of internal tooltips */
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
+            max-height: 2000px; /* A large enough value to accommodate content when open */
+            overflow: visible; /* Default to visible when open, allowing tooltips to escape */
+            padding-top: 0.5rem; /* Ensure padding is controlled */
+            padding-bottom: 0.5rem; /* Ensure padding is controlled */
         }
         .collapsible-content.collapsed {
             max-height: 0;
             opacity: 0;
+            overflow: hidden;
             padding-top: 0;
             padding-bottom: 0;
         }
@@ -205,89 +157,65 @@
             transition: transform 0.3s ease-in-out;
         }
         .collapsible-toggle.collapsed .collapsible-icon {
-            transform: rotate(-90deg);
+            transform: rotate(-90deg); /* Rotate up when collapsed */
         }
         /* Adjustments for nested collapsible titles */
         .sub-collapsible-toggle {
-            padding-left: 0;
+            padding-left: 0; /* Remove default padding from timeline-group-title */
             margin-top: 1rem;
             margin-bottom: 0.5rem;
-            font-size: 1.125rem;
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            font-size: 1.125rem; /* Slightly smaller heading for sub-sections */
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* For showing/hiding header */
         }
         .sub-collapsible-toggle.hidden {
             opacity: 0;
             visibility: hidden;
-            height: 0;
+            height: 0; /* Collapse height too */
             margin-top: 0;
             margin-bottom: 0;
         }
 
-        /* NEW: Glowing Plus Icon Styles */
-        .sub-collapsible-toggle .collapsible-icon.glowing-plus {
-            font-size: 3rem;
-            color: var(--color-primary-teal);
-            text-shadow: 0 0 5px rgba(0, 169, 224, 0.5);
-            transition: transform 0.3s ease-in-out, text-shadow 0.5s ease-in-out;
-            animation: pulse-plus 2s infinite alternate;
-            line-height: 1;
-            margin-left: 0;
-            margin-right: 0;
-            width: 1em;
-            text-align: center;
+        .sub-collapsible-toggle .collapsible-icon {
+            font-size: 1.5rem; /* Smaller icon for sub-sections */
         }
-
-        .sub-collapsible-toggle:not(.collapsed) .collapsible-icon.glowing-plus {
-            transform: rotate(45deg);
-            animation: none;
-            text-shadow: none;
-        }
-
-        @keyframes pulse-plus {
-            from { text-shadow: 0 0 5px rgba(0, 169, 224, 0.5), 0 0 10px rgba(0, 169, 224, 0.2); }
-            to { text-shadow: 0 0 15px rgba(0, 169, 224, 0.8), 0 0 25px rgba(0, 169, 224, 0.4); }
-        }
-        /* END NEW: Glowing Plus Icon Styles */
-
-
         /* The .collapsible-content already handles padding: 0.5rem 0.5rem. For the sub-content, we'll control the background within the card itself. */
         .sub-collapsible-content {
-            padding-left: 0;
+            padding-left: 0; /* Remove default padding for content, content within the card will handle its own padding */
         }
         /* Sticky header styles */
         .sticky-header {
             position: sticky;
             top: 0;
-            z-index: 20;
-            background-color: var(--color-background-light);
-            padding: 1rem;
+            z-index: 20; /* Ensure it stays on top of other content */
+            background-color: #f0f4ff; /* Match body background or slightly different */
+            padding: 1rem; /* Adjust to ensure padding is maintained */
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Add transition for smooth hide/show */
         }
         .sticky-header.hidden-header {
-            top: -100px;
-            opacity: 0;
-            pointer-events: none;
+            top: -100px; /* Move out of view */
+            opacity: 0; /* Fade out */
+            pointer-events: none; /* Disable interactions */
         }
 
 
         /* Header Text Carousel Styles */
         #header-text-carousel {
-            height: 100px;
+            height: 100px; /* Adjust based on the tallest content (H1 or P) */
             text-align: center;
         }
 
         .fade-element {
             position: absolute;
             width: 100%;
-            transition: opacity 2s ease-in-out;
+            transition: opacity 2s ease-in-out; /* Smoother transition (2 seconds) */
             opacity: 0;
             visibility: hidden;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            margin: 0 !important;
-            padding: 0 !important;
+            transform: translate(-50%, -50%); /* Center horizontally and vertically */
+            margin: 0 !important; /* Override any lingering margins */
+            padding: 0 !important; /* Override any lingering padding */
         }
 
         .fade-element.active-fade {
@@ -302,7 +230,7 @@
 
         /* Glow effect for DISH box */
         .dish-glow {
-            animation: glow 1.5s infinite alternate;
+            animation: glow 1.5s infinite alternate; /* Adjust duration and timing as needed */
         }
 
         /* H1 Glow effect (only when active) */
@@ -317,11 +245,11 @@
 
         /* H1 text size reduction (20%) */
         #mainTitle {
-            font-size: 1.5rem;
+            font-size: 1.5rem; /* 20% reduction from original text-3xl (1.875rem) */
         }
         @media (min-width: 768px) { /* md breakpoint */
             #mainTitle {
-                font-size: 2.4rem;
+                font-size: 2.4rem; /* 20% reduction from original text-5xl (3rem) */
             }
         }
 
@@ -357,29 +285,29 @@
 
         /* Logo Shrink state */
         .logo-shrink {
-            height: 4rem;
+            height: 4rem; /* Reduced height, e.g., h-16 (64px) */
             transition: height 0.5s ease-in-out, opacity 0.5s ease-in-out;
-            opacity: 0.5;
+            opacity: 0.5; /* Slightly fade out when shrunk */
         }
 
 
         /* 3D Flip Card Styles - General for organizational boxes */
         .flip-card {
             background-color: transparent;
-            perspective: 1000px;
-            width: 140px;
-            height: 140px;
+            perspective: 1000px; /* Needed for 3D effect */
+            width: 140px; /* Fixed width for consistent size */
+            height: 140px; /* Fixed height for consistent card size */
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 0.5rem; /* Match existing border-radius */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Match existing shadow */
         }
 
         /* Responsive adjustments for flip cards in general grid layouts */
         @media (min-width: 768px) { /* md breakpoint */
             .grid-cols-2 .flip-card,
-            .grid-cols-3 .flip-card,
+            .grid-cols-3 .flip-card, /* Added for general flip card responsiveness */
             .grid-cols-7 .flip-card {
                 width: 140px;
                 height: 140px;
@@ -388,11 +316,11 @@
 
         /* Specific adjustments for metric flip cards in Key Metrics & Stakeholder Overview */
         #metrics-stakeholders-section .flip-card {
-            width: 100%;
-            height: 120px;
-            padding: 0;
-            box-shadow: none;
-            overflow: visible;
+            width: 100%; /* Make them fill their grid column */
+            height: 120px; /* Adjusted height for metrics boxes */
+            padding: 0; /* Reset padding to be controlled by inner elements */
+            box-shadow: none; /* Remove outer shadow, it will be applied to inner faces */
+            overflow: visible; /* Ensure content is not clipped by fixed dimensions */
         }
 
         /* Styles for the inner parts of the flip card (front and back) */
@@ -401,9 +329,9 @@
             width: 100%;
             height: 100%;
             text-align: center;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-            border-radius: inherit;
+            transition: transform 0.8s; /* Smooth flip animation */
+            transform-style: preserve-3d; /* Keep children in 3D space */
+            border-radius: inherit; /* Inherit rounded corners */
         }
 
         .flip-card:hover .flip-card-inner {
@@ -414,74 +342,74 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            -webkit-backface-visibility: hidden;
+            -webkit-backface-visibility: hidden; /* Hide the back of the card when flipped */
             backface-visibility: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 0.75rem;
-            border-radius: inherit;
-            box-sizing: border-box;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 0.75rem; /* Consistent padding for content inside */
+            border-radius: inherit; /* Inherit rounded corners from flip-card */
+            box-sizing: border-box; /* Include padding in the element's total width and height */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Apply shadow directly to front/back faces */
         }
         
         /* Default styling for the back face for organizational cards */
         .flip-card-back {
-            transform: rotateY(180deg);
-            color: var(--color-white);
-            font-size: 0.8rem;
+            transform: rotateY(180deg); /* Initially hidden */
+            color: #fff; /* Default white text for organizational cards */
+            font-size: 0.8rem; /* Consistent font size */
             line-height: 1.3;
             text-align: center;
         }
 
         /* Apply background colors to front and back for organizational flip cards */
-        .dish-bg .flip-card-front, .dish-bg .flip-card-back { background-color: var(--color-primary-teal); color: var(--color-white); }
-        .sling-bg .flip-card-front, .sling-bg .flip-card-back { background-color: var(--color-green); color: var(--color-white); }
-        .video-services-bg .flip-card-front, .video-services-bg .flip-card-back { background-color: var(--color-deep-purple); color: var(--color-white); }
-        .shared-services-bg .flip-card-front, .shared-services-bg .flip-card-back { background-color: var(--color-yellow); color: var(--color-black); }
-        .corporate-bg .flip-card-front, .corporate-bg .flip-card-back { background-color: var(--color-red); color: var(--color-white); }
-        .wireless-bg .flip-card-front, .wireless-bg .flip-card-back { background-color: var(--color-orange); color: var(--color-black); }
-        .hughes-bg .flip-card-front, .hughes-bg .flip-card-back { background-color: var(--color-light-blue); color: var(--color-black); }
+        .dish-bg .flip-card-front, .dish-bg .flip-card-back { background-color: #00A9E0; color: white; }
+        .sling-bg .flip-card-front, .sling-bg .flip-card-back { background-color: #4CAF50; color: white; }
+        .video-services-bg .flip-card-front, .video-services-bg .flip-card-back { background-color: #7B1FA2; color: white; }
+        .shared-services-bg .flip-card-front, .shared-services-bg .flip-card-back { background-color: #FFC107; color: black; } /* Adjusted for visibility */
+        .corporate-bg .flip-card-front, .corporate-bg .flip-card-back { background-color: #F44336; color: white; }
+        .wireless-bg .flip-card-front, .wireless-bg .flip-card-back { background-color: #F37021; color: black; } /* Adjusted for visibility */
+        .hughes-bg .flip-card-front, .hughes-bg .flip-card-back { background-color: #81D4FA; color: black; } /* Adjusted for visibility */
 
         /* Ensure text on yellow/red/orange backgrounds remains readable on both sides */
         .shared-services-bg .flip-card-front strong,
         .corporate-bg .flip-card-front strong,
         .wireless-bg .flip-card-front strong {
-            color: inherit;
+            color: inherit; /* Inherit color from parent .flip-card-front */
         }
         .shared-services-bg .flip-card-back,
         .corporate-bg .flip-card-back,
         .wireless-bg .flip-card-back {
-            color: inherit;
+            color: inherit; /* Inherit color from parent .flip-card-back */
         }
 
 
         /* --- Specific Metric Flip Card Styling (Key Metrics Section) --- */
         #metrics-stakeholders-section .flip-card-front {
-            color: var(--color-white);
+            color: white; /* Set all text on the front of metric cards to white */
         }
         #metrics-stakeholders-section .flip-card-front .teal-text {
-            color: var(--color-white);
+            color: white; /* Ensure the large number is also white on colored backgrounds */
         }
 
         /* Apply specific background colors to the front faces of metric cards */
-        #metrics-stakeholders-section .spm-modules-front { background-color: var(--color-dark-teal); }
-        .workshows-front { background-color: var(--color-medium-teal); }
-        .workshops-front { background-color: var(--color-primary-teal); }
+        #metrics-stakeholders-section .spm-modules-front { background-color: #007B9E; } /* Dark Teal */
+        .workshows-front { background-color: #0093BD; } /* Medium teal for Workshows */
+        .workshops-front { background-color: #00A9E0; } /* Light Teal */
 
         /* Override general .flip-card-back styles for metric cards */
         #metrics-stakeholders-section .flip-card-back {
-            background-color: var(--color-white);
-            color: var(--color-primary-teal);
-            font-size: 0.85rem;
+            background-color: white; /* White background for back face */
+            color: #00A9E0; /* Blue text for back face */
+            font-size: 0.85rem; /* Slightly larger font for metrics back */
             line-height: 1.3;
             text-align: center;
         }
 
         /* New styles for stakeholder group expandable cards */
         .stakeholder-card {
-            background-color: var(--color-white);
+            background-color: white;
             border-radius: 0.5rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             padding: 1rem;
@@ -505,13 +433,13 @@
             align-items: center;
             cursor: pointer;
             padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--color-timeline-border);
+            border-bottom: 1px solid #e2e8f0;
             font-weight: bold;
-            color: var(--color-gray-700);
+            color: #333;
             transition: color 0.3s ease-in-out;
         }
         .stakeholder-card-toggle:hover {
-            color: var(--color-primary-teal);
+            color: #00A9E0;
         }
         .stakeholder-card-content {
             max-height: 500px;
@@ -530,7 +458,7 @@
         .stakeholder-card-toggle .collapsible-icon {
             transition: transform 0.3s ease-in-out;
             font-size: 1.25rem;
-            color: var(--color-gray-500);
+            color: #9ca3af;
             margin-left: 0.5rem;
         }
         .stakeholder-card-toggle:not(.collapsed) .collapsible-icon {
@@ -549,14 +477,14 @@
         .custom-bullet-list li {
             position: relative;
             margin-bottom: 0.25rem;
-            color: var(--color-gray-600);
+            color: #555;
             text-align: left;
             padding-left: 1.2em;
         }
 
         .custom-bullet-list li::before {
             content: '\2713';
-            color: var(--color-primary-teal);
+            color: #00A9E0;
             font-size: 0.9rem;
             position: absolute;
             left: 0;
@@ -568,7 +496,7 @@
         /* NEW specific styles for the 4-point roadmap timeline */
         .roadmap-timeline {
             display: flex;
-            align-items: center;
+            align-items: center; /* Ensures dots and lines are vertically centered relative to each other */
             justify-content: space-between;
             margin: 40px auto;
             width: calc(100% - 20px);
@@ -583,16 +511,16 @@
             position: relative;
             z-index: 2;
             padding: 0 5px;
-            flex-basis: 0;
+            flex-basis: 0; /* Important for flex-grow */
         }
 
         .roadmap-milestone.active {
-            color: var(--color-black);
+            color: #000;
             font-weight: 600;
         }
 
         .roadmap-milestone.future {
-            color: var(--color-gray-500);
+            color: #9aa3ad;
         }
 
         .roadmap-dot {
@@ -605,27 +533,27 @@
             font-size: 1.5rem;
             font-weight: bold;
             box-sizing: border-box;
-            margin-bottom: 8px;
+            margin-bottom: 8px; /* Space between dot and label */
         }
 
         .roadmap-milestone.active .roadmap-dot {
-            background-color: var(--color-primary-teal);
-            color: var(--color-white);
-            border: 2px solid var(--color-primary-teal);
+            background-color: #00A9E0;
+            color: white;
+            border: 2px solid #00A9E0;
         }
 
         .roadmap-milestone.future .roadmap-dot {
             background-color: transparent;
-            border: 2px solid var(--color-gray-500);
-            color: var(--color-gray-500);
+            border: 2px solid #9aa3ad;
+            color: #9aa3ad;
         }
 
         /* Added a new class for the text content within milestones for consistent height */
         .roadmap-text-content {
-            min-height: 60px;
+            min-height: 60px; /* ALIGNMENT FIX: Ensures consistent height for all text blocks */
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: center; /* Vertically center text within its fixed height */
             align-items: center;
         }
 
@@ -638,12 +566,12 @@
         }
 
         .roadmap-line.active-line {
-            background-color: var(--color-primary-teal);
+            background-color: #00A9E0;
             flex-grow: 3;
         }
 
         .roadmap-line.dashed-line {
-            background-image: linear-gradient(to right, var(--color-gray-500) 50%, transparent 50%);
+            background-image: linear-gradient(to right, #9aa3ad 50%, transparent 50%);
             background-size: 16px 4px;
             background-repeat: repeat-x;
             flex-grow: 1;
@@ -665,8 +593,8 @@
 
         /* Future states button */
         .future-states-button {
-            background-color: var(--color-orange);
-            color: var(--color-white);
+            background-color: #F37021;
+            color: white;
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
             font-weight: bold;
@@ -678,13 +606,13 @@
             text-align: center;
         }
         .future-states-button:hover {
-            background-color: #E26012; /* Darker orange */
+            background-color: #E26012;
             transform: translateY(-2px);
         }
 
         /* Styles for detailed phase description cards */
         .phase-detail-card {
-            background-color: var(--color-white);
+            background-color: white;
             border-radius: 0.5rem;
             padding: 1.25rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.08);
@@ -693,14 +621,14 @@
             justify-content: space-between;
         }
         .phase-detail-card h5 {
-            color: var(--color-primary-teal);
+            color: #00A9E0;
             font-weight: bold;
             font-size: 1.125rem;
             margin-bottom: 0.5rem;
         }
         .phase-detail-card p {
             font-size: 0.875rem;
-            color: var(--color-gray-700);
+            color: #333;
             line-height: 1.4;
             margin-bottom: 0.75rem;
         }
@@ -714,11 +642,11 @@
             padding-left: 1.2em;
             margin-bottom: 0.25rem;
             font-size: 0.875rem;
-            color: var(--color-gray-600);
+            color: #555;
         }
         .phase-detail-card ul li::before {
             content: '\2713';
-            color: var(--color-primary-teal);
+            color: #00A9E0;
             font-size: 0.9em;
             position: absolute;
             left: 0;
@@ -726,43 +654,11 @@
         }
 
         /* NEW: Light background colors for module detail sections */
-        .demand-bg-light { background-color: var(--color-demand-light); }
-        .project-bg-light { background-color: var(--color-project-light); }
-        .resource-bg-light { background-color: var(--color-resource-light); }
-        .time-bg-light { background-color: var(--color-time-light); }
-
-        /* Styles for the omnipresent reset button */
-        #resetButton {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background-color: var(--color-red);
-            color: var(--color-white);
-            border-radius: 9999px;
-            padding: 1rem 1.25rem;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            z-index: 1000;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            text-align: center;
-        }
-
-        #resetButton:hover {
-            background-color: #D32F2F; /* Darker red on hover */
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-        }
-
-        #resetButton i {
-            font-size: 1.25rem;
-        }
+        /* Apply to the content div for full background */
+        .demand-bg-light { background-color: #E0F7FA; /* Light Blue */ }
+        .project-bg-light { background-color: #D4EDDA; /* Light Green */ }
+        .resource-bg-light { background-color: #FFFDE7; /* Light Yellow */ }
+        .time-bg-light { background-color: #FFF3E0; /* Light Orange */ }
 
     </style>
 </head>
@@ -1008,24 +904,18 @@
         </section>
 
         <section id="timeline-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
-            <!-- UPDATED: Artifacts link moved to individual cards -->
             <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="timeline-content" tabindex="0" role="button" aria-expanded="false" aria-controls="timeline-content">
                 <h3 class="text-2xl font-bold teal-text mb-0">Engagement Timeline</h3>
-                <!-- NEW: Last Updated Timestamp for Timeline Section -->
-                <p id="timelineLastUpdated" class="text-xs text-gray-500 ml-auto mr-4">Last updated on...</p>
-                <!-- END NEW: Last Updated Timestamp -->
                 <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
             </div>
             <div id="timeline-content" class="collapsible-content collapsed">
                 <p class="text-center text-gray-500 text-sm mb-6 mt-6">All times are listed in Mountain Time (MT).</p>
-                <!-- Removed pl-8 border-l-4 border-gray-200 from this div -->
-                <div class="relative"> 
+                <div class="relative pl-8 border-l-4 border-gray-200">
                     
                     <div class="mb-4">
                         <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="previews-content" tabindex="0" role="button" aria-expanded="false" aria-controls="previews-content">
                             <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Planning Previews (2 sessions)</h4>
-                            <!-- REPLACED ICON -->
-                            <span class="collapsible-icon glowing-plus">+</span>
+                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
                         </div>
                         <div id="previews-content" class="collapsible-content sub-collapsible-content collapsed">
                             <div class="timeline-card">
@@ -1033,24 +923,12 @@
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 23, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 45 min</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core (Laura, Sarah, Managers and Intact leads)</p>
-                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
-                                    <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
-                                    <span class="text-sm font-semibold">View Artifacts</span>
-                                </a>
-                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800"><strong>2. Preview B – Resource & Timecard</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 30, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 45 min</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core team</p>
-                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
-                                    <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
-                                    <span class="text-sm font-semibold">View Artifacts</span>
-                                </a>
-                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                         </div>
                     </div>
@@ -1058,8 +936,7 @@
                     <div class="mb-4">
                         <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshows-content" tabindex="0" role="button" aria-expanded="false" aria-controls="workshows-content">
                             <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Workshows (demos)</h4>
-                            <!-- REPLACED ICON -->
-                            <span class="collapsible-icon glowing-plus">+</span>
+                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
                         </div>
                         <div id="workshows-content" class="collapsible-content sub-collapsible-content collapsed">
                             <div class="timeline-card">
@@ -1067,36 +944,18 @@
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Wednesday, June 25, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
-                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD - UNIQUE LINK -->
-                                <a href="https://drive.google.com/drive/folders/1sMHDHscoBQf9d2EOlvRob4uEvkxGnvPh?usp=drive_link" target="_blank" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
-                                    <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
-                                    <span class="text-sm font-semibold">View Artifacts (Demand Specific)</span>
-                                </a>
-                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800"><strong>2. Project</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 1, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
-                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
-                                    <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
-                                    <span class="text-sm font-semibold">View Artifacts</span>
-                                </a>
-                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800"><strong>3. Resource / Timecard</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 8, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
-                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
-                                    <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
-                                    <span class="text-sm font-semibold">View Artifacts</span>
-                                </a>
-                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                         </div>
                     </div>
@@ -1104,8 +963,7 @@
                     <div class="mb-4">
                         <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="workshops-content" tabindex="0" role="button" aria-expanded="false" aria-controls="workshops-content">
                             <h4 class="timeline-group-title !mt-0 !mb-0 !p-0">Workshops (requirements-gathering)</h4>
-                            <!-- REPLACED ICON -->
-                            <span class="collapsible-icon glowing-plus">+</span>
+                            <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
                         </div>
                         <div id="workshops-content" class="collapsible-content sub-collapsible-content collapsed">
                             <div class="timeline-card">
@@ -1113,60 +971,28 @@
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Thursday, July 10, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
-                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
-                                    <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
-                                    <span class="text-sm font-semibold">View Artifacts</span>
-                                </a>
-                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800"><strong>2. Demand – Business</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Friday, July 11, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
-                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
-                                    <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
-                                    <span class="text-sm font-semibold">View Artifacts</span>
-                                </a>
-                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
-                                <p class="text-sm text-gray-600"><strong>3. Project – IT</strong></p>
-                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 14, 2025</p>
+                                <p class="text-md font-semibold text-gray-800"><strong>3. Project – IT</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
-                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
-                                    <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
-                                    <span class="text-sm font-semibold">View Artifacts</span>
-                                </a>
-                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
                                 <p class="text-sm text-gray-600"><strong>4. Project – Business</strong></p>
-                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 15, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
-                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
-                                    <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
-                                    <span class="text-sm font-semibold">View Artifacts</span>
-                                </a>
-                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800"><strong>5. Resource/TC – IT</strong></p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 21, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
-                                <!-- ARTIFACTS LINK FOR INDIVIDUAL CARD -->
-                                <a href="#" data-artifacts-link="true" class="flex items-center text-gray-600 hover:text-teal-700 transition-colors duration-200 mt-2">
-                                    <i class="fas fa-folder text-xl mr-2 text-yellow-500 hover:text-yellow-600"></i>
-                                    <span class="text-sm font-semibold">View Artifacts</span>
-                                </a>
-                                <!-- END ARTIFACTS LINK FOR INDIVIDUAL CARD -->
                             </div>
                         </div>
                     </div>
@@ -1233,7 +1059,7 @@
                             <li>Business Relationship Managers</li>
                             <li>Portfolio Managers</li>
                         </ul>
-                        <h5 class="font-bold text-md mt-4">Key Topics:</h4>
+                        <h5 class="font-bold text-md mt-4">Key Topics:</h5>
                         <ul class="custom-bullet-list">
                             <li>Demand Catalog Item</li>
                             <li>Demand Record</li>
@@ -1413,12 +1239,6 @@
 
     </div>
 
-    <!-- The omnipresent reset button -->
-    <button id="resetButton" aria-label="Reset View">
-        <i class="fas fa-undo-alt"></i>
-        <span>Reset View</span>
-    </button>
-
     <script>
         /**
          * The main entry point for the JavaScript logic, ensuring the DOM is fully loaded.
@@ -1426,19 +1246,12 @@
          */
         (function() { // Start of IIFE
 
-            // Centralized JavaScript Constants for frequently used values
-            const DEFAULT_ARTIFACTS_FOLDER_URL = 'https://drive.google.com/drive/u/1/home';
-            // Specific URL for the "1. Demand" workshow
-            const DEMAND_WORKSHOW_ARTIFACTS_URL = 'https://drive.google.com/drive/folders/1sMHDHscoBQf9d2EOlvRob4uEvkxGnvPh?usp=drive_link';
-
-
             /**
              * Helper function to consistently manage the collapsed/expanded state of content sections.
              * This ensures proper class toggling, ARIA attribute updates, and icon changes.
              * @param {HTMLElement} contentElement - The content div that needs to be collapsed or expanded.
              * @param {HTMLElement} toggleElement - The toggle button/header associated with the content.
              * @param {boolean} isCollapsed - True to collapse the element, false to expand it.
-             * @returns {void}
              */
             function setCollapsedState(contentElement, toggleElement, isCollapsed) {
                 if (contentElement) {
@@ -1452,46 +1265,20 @@
                     if (isCollapsed) {
                         toggleElement.classList.add('collapsed');
                         toggleElement.setAttribute('aria-expanded', 'false');
-                        // Special handling for glowing-plus icon
-                        const glowingPlusIcon = toggleElement.querySelector('.collapsible-icon.glowing-plus');
-                        if (glowingPlusIcon) {
-                            glowingPlusIcon.textContent = '+'; // Ensure it's a plus
-                            glowingPlusIcon.classList.remove('rotate-45'); // Remove rotation
-                            glowingPlusIcon.style.animationPlayState = 'running'; // Resume animation
-                            glowingPlusIcon.style.textShadow = ''; // Restore text-shadow via CSS animation
-                        } else {
-                            const icon = toggleElement.querySelector('.collapsible-icon');
-                            if (icon) icon.textContent = '▼'; // Point down when collapsed
-                        }
+                        const icon = toggleElement.querySelector('.collapsible-icon');
+                        if (icon) icon.textContent = '▼'; // Point down when collapsed
                     } else {
                         toggleElement.classList.remove('collapsed');
                         toggleElement.setAttribute('aria-expanded', 'true');
-                        // Special handling for glowing-plus icon
-                        const glowingPlusIcon = toggleElement.querySelector('.collapsible-icon.glowing-plus');
-                        if (glowingPlusIcon) {
-                            glowingPlusIcon.textContent = '+'; // Keep it a plus, CSS will rotate
-                            glowingPlusIcon.classList.add('rotate-45'); // Add rotation for 'X' effect
-                            glowingPlusIcon.style.animationPlayState = 'paused'; // Pause animation
-                            glowingPlusIcon.style.textShadow = 'none'; // Remove glow effect directly
-                        } else {
-                            const icon = toggleElement.querySelector('.collapsible-icon');
-                            if (icon) icon.textContent = '▲'; // Point up when expanded
-                        }
+                        const icon = toggleElement.querySelector('.collapsible-icon');
+                        if (icon) icon.textContent = '▲'; // Point up when expanded
                     }
                 }
             }
 
-            /**
-             * Initializes the optional Stakeholder Chart. This chart is not actively displayed
-             * in the current HTML layout but its initialization logic is maintained for completeness.
-             * @param {HTMLCanvasElement} stakeholderCanvas - The canvas element for the stakeholder chart.
-             * @returns {void}
-             */
-            function initializeStakeholderChart(stakeholderCanvas) {
-                if (!stakeholderCanvas) {
-                    console.warn("Stakeholder chart canvas element not found, skipping initialization.");
-                    return;
-                }
+            // Original Stakeholder Chart (Not currently used by any visible canvas element in your layout, but kept for completeness if needed elsewhere)
+            const stakeholderCanvas = document.getElementById('stakeholderChart');
+            if (stakeholderCanvas) {
                 try {
                     const stakeholderCtx = stakeholderCanvas.getContext('2d');
                     new Chart(stakeholderCtx, {
@@ -1502,12 +1289,12 @@
                                 label: 'Business PMO Contacts',
                                 data: [90, 10],
                                 backgroundColor: [
-                                    'var(--color-primary-teal)',
-                                    'var(--color-gray-200)'
+                                    '#00A9E0',
+                                    '#e5e7eb'
                                 ],
                                 borderColor: [
-                                    'var(--color-white)',
-                                    'var(--color-white)'
+                                    '#FFFFFF',
+                                    '#FFFFFF'
                                 ],
                                 borderWidth: 4
                             }]
@@ -1551,26 +1338,32 @@
              * 2. AND at least one of its module detail *panels* (Demand, Project, Resource, Time Management) is visible.
              * 3. AND NO other primary top-level section (e.g., Organizational Landscape, Engagement Timeline) is open.
              * In all other cases, the header remains sticky/visible.
-             * @param {HTMLElement} mainHeader - The main header element to control.
-             * @param {HTMLElement} workshopsStructureContent - The content element of the 'Workshows & Workshops Structure' section.
-             * @param {NodeListOf<Element>} spmModuleDetailPanels - A NodeList of all SPM module detail panel elements.
-             * @param {Array<string>} otherMainSectionContentIds - An array of IDs for other primary section content elements.
-             * @returns {void}
              */
-            const manageHeaderVisibility = (mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds) => {
+            const manageHeaderVisibility = () => {
                 try {
+                    const mainHeader = document.getElementById('mainHeader');
                     if (!mainHeader) {
-                        console.warn("manageHeaderVisibility: Main header element not found, cannot manage visibility.");
+                        console.warn("manageHeaderVisibility: Main header element not found.");
                         return;
                     }
 
                     // 1. Check if the 'Workshows & Workshops Structure' main section is currently expanded.
+                    const workshopsStructureContent = document.getElementById('workshops-structure-content');
                     const isWorkshopsStructureOpen = workshopsStructureContent && !workshopsStructureContent.classList.contains('collapsed');
 
                     // 2. Check if any specific module detail *panel* within 'Workshows & Workshops Structure' is currently visible.
-                    const anyModuleDetailPanelVisible = Array.from(spmModuleDetailPanels).some(panel => !panel.classList.contains('hidden')); // Ensured Array.from for NodeList
+                    // These panels are the outer containers with class 'spm-module-detail-panel'.
+                    const spmModuleDetailPanels = Array.from(document.querySelectorAll('.spm-module-detail-panel'));
+                    const anyModuleDetailPanelVisible = spmModuleDetailPanels.some(panel => !panel.classList.contains('hidden'));
 
                     // 3. Check if any *other* primary top-level section (excluding the 'Workshows & Workshops Structure' itself) is open.
+                    const otherMainSectionContentIds = [
+                        'organization-content',
+                        'metrics-stakeholders-content',
+                        'technical-readiness-content',
+                        'timeline-content',
+                        'implementation-phases-content'
+                    ];
                     const anyOtherMainSectionOpen = otherMainSectionContentIds.some(id => {
                         const content = document.getElementById(id);
                         // Ensure the content element exists and is not collapsed
@@ -1594,22 +1387,16 @@
              * Initial setup for all collapsible sections on page load:
              * All sections start collapsed by default, except the SPM Modules Chart content.
              * Also ensures module detail panels are hidden initially.
-             * @param {NodeListOf<Element>} allToggles - A NodeList of all collapsible toggle elements.
-             * @param {HTMLElement} mainHeader - The main header element for visibility management.
-             * @param {HTMLElement} workshopsStructureContent - The content element of the 'Workshows & Workshops Structure' section.
-             * @param {NodeListOf<Element>} spmModuleDetailPanels - A NodeList of all SPM module detail panel elements.
-             * @param {Array<string>} otherMainSectionContentIds - An array of IDs for other primary section content elements.
-             * @returns {void}
              */
-            function initializeCollapsibleSections(allToggles, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds) {
-                allToggles.forEach(toggle => {
+            function initializeCollapsibleSections() {
+                document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle, .stakeholder-card-toggle').forEach(toggle => {
                     try {
                         const targetContentId = toggle.dataset.target;
                         const targetContentElement = document.getElementById(targetContentId);
                         
                         if (!targetContentElement) {
                             console.error(`Initialization Error: Target content with ID "${targetContentId}" not found for toggle:`, toggle);
-                            return;
+                            return; // Skip this toggle if its target content is missing
                         }
 
                         // If it's the SPM Modules Chart content, ensure it's uncollapsed initially.
@@ -1619,7 +1406,7 @@
                             setCollapsedState(targetContentElement, toggle, true); // Initialize all other sections as collapsed
                         }
 
-                        // For specific module detail sections, ensure their entire panel is hidden on load.
+                        // For specific module detail sections (Demand, Project, etc.), ensure their entire panel is hidden on load.
                         if (targetContentId.includes('-details-content')) {
                             toggle.classList.add('hidden'); // Hide the toggle button itself
                             const parentPanel = targetContentElement.closest('.spm-module-detail-panel');
@@ -1627,22 +1414,11 @@
                                 parentPanel.classList.add('hidden'); // Hide the entire panel container
                             }
                         }
-                        // For glowing-plus icons, ensure initial state is collapsed (plus sign) and animation is running
-                        if (toggle.querySelector('.collapsible-icon.glowing-plus')) {
-                            setCollapsedState(targetContentElement, toggle, true); // Ensure collapsed state
-                            const icon = toggle.querySelector('.collapsible-icon.glowing-plus');
-                            if (icon) {
-                                icon.classList.remove('rotate-45');
-                                icon.style.animationPlayState = 'running'; // Ensure animation is running
-                                icon.style.textShadow = ''; // Ensure text shadow is set by animation
-                            }
-                        }
                     } catch (error) {
                         console.error("Error during initial toggle setup:", error);
                     }
                 });
-                // Call header visibility manager once after initial setup.
-                manageHeaderVisibility(mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
+                manageHeaderVisibility(); // Call header visibility manager once after initial setup.
             }
 
             /**
@@ -1650,169 +1426,171 @@
              * On slice click, it expands the parent 'Workshows & Workshops Structure' section
              * (if collapsed), then hides all other module detail panels and reveals the clicked one.
              * Finally, it updates the main header visibility.
-             * @param {HTMLCanvasElement} spmModulesCtxElement - The canvas element for the SPM modules chart.
-             * @param {HTMLElement} workshopsStructureToggle - The toggle element for the 'Workshows & Workshops Structure' section.
-             * @param {HTMLElement} workshopsStructureContent - The content element for the 'Workshows & Workshops Structure' section.
-             * @param {HTMLElement} mainHeader - The main header element for visibility management.
-             * @param {NodeListOf<Element>} spmModuleDetailPanels - A NodeList of all SPM module detail panel elements.
-             * @param {Array<string>} otherMainSectionContentIds - An array of IDs for other primary section content elements.
-             * @returns {void}
              */
-            function initializeSpmModulesChart(spmModulesCtxElement, workshopsStructureToggle, workshopsStructureContent, mainHeader, spmModuleDetailPanels, otherMainSectionContentIds) {
-                if (!spmModulesCtxElement) {
-                    console.warn("SPM Modules chart canvas element not found, skipping initialization.");
-                    return;
-                }
-                try {
-                    const spmModulesChart = new Chart(spmModulesCtxElement.getContext('2d'), {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['Demand Management', 'Project Management', 'Resource Management', 'Time Management'],
-                            datasets: [{
-                                label: 'Business PMO Contacts',
-                                data: [40, 30, 20, 10], // Relative sizes: Demand > Project > Resource > Time
-                                backgroundColor: [
-                                    'var(--color-primary-teal)',
-                                    'var(--color-green)',
-                                    'var(--color-yellow)',
-                                    'var(--color-orange)'
-                                ],
-                                borderColor: 'var(--color-white)',
-                                borderWidth: 4
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            cutout: '70%',
-                            plugins: {
-                                legend: {
-                                    position: 'bottom', // Show legend at the bottom
-                                    labels: {
-                                        color: 'var(--color-gray-700)'
+            function initializeSpmModulesChart() {
+                const spmModulesCtxElement = document.getElementById('spmModulesChart'); // Renamed for clarity
+                if (spmModulesCtxElement) {
+                    try {
+                        const spmModulesChart = new Chart(spmModulesCtxElement.getContext('2d'), { // Store chart instance
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Demand Management', 'Project Management', 'Resource Management', 'Time Management'],
+                                datasets: [{
+                                    data: [40, 30, 20, 10], // Relative sizes: Demand > Project > Resource > Time
+                                    backgroundColor: [
+                                        '#00A9E0', // Teal for Demand
+                                        '#4CAF50', // Green for Project
+                                        '#FFC107', // Yellow for Resource
+                                        '#F37021'  // Orange for Time
+                                    ],
+                                    borderColor: '#FFFFFF',
+                                    borderWidth: 4
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                cutout: '70%',
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom', // Show legend at the bottom
+                                        labels: {
+                                            color: '#333' // Legend text color
+                                        }
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(tooltipItem) {
+                                                return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                                            }
+                                        }
                                     }
                                 },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(tooltipItem) {
-                                            return tooltipItem.label + ': ' + tooltipItem.raw + '%';
-                                        }
-                                    }
-                                }
-                            },
-                            onClick: (event, elements) => {
-                                try {
-                                    if (elements.length > 0) {
-                                        const clickedElementIndex = elements[0].index;
-                                        const clickedLabel = spmModulesChart.data.labels[clickedElementIndex];
+                                onClick: (event, elements) => {
+                                    try {
+                                        // Check if a slice was actually clicked
+                                        if (elements.length > 0) {
+                                            const clickedElementIndex = elements[0].index;
+                                            const clickedLabel = spmModulesChart.data.labels[clickedElementIndex];
 
-                                        // Ensure the parent 'Workshows & Workshops Structure' section is expanded
-                                        if (workshopsStructureContent && workshopsStructureContent.classList.contains('collapsed')) {
-                                            setCollapsedState(workshopsStructureContent, workshopsStructureToggle, false); // Explicitly expand parent
-                                        }
+                                            const workshopsStructureToggle = document.querySelector('#workshops-structure-section .collapsible-toggle');
+                                            const workshopsStructureContent = document.getElementById('workshops-structure-content');
 
-                                        // Map of all module details including their panel elements
-                                        const moduleDetailsMap = {
-                                            'Demand Management': {
-                                                panel: document.getElementById('demand-management-details-panel'),
-                                                content: document.getElementById('demand-management-details-content'),
-                                                toggle: document.getElementById('demand-management-details-content').previousElementSibling,
-                                                bgColorClass: 'demand-bg-light'
-                                            },
-                                            'Project Management': {
-                                                panel: document.getElementById('project-management-details-panel'),
-                                                content: document.getElementById('project-management-details-content'),
-                                                toggle: document.getElementById('project-management-details-content').previousElementSibling,
-                                                bgColorClass: 'project-bg-light'
-                                            },
-                                            'Resource Management': {
-                                                panel: document.getElementById('resource-management-details-panel'),
-                                                content: document.getElementById('resource-management-details-content'),
-                                                toggle: document.getElementById('resource-management-details-content').previousElementSibling,
-                                                bgColorClass: 'resource-bg-light'
-                                            },
-                                            'Time Management': {
-                                                panel: document.getElementById('time-management-details-panel'),
-                                                content: document.getElementById('time-management-details-content'),
-                                                toggle: document.getElementById('time-management-details-content').previousElementSibling,
-                                                bgColorClass: 'time-bg-light'
+                                            // IMP: Ensure the parent 'Workshows & Workshops Structure' section is expanded
+                                            // This ensures the header visibility logic has the correct parent state.
+                                            if (workshopsStructureContent && workshopsStructureContent.classList.contains('collapsed')) {
+                                                setCollapsedState(workshopsStructureContent, workshopsStructureToggle, false); // Explicitly expand parent
                                             }
-                                        };
 
-                                        // Iterate through all module details to manage their visibility (hide others, show clicked)
-                                        for (const labelKey in moduleDetailsMap) {
-                                            const module = moduleDetailsMap[labelKey];
-                                            // Ensure all necessary elements for this module exist
-                                            if (module.panel && module.content && module.toggle) {
-                                                if (labelKey === clickedLabel) { // This is the module corresponding to the clicked slice
-                                                    // Toggle visibility: If already open, close it; otherwise, open it.
-                                                    const isCurrentlyOpen = !module.content.classList.contains('collapsed');
+                                            // Map of all module details including their panel elements
+                                            const moduleDetailsMap = {
+                                                'Demand Management': {
+                                                    panel: document.getElementById('demand-management-details-panel'),
+                                                    content: document.getElementById('demand-management-details-content'),
+                                                    toggle: document.getElementById('demand-management-details-content').previousElementSibling,
+                                                    bgColorClass: 'demand-bg-light'
+                                                },
+                                                'Project Management': {
+                                                    panel: document.getElementById('project-management-details-panel'),
+                                                    content: document.getElementById('project-management-details-content'),
+                                                    toggle: document.getElementById('project-management-details-content').previousElementSibling,
+                                                    bgColorClass: 'project-bg-light'
+                                                },
+                                                'Resource Management': {
+                                                    panel: document.getElementById('resource-management-details-panel'),
+                                                    content: document.getElementById('resource-management-details-content'),
+                                                    toggle: document.getElementById('resource-management-details-content').previousElementSibling,
+                                                    bgColorClass: 'resource-bg-light'
+                                                },
+                                                'Time Management': {
+                                                    panel: document.getElementById('time-management-details-panel'),
+                                                    content: document.getElementById('time-management-details-content'),
+                                                    toggle: document.getElementById('time-management-details-content').previousElementSibling,
+                                                    bgColorClass: 'time-bg-light'
+                                                }
+                                            };
 
-                                                    // Manage the entire panel's visibility
-                                                    if (isCurrentlyOpen) {
-                                                        module.panel.classList.add('hidden'); // Hide the entire panel
-                                                    } else {
-                                                        module.panel.classList.remove('hidden'); // Show the entire panel
-                                                    }
-                                                    
-                                                    // Manage the content and its toggle/icon
-                                                    setCollapsedState(module.content, module.toggle, isCurrentlyOpen); // Set to collapsed if already open, else uncollapsed
+                                            // Iterate through all module details to manage their visibility (hide others, show clicked)
+                                            for (const labelKey in moduleDetailsMap) {
+                                                const module = moduleDetailsMap[labelKey];
+                                                // Ensure all necessary elements for this module exist
+                                                if (module.panel && module.content && module.toggle) {
+                                                    if (labelKey === clickedLabel) { // This is the module corresponding to the clicked slice
+                                                        // Toggle visibility: If already open, close it; otherwise, open it.
+                                                        const isCurrentlyOpen = !module.content.classList.contains('collapsed');
 
-                                                    if (!isCurrentlyOpen) { // If it just became open
-                                                        module.toggle.classList.remove('hidden'); // Ensure toggle is visible
-                                                        module.content.classList.add(module.bgColorClass); // Apply background color
-                                                        module.panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // Scroll to the panel
-                                                    } else { // If it just became closed
+                                                        // Manage the entire panel's visibility
+                                                        if (isCurrentlyOpen) {
+                                                            module.panel.classList.add('hidden'); // Hide the entire panel
+                                                        } else {
+                                                            module.panel.classList.remove('hidden'); // Show the entire panel
+                                                        }
+                                                        
+                                                        // Manage the content and its toggle/icon
+                                                        setCollapsedState(module.content, module.toggle, isCurrentlyOpen); // Set to collapsed if already open, else uncollapsed
+
+                                                        if (!isCurrentlyOpen) { // If it just became open
+                                                            module.toggle.classList.remove('hidden'); // Ensure toggle is visible
+                                                            module.content.classList.add(module.bgColorClass); // Apply background color
+                                                            module.panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // Scroll to the panel
+                                                        } else { // If it just became closed
+                                                            module.toggle.classList.add('hidden'); // Hide toggle
+                                                            module.content.classList.remove(module.bgColorClass); // Remove background
+                                                        }
+                                                        
+                                                    } else { // This is a different module, so hide it completely
+                                                        setCollapsedState(module.content, module.toggle, true); // Collapse content
                                                         module.toggle.classList.add('hidden'); // Hide toggle
-                                                        module.content.classList.remove('demand-bg-light', 'project-bg-light', 'resource-bg-light', 'time-bg-light'); // Remove background
+                                                        module.content.classList.remove(module.bgColorClass); // Remove background
+                                                        module.panel.classList.add('hidden'); // Hide the entire panel container
                                                     }
-                                                    
-                                                } else { // This is a different module, so hide it completely
-                                                    setCollapsedState(module.content, module.toggle, true); // Collapse content
-                                                    module.toggle.classList.add('hidden'); // Hide toggle
-                                                    module.content.classList.remove('demand-bg-light', 'project-bg-light', 'resource-bg-light', 'time-bg-light'); // Remove background
-                                                    module.panel.classList.add('hidden'); // Hide the entire panel container
                                                 }
                                             }
+                                            
+                                            // IMPORTANT: Call manageHeaderVisibility after all panel and content states have been updated
+                                            manageHeaderVisibility();
                                         }
-                                        
-                                        // IMPORTANT: Call manageHeaderVisibility after all panel and content states have been updated
-                                        manageHeaderVisibility(mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
+                                    } catch (error) {
+                                        console.error("Error in Chart.js onClick handler:", error);
                                     }
-                                } catch (error) {
-                                    console.error("Error in Chart.js onClick handler:", error);
                                 }
                             }
-                        }
-                    });
-                } catch (error) {
-                    console.error("Error initializing SPM Modules Chart:", error);
+                        });
+                    } catch (error) {
+                        console.error("Error initializing SPM Modules Chart:", error);
+                    }
                 }
             }
 
 
+            // Get the logo element (for shrinking/expanding based on any main section state)
+            const echostarLogo = document.getElementById('echostarLogo');
+            
+            // List of all main collapsible section toggles, used for the logo shrinking behavior.
+            const mainCollapsibleTogglesForLogo = Array.from(document.querySelectorAll(
+                '#organization-section .collapsible-toggle, ' +
+                '#metrics-stakeholders-section .collapsible-toggle, ' +
+                '#technical-readiness-section .collapsible-toggle, ' +
+                '#timeline-section .collapsible-toggle, ' +
+                '#workshops-structure-section .collapsible-toggle, ' +
+                '#implementation-phases-section .collapsible-toggle'
+            ));
+
+
             /**
-             * Sets up event listeners for all collapsible toggles across the infographic.
-             * Handles expanding/collapsing content, managing related panel visibility,
-             * updating logo state, and triggering overall header visibility updates.
-             * @param {NodeListOf<Element>} allToggles - A NodeList of all collapsible toggle elements.
-             * @param {HTMLElement} echostarLogo - The EchoStar logo element for shrinking/expanding.
-             * @param {NodeListOf<Element>} mainCollapsibleTogglesForLogo - A NodeList of primary section toggles affecting logo state.
-             * @param {HTMLElement} mainHeader - The main header element for visibility management.
-             * @param {HTMLElement} workshopsStructureContent - The content element of the 'Workshows & Workshops Structure' section.
-             * @param {NodeListOf<Element>} spmModuleDetailPanels - A NodeList of all SPM module detail panel elements.
-             * @param {Array<string>} otherMainSectionContentIds - An array of IDs for other primary section content elements.
-             * @returns {void}
+             * Unified event listener for all collapsible toggles (main sections, sub-sections, stakeholder cards).
+             * Handles expanding/collapsing content, managing related panel visibility, and triggering
+             * overall header visibility updates.
              */
-            function setupCollapsibleToggleListeners(allToggles, echostarLogo, mainCollapsibleTogglesForLogo, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds) {
-                allToggles.forEach(toggleElement => {
+            function setupCollapsibleToggleListeners() {
+                document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle, .stakeholder-card-toggle').forEach(toggleElement => {
                     try {
                         const targetContentId = toggleElement.dataset.target;
                         const targetContentElement = document.getElementById(targetContentId);
                         
                         if (!targetContentElement) {
                             console.error(`Event Listener Setup Error: Target content with ID "${targetContentId}" not found for toggle:`, toggleElement);
-                            return;
+                            return; // Skip if target content is missing
                         }
 
                         const handleToggleClick = () => {
@@ -1822,6 +1600,8 @@
                             setCollapsedState(targetContentElement, toggleElement, !isCurrentlyCollapsed);
 
                             // Specific logic for SPM module detail panels: manage their overall visibility
+                            // This applies when a user manually clicks the sub-collapsible toggle for a module detail,
+                            // not just when clicking the donut slice.
                             if (targetContentId.includes('-details-content')) {
                                 const parentPanel = targetContentElement.closest('.spm-module-detail-panel');
                                 if (parentPanel) {
@@ -1837,7 +1617,7 @@
                                 // If the main "Workshows & Workshops Structure" section is being manually collapsed,
                                 // ensure all its module detail panels are also hidden.
                                 const spmDetailPanels = document.querySelectorAll('.spm-module-detail-panel');
-                                Array.from(spmDetailPanels).forEach(panel => { // Ensure Array.from here too
+                                spmDetailPanels.forEach(panel => {
                                     panel.classList.add('hidden'); // Hide the panel
                                     const content = document.getElementById(panel.querySelector('[data-target]').dataset.target);
                                     const toggle = panel.querySelector('.sub-collapsible-toggle');
@@ -1868,7 +1648,7 @@
                             }
                             
                             // Always call the centralized header visibility manager after any toggle action.
-                            manageHeaderVisibility(mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
+                            manageHeaderVisibility();
                         };
 
                         toggleElement.addEventListener('click', handleToggleClick);
@@ -1887,11 +1667,10 @@
             /**
              * Manages the text carousel effect in the header.
              * Alternates between the main title and a strategic descriptive paragraph.
-             * @param {HTMLElement} mainTitle - The main title element.
-             * @param {HTMLElement} strategyText - The strategic text element.
-             * @returns {void}
              */
-            function setupHeaderTextCarousel(mainTitle, strategyText) {
+            function setupHeaderTextCarousel() {
+                const mainTitle = document.getElementById('mainTitle');
+                const strategyText = document.getElementById('strategyText');
                 let isTitleActive = true;
 
                 // Set initial state for carousel
@@ -1931,12 +1710,12 @@
             /**
              * Controls the visibility of future roadmap phases and their details.
              * Toggles elements with 'hidden-element' and 'show-element' classes.
-             * @param {HTMLElement} showFutureButton - The button to toggle future states.
-             * @param {NodeListOf<Element>} futureTimelineElements - Elements forming the future timeline visualization.
-             * @param {NodeListOf<Element>} futureDetailCards - Detail cards for future phases.
-             * @returns {void}
              */
-            function setupFutureStatesToggle(showFutureButton, futureTimelineElements, futureDetailCards) {
+            function setupFutureStatesToggle() {
+                const showFutureButton = document.getElementById('show-future-button');
+                const futureTimelineElements = document.querySelectorAll('#line-2-3, #milestone-3, #line-3-4, #milestone-4');
+                const futureDetailCards = document.querySelectorAll('#phase-detail-3, #phase-detail-4');
+
                 let futureStatesVisible = false;
 
                 // Initially hide the future detail cards and timeline elements
@@ -1995,7 +1774,7 @@
                                         card.style.display = 'none';
                                         card.removeEventListener('transitionend', handler);
                                     }, { once: true });
-                                    if (getComputedStyle(card).transitionDuration === '0s' || getComputedStyle(card).opacity === '0') { // Corrected here
+                                    if (getComputedStyle(card).transitionDuration === '0s' || getComputedStyle(card).opacity === '0') {
                                         card.style.display = 'none';
                                     }
                                     card.classList.add('hidden-element');
@@ -2015,14 +1794,15 @@
             /**
              * Function to get and display the last update timestamp.
              * Formats the current date and time in Mountain Time (MT).
-             * @param {string} elementId - The ID of the HTML element to update.
-             * @returns {void}
              */
-            function setTimestamp(elementId) {
+            function setLastUpdateTimestamp() {
                 try {
-                    const targetElement = document.getElementById(elementId);
-                    if (targetElement) {
+                    const lastUpdatedElement = document.getElementById('lastUpdated');
+                    if (lastUpdatedElement) {
                         const now = new Date();
+                        // Using toLocaleString with specific options to format for Mountain Time (approximated)
+                        // Note: Client-side JS date/time is based on the user's local settings,
+                        // but we can specify the time zone and format to match the request.
                         const options = { 
                             year: 'numeric', 
                             month: 'long', 
@@ -2033,124 +1813,24 @@
                             timeZone: 'America/Denver' // Mountain Time Zone
                         };
                         const formattedDate = now.toLocaleString('en-US', options);
-                        targetElement.textContent = `Last updated on ${formattedDate.replace(' AM', ' AM MT').replace(' PM', ' PM MT')}`;
+                        // Manually append "MT" as toLocaleString might use a full time zone name
+                        lastUpdatedElement.textContent = `This site was updated on ${formattedDate.replace(' AM', ' AM MT').replace(' PM', ' PM MT')}`;
                     } else {
-                        console.warn(`setTimestamp: Element with ID '${elementId}' not found.`);
+                        console.warn("setLastUpdateTimestamp: 'lastUpdated' element not found.");
                     }
                 } catch (error) {
-                    console.error(`Error setting timestamp for element '${elementId}':`, error);
+                    console.error("Error setting last update timestamp:", error);
                 }
             }
-
-            /**
-             * Resets the view by collapsing all main sections and scrolling to the top.
-             * @param {NodeListOf<Element>} mainCollapsibleToggles - All main collapsible section toggles.
-             * @param {HTMLElement} echostarLogo - The EchoStar logo element.
-             * @param {HTMLElement} mainHeader - The main header element.
-             * @param {HTMLElement} workshopsStructureContent - Content for the Workshows & Workshops Structure section.
-             * @param {NodeListOf<Element>} spmModuleDetailPanels - All SPM module detail panels.
-             * @param {Array<string>} otherMainSectionContentIds - IDs of other main sections for header visibility.
-             * @returns {void}
-             */
-            function resetView(mainCollapsibleToggles, echostarLogo, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds) {
-                mainCollapsibleToggles.forEach(toggle => {
-                    const targetContentId = toggle.dataset.target;
-                    const targetContentElement = document.getElementById(targetContentId);
-                    if (targetContentElement) {
-                        setCollapsedState(targetContentElement, toggle, true); // Collapse the section
-                    }
-                });
-
-                // Ensure all SPM module detail panels are hidden
-                spmModuleDetailPanels.forEach(panel => {
-                    if (panel) {
-                        panel.classList.add('hidden');
-                        const content = panel.querySelector('[data-target]');
-                        const toggle = panel.querySelector('.sub-collapsible-toggle');
-                        if (content && toggle) {
-                            setCollapsedState(document.getElementById(content.dataset.target), toggle, true);
-                            toggle.classList.add('hidden');
-                            // Remove specific background classes
-                            document.getElementById(content.dataset.target).classList.remove('demand-bg-light', 'project-bg-light', 'resource-bg-light', 'time-bg-light');
-                        }
-                    }
-                });
-
-                // Reset logo state
-                if (echostarLogo) {
-                    echostarLogo.classList.remove('logo-shrink');
-                }
-
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                // Update header visibility after reset
-                manageHeaderVisibility(mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
-            }
-
 
             // Main execution block: Ensure DOM is loaded before running scripts
             document.addEventListener('DOMContentLoaded', function() {
-                // Cache frequently used DOM elements once
-                const mainHeader = document.getElementById('mainHeader');
-                const echostarLogo = document.getElementById('echostarLogo');
-                const mainTitle = document.getElementById('mainTitle');
-                const strategyText = document.getElementById('strategyText');
-                const workshopsStructureToggle = document.querySelector('#workshops-structure-section .collapsible-toggle');
-                const workshopsStructureContent = document.getElementById('workshops-structure-content');
-                const spmModulesCtxElement = document.getElementById('spmModulesChart');
-                const spmModuleDetailPanels = document.querySelectorAll('.spm-module-detail-panel'); // All individual module panels
-                const showFutureButton = document.getElementById('show-future-button');
-                const futureTimelineElements = document.querySelectorAll('#line-2-3, #milestone-3, #line-3-4, #milestone-4');
-                const futureDetailCards = document.querySelectorAll('#phase-detail-3, #phase-detail-4');
-                const resetButton = document.getElementById('resetButton'); // Get the new reset button
-
-                // List of all main collapsible section content IDs (for header visibility logic)
-                const otherMainSectionContentIds = [
-                    'organization-content',
-                    'metrics-stakeholders-content',
-                    'technical-readiness-content',
-                    'implementation-phases-content'
-                ];
-
-                // List of all general toggles for event listener setup
-                const allToggles = document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle, .stakeholder-card-toggle');
-                const mainCollapsibleTogglesForLogo = Array.from(document.querySelectorAll(
-                    '#organization-section .collapsible-toggle, ' +
-                    '#metrics-stakeholders-section .collapsible-toggle, ' +
-                    '#technical-readiness-section .collapsible-toggle, ' +
-                    '#timeline-section .collapsible-toggle, ' + 
-                    '#workshops-structure-section .collapsible-toggle, ' +
-                    '#implementation-phases-section .collapsible-toggle'
-                ));
-
-                // Set artifacts links. Iterate over all artifact links and apply the default,
-                // unless a specific link is already present in the HTML.
-                document.querySelectorAll('a[data-artifacts-link="true"]').forEach(link => {
-                    if (link.href === window.location.href + '#' || link.href === '#') { // Check if href is still default or empty
-                        link.href = DEFAULT_ARTIFACTS_FOLDER_URL;
-                    }
-                    // If href is already set (like for "1. Demand"), leave it as is.
-                });
-
-                // Initialize all core functionalities
-                initializeCollapsibleSections(allToggles, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
-                initializeSpmModulesChart(spmModulesCtxElement, workshopsStructureToggle, workshopsStructureContent, mainHeader, spmModuleDetailPanels, otherMainSectionContentIds);
-                setupCollapsibleToggleListeners(allToggles, echostarLogo, mainCollapsibleTogglesForLogo, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
-                setupHeaderTextCarousel(mainTitle, strategyText);
-                setupFutureStatesToggle(showFutureButton, futureTimelineElements, futureDetailCards);
-                // Update timestamps for both main header and timeline section
-                setTimestamp('lastUpdated');
-                setTimestamp('timelineLastUpdated');
-
-                // Setup listener for the new reset button
-                if (resetButton) {
-                    resetButton.addEventListener('click', () => {
-                        resetView(mainCollapsibleTogglesForLogo, echostarLogo, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
-                    });
-                } else {
-                    console.warn("Reset button element not found.");
-                }
+                initializeCollapsibleSections();
+                initializeSpmModulesChart();
+                setupCollapsibleToggleListeners();
+                setupHeaderTextCarousel();
+                setupFutureStatesToggle();
+                setLastUpdateTimestamp();
             });
 
         })(); // End of IIFE
