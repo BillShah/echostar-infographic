@@ -1,4 +1,3 @@
-Now see if you see any improvements compared to the last code i shared:
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,33 +26,12 @@ Now see if you see any improvements compared to the last code i shared:
         .workshows-front { background-color: #0093BD; } /* Medium teal for Workshows */
         .workshops-front { background-color: #00A9E0; } /* Original teal for Workshops (lighter in context) */
 
-
         .teal-text { color: #00A9E0; } /* Define teal color for text */
         
-        .timeline-item::before {
-            content: none; /* Explicitly remove the pseudo-element content for individual timeline items */
-        }
-        .timeline-item.yellow::before { border-color: #FFC107; }
-        .timeline.green::before { border-color: #4CAF50; }
-
-        .flow-arrow {
-            font-size: 2.5rem;
-            line-height: 1;
-            color: #9ca3af;
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 350px;
-        }
-        /* Tooltip styles (kept for other sections, e.g., Stakeholder Groups - but now they will be in expandable cards) */
+        /* Tooltip styles */
         .tooltip-container {
             position: relative;
-            display: inline-block; /* Or block, depending on parent */
+            display: inline-block;
         }
         .tooltip {
             visibility: hidden;
@@ -62,8 +40,8 @@ Now see if you see any improvements compared to the last code i shared:
             border-radius: 6px;
             padding: 5px 10px;
             position: absolute;
-            z-index: 100; /* Increased z-index */
-            bottom: 125%; /* Position the tooltip above the text */
+            z-index: 100;
+            bottom: 125%;
             left: 50%;
             transform: translateX(-50%);
             opacity: 0;
@@ -73,13 +51,13 @@ Now see if you see any improvements compared to the last code i shared:
             font-size: 0.875rem;
             line-height: 1.2;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            pointer-events: none; /* Allows clicks on elements behind it */
+            pointer-events: none;
         }
 
         .tooltip::after {
             content: "";
             position: absolute;
-            top: 100%; /* At the bottom of the tooltip */
+            top: 100%;
             left: 50%;
             margin-left: -5px;
             border-width: 5px;
@@ -91,7 +69,7 @@ Now see if you see any improvements compared to the last code i shared:
             opacity: 1;
         }
 
-        /* Specific tooltip background colors (kept for other sections) */
+        /* Specific tooltip background colors */
         .tooltip.tooltip-dark-blue { background-color: #2C3E50; }
         .tooltip.tooltip-dark-blue::after { border-color: #2C3E50 transparent transparent transparent; }
         .tooltip.tooltip-dark-green { background-color: #1A531A; }
@@ -112,9 +90,8 @@ Now see if you see any improvements compared to the last code i shared:
             margin-bottom: 1rem;
             position: relative;
         }
-        /* IMPORTANT: This removes the bullets from individual timeline cards */
         .timeline-card::before {
-            content: none; 
+            content: none; /* Removes any default list styling */
         }
         .timeline-group-title {
             font-weight: bold;
@@ -137,14 +114,15 @@ Now see if you see any improvements compared to the last code i shared:
             background-color: #00A9E0; /* Teal dot */
             border: 2px solid white;
         }
+
         /* Collapsible specific styles */
         .collapsible-content {
             transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
             opacity: 1;
             max-height: 2000px; /* A large enough value to accommodate content when open */
             overflow: visible; /* Default to visible when open, allowing tooltips to escape */
-            padding-top: 0.5rem; /* Ensure padding is controlled */
-            padding-bottom: 0.5rem; /* Ensure padding is controlled */
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
         }
         .collapsible-content.collapsed {
             max-height: 0;
@@ -159,15 +137,17 @@ Now see if you see any improvements compared to the last code i shared:
         .collapsible-toggle.collapsed .collapsible-icon {
             transform: rotate(-90deg); /* Rotate up when collapsed */
         }
+
         /* Adjustments for nested collapsible titles */
         .sub-collapsible-toggle {
             padding-left: 0; /* Remove default padding from timeline-group-title */
             margin-top: 1rem;
             margin-bottom: 0.5rem;
             font-size: 1.125rem; /* Slightly smaller heading for sub-sections */
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* For showing/hiding header */
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
         }
-        .sub-collapsible-toggle.hidden {
+        /* Specific display rule for hidden sub-collapsible toggles used with SPM module details */
+        .sub-collapsible-toggle.hidden-sub-toggle {
             opacity: 0;
             visibility: hidden;
             height: 0; /* Collapse height too */
@@ -178,19 +158,19 @@ Now see if you see any improvements compared to the last code i shared:
         .sub-collapsible-toggle .collapsible-icon {
             font-size: 1.5rem; /* Smaller icon for sub-sections */
         }
-        /* The .collapsible-content already handles padding: 0.5rem 0.5rem. For the sub-content, we'll control the background within the card itself. */
         .sub-collapsible-content {
             padding-left: 0; /* Remove default padding for content, content within the card will handle its own padding */
         }
+
         /* Sticky header styles */
         .sticky-header {
             position: sticky;
             top: 0;
             z-index: 20; /* Ensure it stays on top of other content */
             background-color: #f0f4ff; /* Match body background or slightly different */
-            padding: 1rem; /* Adjust to ensure padding is maintained */
+            padding: 1rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Add transition for smooth hide/show */
+            transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out;
         }
         .sticky-header.hidden-header {
             top: -100px; /* Move out of view */
@@ -198,13 +178,11 @@ Now see if you see any improvements compared to the last code i shared:
             pointer-events: none; /* Disable interactions */
         }
 
-
         /* Header Text Carousel Styles */
         #header-text-carousel {
             height: 100px; /* Adjust based on the tallest content (H1 or P) */
             text-align: center;
         }
-
         .fade-element {
             position: absolute;
             width: 100%;
@@ -214,10 +192,9 @@ Now see if you see any improvements compared to the last code i shared:
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%); /* Center horizontally and vertically */
-            margin: 0 !important; /* Override any lingering margins */
-            padding: 0 !important; /* Override any lingering padding */
+            margin: 0 !important;
+            padding: 0 !important;
         }
-
         .fade-element.active-fade {
             opacity: 1;
             visibility: visible;
@@ -227,10 +204,9 @@ Now see if you see any improvements compared to the last code i shared:
             visibility: hidden;
         }
 
-
         /* Glow effect for DISH box */
         .dish-glow {
-            animation: glow 1.5s infinite alternate; /* Adjust duration and timing as needed */
+            animation: glow 1.5s infinite alternate;
         }
 
         /* H1 Glow effect (only when active) */
@@ -252,7 +228,6 @@ Now see if you see any improvements compared to the last code i shared:
                 font-size: 2.4rem; /* 20% reduction from original text-5xl (3rem) */
             }
         }
-
 
         @keyframes glow {
             from {
@@ -290,7 +265,6 @@ Now see if you see any improvements compared to the last code i shared:
             opacity: 0.5; /* Slightly fade out when shrunk */
         }
 
-
         /* 3D Flip Card Styles - General for organizational boxes */
         .flip-card {
             background-color: transparent;
@@ -300,14 +274,14 @@ Now see if you see any improvements compared to the last code i shared:
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 0.5rem; /* Match existing border-radius */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Match existing shadow */
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         /* Responsive adjustments for flip cards in general grid layouts */
         @media (min-width: 768px) { /* md breakpoint */
             .grid-cols-2 .flip-card,
-            .grid-cols-3 .flip-card, /* Added for general flip card responsiveness */
+            .grid-cols-3 .flip-card,
             .grid-cols-7 .flip-card {
                 width: 140px;
                 height: 140px;
@@ -372,18 +346,17 @@ Now see if you see any improvements compared to the last code i shared:
         .wireless-bg .flip-card-front, .wireless-bg .flip-card-back { background-color: #F37021; color: black; } /* Adjusted for visibility */
         .hughes-bg .flip-card-front, .hughes-bg .flip-card-back { background-color: #81D4FA; color: black; } /* Adjusted for visibility */
 
-        /* Ensure text on yellow/red/orange backgrounds remains readable on both sides */
+        /* Ensure text on light backgrounds remains readable on both sides */
         .shared-services-bg .flip-card-front strong,
         .corporate-bg .flip-card-front strong,
         .wireless-bg .flip-card-front strong {
-            color: inherit; /* Inherit color from parent .flip-card-front */
+            color: inherit;
         }
         .shared-services-bg .flip-card-back,
         .corporate-bg .flip-card-back,
         .wireless-bg .flip-card-back {
-            color: inherit; /* Inherit color from parent .flip-card-back */
+            color: inherit;
         }
-
 
         /* --- Specific Metric Flip Card Styling (Key Metrics Section) --- */
         #metrics-stakeholders-section .flip-card-front {
@@ -462,10 +435,10 @@ Now see if you see any improvements compared to the last code i shared:
             margin-left: 0.5rem;
         }
         .stakeholder-card-toggle:not(.collapsed) .collapsible-icon {
-            transform: rotate(0deg); 
+            transform: rotate(0deg);
         }
         .stakeholder-card-toggle.collapsed .collapsible-icon {
-            transform: rotate(-90deg); 
+            transform: rotate(-90deg);
         }
 
         /* Custom bullet list styles */
@@ -483,7 +456,7 @@ Now see if you see any improvements compared to the last code i shared:
         }
 
         .custom-bullet-list li::before {
-            content: '\2713';
+            content: '\2713'; /* Checkmark unicode */
             color: #00A9E0;
             font-size: 0.9rem;
             position: absolute;
@@ -496,7 +469,7 @@ Now see if you see any improvements compared to the last code i shared:
         /* NEW specific styles for the 4-point roadmap timeline */
         .roadmap-timeline {
             display: flex;
-            align-items: center; /* Ensures dots and lines are vertically centered relative to each other */
+            align-items: center;
             justify-content: space-between;
             margin: 40px auto;
             width: calc(100% - 20px);
@@ -511,7 +484,7 @@ Now see if you see any improvements compared to the last code i shared:
             position: relative;
             z-index: 2;
             padding: 0 5px;
-            flex-basis: 0; /* Important for flex-grow */
+            flex-basis: 0;
         }
 
         .roadmap-milestone.active {
@@ -579,17 +552,19 @@ Now see if you see any improvements compared to the last code i shared:
 
         /* Hidden elements for future phases */
         .hidden-element {
-            display: none;
-            opacity: 0;
+            display: none; /* Start hidden */
+            opacity: 0; /* For transition effect */
             transition: opacity 0.5s ease-in-out;
         }
         .show-element {
             opacity: 1;
         }
-        /* Specific display rules for elements being shown/hidden */
+        /* Specific display rules for elements being shown/hidden by JS */
+        /* These override .hidden-element's display: none; when they are about to be shown */
         .roadmap-milestone.show-element { display: flex !important; }
         .roadmap-line.show-element { display: flex !important; }
         .phase-detail-card.show-element { display: flex !important; }
+
 
         /* Future states button */
         .future-states-button {
@@ -654,21 +629,18 @@ Now see if you see any improvements compared to the last code i shared:
         }
 
         /* NEW: Light background colors for module detail sections */
-        /* Apply to the content div for full background */
         .demand-bg-light { background-color: #E0F7FA; /* Light Blue */ }
         .project-bg-light { background-color: #D4EDDA; /* Light Green */ }
         .resource-bg-light { background-color: #FFFDE7; /* Light Yellow */ }
         .time-bg-light { background-color: #FFF3E0; /* Light Orange */ }
-
     </style>
 </head>
 <body>
 
     <div class="container mx-auto p-4 md:p-8 max-w-7xl">
         
-        <header id="mainHeader" class="text-center sticky-header"> <!-- Added ID to header -->
+        <header id="mainHeader" class="text-center sticky-header">
             <div class="max-w-4xl mx-auto">
-                <!-- Updated logo source to point to raw GitHub content -->
                 <img id="echostarLogo" src="https://raw.githubusercontent.com/BillShah/echostar-infographic/main/EchoStar-Logo.wine%20FINAL.png" alt="EchoStar Logo - A stylized representation of the EchoStar brand" class="mx-auto h-24 m-0 logo-fade" onerror="this.onerror=null; this.src='https://placehold.co/150x50/cccccc/333333?text=EchoStar+Logo+Fallback';">
                 <div id="header-text-carousel" class="relative overflow-hidden h-24 flex items-center justify-center">
                     <h1 id="mainTitle" class="font-bold teal-text fade-element active-fade">EchoStar ServiceNow SPM Implementation</h1>
@@ -676,7 +648,6 @@ Now see if you see any improvements compared to the last code i shared:
                         Our deliberate strategy to unify diverse business units under a single EchoStar ServiceNow SPM instance. This infographic outlines the phased rollout and a structured engagement driving this transformation.
                     </p>
                 </div>
-                <!-- New element for last updated timestamp -->
                 <p id="lastUpdated" class="text-xs text-gray-500 mt-2">This site was updated on...</p>
             </div>
         </header>
@@ -783,7 +754,7 @@ Now see if you see any improvements compared to the last code i shared:
                     <!-- Metrics Cards (now in their own column on large screens) -->
                     <div class="lg:col-span-1 flex flex-col items-center">
                         <h3 class="text-2xl font-bold text-center mb-4 text-gray-800">Key Metrics</h3>
-                        <div class="grid grid-cols-2 gap-4 w-full max-w-sm md:max-w-none mx-auto"> 
+                        <div class="grid grid-cols-2 gap-4 w-full max-w-sm md:max-w-none mx-auto">
                             
                             <div class="flip-card">
                                 <div class="flip-card-inner">
@@ -980,11 +951,13 @@ Now see if you see any improvements compared to the last code i shared:
                             </div>
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800"><strong>3. Project – IT</strong></p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 14, 2025</p> <!-- Added date for consistency -->
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-sm text-gray-600"><strong>4. Project – Business</strong></p>
+                                <p class="text-md font-semibold text-gray-800"><strong>4. Project – Business</strong></p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 15, 2025</p> <!-- Added date for consistency -->
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
                             </div>
@@ -1013,21 +986,21 @@ Now see if you see any improvements compared to the last code i shared:
                         <h4 class="font-bold">1. Preview Sessions</h4>
                         <p class="text-xs text-gray-500">Core Team Only (1hr)</p>
                         <p class="text-sm mt-1">High-level overview & content filtering.</p>
-                        <span class="tooltip tooltip-dark-green">Internal sessions to align the core project team and refine content before broader stakeholder engagement. **Purpose:** Prevent "opening a can of worms" by showing irrelevant or premature info.</span>
+                        <span class="tooltip tooltip-dark-green">Internal sessions to align the core project team and refine content before broader stakeholder engagement. <strong>Purpose:</strong> Prevent "opening a can of worms" by showing irrelevant or premature info.</span>
                     </div>
                     <div class="flow-arrow transform md:rotate-0">↓</div>
                     <div class="text-center p-4 border-2 border-dashed border-teal-400 rounded-lg tooltip-container">
                         <h4 class="font-bold">2. Workshows</h4>
                         <p class="text-xs text-gray-500">Stakeholders (2hr)</p>
                         <p class="text-sm mt-1">"See what you're getting" with OOTB demos.</p>
-                        <span class="tooltip tooltip-purple">Demonstrating out-of-the-box functionality to a wider audience. **Definition:** Purely for showing what it looks like and how it functions.</span>
+                        <span class="tooltip tooltip-purple">Demonstrating out-of-the-box functionality to a wider audience. <strong>Definition:</strong> Purely for showing what it looks like and how it functions.</span>
                     </div>
                     <div class="flow-arrow transform md:rotate-0">↓</div>
                     <div class="text-center p-4 border-2 border-dashed border-orange-400 rounded-lg tooltip-container">
                         <h4 class="font-bold">3. Workshops</h4>
                         <p class="text-xs text-gray-500">Stakeholders</p>
                         <p class="text-sm mt-1">Capture gaps & configuration requirements.</p>
-                        <span class="tooltip tooltip-dark-brown">Detailed requirements gathering sessions to capture specific needs and identify configuration requirements. **Definition:** The "interview" phase to capture specific needs, document gaps, and gather input for configuration.</span>
+                        <span class="tooltip tooltip-dark-brown">Detailed requirements gathering sessions to capture specific needs and identify configuration requirements. <strong>Definition:</strong> The "interview" phase to capture specific needs, document gaps, and gather input for configuration.</span>
                     </div>
                 </div>
 
@@ -1046,8 +1019,8 @@ Now see if you see any improvements compared to the last code i shared:
                 </div>
 
                 <!-- Collapsible content for Demand Management details -->
-                <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel" id="demand-management-details-panel">
-                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed hidden" data-target="demand-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="demand-management-details-content">
+                <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel hidden" id="demand-management-details-panel">
+                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle hidden-sub-toggle" data-target="demand-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="demand-management-details-content">
                         <h4 class="font-bold text-lg text-gray-800 mb-0">Demand Management Details</h4>
                         <span class="collapsible-icon">▼</span>
                     </div>
@@ -1072,8 +1045,8 @@ Now see if you see any improvements compared to the last code i shared:
                 </div>
 
                 <!-- Collapsible content for Project Management details -->
-                <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel" id="project-management-details-panel">
-                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed hidden" data-target="project-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="demand-management-details-content">
+                <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel hidden" id="project-management-details-panel">
+                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle hidden-sub-toggle" data-target="project-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="project-management-details-content">
                         <h4 class="font-bold text-lg text-gray-800 mb-0">Project Management Details</h4>
                         <span class="collapsible-icon">▼</span>
                     </div>
@@ -1098,8 +1071,8 @@ Now see if you see any improvements compared to the last code i shared:
                 </div>
 
                 <!-- NEW: Collapsible content for Resource Management details -->
-                <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel" id="resource-management-details-panel">
-                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed hidden" data-target="resource-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="demand-management-details-content">
+                <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel hidden" id="resource-management-details-panel">
+                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle hidden-sub-toggle" data-target="resource-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="resource-management-details-content">
                         <h4 class="font-bold text-lg text-gray-800 mb-0">Resource Management Details</h4>
                         <span class="collapsible-icon">▼</span>
                     </div>
@@ -1125,8 +1098,8 @@ Now see if you see any improvements compared to the last code i shared:
                 </div>
 
                 <!-- NEW: Collapsible content for Time Management details -->
-                <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel" id="time-management-details-panel">
-                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed hidden" data-target="time-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="demand-management-details-content">
+                <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel hidden" id="time-management-details-panel">
+                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle hidden-sub-toggle" data-target="time-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="time-management-details-content">
                         <h4 class="font-bold text-lg text-gray-800 mb-0">Time Management Details</h4>
                         <span class="collapsible-icon">▼</span>
                     </div>
@@ -1178,7 +1151,7 @@ Now see if you see any improvements compared to the last code i shared:
                             <small class="text-xs">Sept 20, 2025<br>(13-week Foundation Model)</small>
                         </div>
                     </div>
-                    <div class="roadmap-line dashed-line hidden-element" id="line-2-3" style="flex-grow: 1;"></div> <!-- Line 2-3, hidden -->
+                    <div class="roadmap-line dashed-line hidden-element" id="line-2-3" style="flex-grow: 1;"></div> <!-- Line 2-3, initially hidden -->
                     <div class="roadmap-milestone future hidden-element" data-phase="phase3" id="milestone-3" style="flex-grow: 1;">
                         <div class="roadmap-dot">3</div>
                         <div class="roadmap-text-content">
@@ -1186,7 +1159,7 @@ Now see if you see any improvements compared to the last code i shared:
                             <small class="text-xs">June 2026</small>
                         </div>
                     </div>
-                    <div class="roadmap-line dashed-line hidden-element" id="line-3-4" style="flex-grow: 1;"></div> <!-- Line 3-4, hidden -->
+                    <div class="roadmap-line dashed-line hidden-element" id="line-3-4" style="flex-grow: 1;"></div> <!-- Line 3-4, initially hidden -->
                     <div class="roadmap-milestone future hidden-element" data-phase="phase4" id="milestone-4" style="flex-grow: 1;">
                         <div class="roadmap-dot">4</div>
                         <div class="roadmap-text-content">
@@ -1208,22 +1181,22 @@ Now see if you see any improvements compared to the last code i shared:
                         <h5 class="font-bold text-lg text-teal-700 mb-2">Phase 1: Now</h5>
                         <p class="text-sm text-gray-700">Initial planning and setup, team alignment, and foundational environment readiness for the SPM implementation.</p>
                     </div>
-                    <!-- Phase 2 Detail: Foundation (formerly "Foundation" phase 1) -->
+                    <!-- Phase 2 Detail: Foundation -->
                     <div class="phase-detail-card">
                         <h5 class="font-bold text-lg text-teal-700 mb-2">Phase 2: Foundation</h5>
                         <p class="text-sm text-gray-700">Deploy SPM Professional to DISH/Corporate with out-of-the-box best practices, delivering portfolio visibility, quick wins, and a scalable core platform.</p>
                         <ul class="custom-bullet-list text-sm mt-2">
-                            <li>Activate PPM, Resource, Demand &amp; Time Card modules</li>
+                            <li>Activate PPM, Resource, Demand & Time Card modules</li>
                             <li>Configure governance and reporting dashboards</li>
                             <li>Train pilot user group &bull; Capture success metrics</li>
                         </ul>
                     </div>
-                    <!-- Phase 3 Detail: Expansion (formerly "Expansion" phase 2) -->
+                    <!-- Phase 3 Detail: Expansion -->
                     <div class="phase-detail-card hidden-element" id="phase-detail-3">
                         <h5 class="font-bold text-lg text-teal-700 mb-2">Phase 3: Expansion</h5>
                         <p class="text-sm text-gray-700">Extend SPM capabilities to additional EchoStar divisions (e.g., Hughes/Legacy EchoStar), standardizing processes enterprise-wide and leveraging Phase 2 success stories.</p>
                     </div>
-                    <!-- Phase 4 Detail: Full Integration (formerly "Full Integration" phase 3) -->
+                    <!-- Phase 4 Detail: Full Integration -->
                     <div class="phase-detail-card hidden-element" id="phase-detail-4">
                         <h5 class="font-bold text-lg text-teal-700 mb-2">Phase 4: Full Integration</h5>
                         <p class="text-sm text-gray-700">Unify portfolio data and processes across all EchoStar business units, including Wireless, integrating SPM deeply with financial and engineering systems for holistic, real-time insights.</p>
@@ -1252,33 +1225,34 @@ Now see if you see any improvements compared to the last code i shared:
              * @param {HTMLElement} contentElement - The content div that needs to be collapsed or expanded.
              * @param {HTMLElement} toggleElement - The toggle button/header associated with the content.
              * @param {boolean} isCollapsed - True to collapse the element, false to expand it.
+             * @returns {void}
              */
             function setCollapsedState(contentElement, toggleElement, isCollapsed) {
-                if (contentElement) {
-                    if (isCollapsed) {
-                        contentElement.classList.add('collapsed');
-                    } else {
-                        contentElement.classList.remove('collapsed');
-                    }
+                if (!contentElement || !toggleElement) {
+                    console.warn('setCollapsedState: Missing contentElement or toggleElement.');
+                    return;
                 }
-                if (toggleElement) {
-                    if (isCollapsed) {
-                        toggleElement.classList.add('collapsed');
-                        toggleElement.setAttribute('aria-expanded', 'false');
-                        const icon = toggleElement.querySelector('.collapsible-icon');
-                        if (icon) icon.textContent = '▼'; // Point down when collapsed
-                    } else {
-                        toggleElement.classList.remove('collapsed');
-                        toggleElement.setAttribute('aria-expanded', 'true');
-                        const icon = toggleElement.querySelector('.collapsible-icon');
-                        if (icon) icon.textContent = '▲'; // Point up when expanded
-                    }
+                
+                contentElement.classList.toggle('collapsed', isCollapsed);
+                toggleElement.classList.toggle('collapsed', isCollapsed);
+                toggleElement.setAttribute('aria-expanded', String(!isCollapsed));
+                const icon = toggleElement.querySelector('.collapsible-icon');
+                if (icon) {
+                    icon.textContent = isCollapsed ? '▼' : '▲';
                 }
             }
 
-            // Original Stakeholder Chart (Not currently used by any visible canvas element in your layout, but kept for completeness if needed elsewhere)
-            const stakeholderCanvas = document.getElementById('stakeholderChart');
-            if (stakeholderCanvas) {
+            /**
+             * Initializes the optional Stakeholder Chart. This chart is not actively displayed
+             * in the current HTML layout but its initialization logic is maintained for completeness.
+             * @param {HTMLCanvasElement} stakeholderCanvas - The canvas element for the stakeholder chart.
+             * @returns {void}
+             */
+            function initializeStakeholderChart(stakeholderCanvas) {
+                if (!stakeholderCanvas) {
+                    console.warn("initializeStakeholderChart: Canvas element not found, skipping initialization.");
+                    return;
+                }
                 try {
                     const stakeholderCtx = stakeholderCanvas.getContext('2d');
                     new Chart(stakeholderCtx, {
@@ -1338,36 +1312,31 @@ Now see if you see any improvements compared to the last code i shared:
              * 2. AND at least one of its module detail *panels* (Demand, Project, Resource, Time Management) is visible.
              * 3. AND NO other primary top-level section (e.g., Organizational Landscape, Engagement Timeline) is open.
              * In all other cases, the header remains sticky/visible.
+             * @param {HTMLElement} mainHeader - The main header element to control.
+             * @param {HTMLElement} workshopsStructureContent - The content element of the 'Workshows & Workshops Structure' section.
+             * @param {NodeListOf<Element>} spmModuleDetailPanels - A NodeList of all SPM module detail panel elements.
+             * @param {Array<string>} otherMainSectionContentIds - An array of IDs for other primary section content elements.
+             * @returns {void}
              */
-            const manageHeaderVisibility = () => {
+            const manageHeaderVisibility = (mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds) => {
                 try {
-                    const mainHeader = document.getElementById('mainHeader');
-                    if (!mainHeader) {
-                        console.warn("manageHeaderVisibility: Main header element not found.");
+                    if (!mainHeader || !workshopsStructureContent || !spmModuleDetailPanels) {
+                        console.warn("manageHeaderVisibility: Missing required DOM elements.");
                         return;
                     }
 
                     // 1. Check if the 'Workshows & Workshops Structure' main section is currently expanded.
-                    const workshopsStructureContent = document.getElementById('workshops-structure-content');
-                    const isWorkshopsStructureOpen = workshopsStructureContent && !workshopsStructureContent.classList.contains('collapsed');
+                    const isWorkshopsStructureOpen = !workshopsStructureContent.classList.contains('collapsed');
 
                     // 2. Check if any specific module detail *panel* within 'Workshows & Workshops Structure' is currently visible.
-                    // These panels are the outer containers with class 'spm-module-detail-panel'.
-                    const spmModuleDetailPanels = Array.from(document.querySelectorAll('.spm-module-detail-panel'));
-                    const anyModuleDetailPanelVisible = spmModuleDetailPanels.some(panel => !panel.classList.contains('hidden'));
+                    const anyModuleDetailPanelVisible = Array.from(spmModuleDetailPanels).some(panel => !panel.classList.contains('hidden'));
 
                     // 3. Check if any *other* primary top-level section (excluding the 'Workshows & Workshops Structure' itself) is open.
-                    const otherMainSectionContentIds = [
-                        'organization-content',
-                        'metrics-stakeholders-content',
-                        'technical-readiness-content',
-                        'timeline-content',
-                        'implementation-phases-content'
-                    ];
                     const anyOtherMainSectionOpen = otherMainSectionContentIds.some(id => {
                         const content = document.getElementById(id);
                         // Ensure the content element exists and is not collapsed
-                        return content && !content.classList.contains('collapsed');
+                        // Exclude the workshops structure itself from 'other' sections check for this specific logic
+                        return content && (content.id !== workshopsStructureContent.id) && !content.classList.contains('collapsed');
                     });
 
                     // Determine if the header should be hidden based on the defined conditions.
@@ -1387,16 +1356,22 @@ Now see if you see any improvements compared to the last code i shared:
              * Initial setup for all collapsible sections on page load:
              * All sections start collapsed by default, except the SPM Modules Chart content.
              * Also ensures module detail panels are hidden initially.
+             * @param {NodeListOf<Element>} allToggles - A NodeList of all collapsible toggle elements.
+             * @param {HTMLElement} mainHeader - The main header element for visibility management.
+             * @param {HTMLElement} workshopsStructureContent - The content element of the 'Workshows & Workshops Structure' section.
+             * @param {NodeListOf<Element>} spmModuleDetailPanels - A NodeList of all SPM module detail panel elements.
+             * @param {Array<string>} otherMainSectionContentIds - An array of IDs for other primary section content elements.
+             * @returns {void}
              */
-            function initializeCollapsibleSections() {
-                document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle, .stakeholder-card-toggle').forEach(toggle => {
+            function initializeCollapsibleSections(allToggles, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds) {
+                allToggles.forEach(toggle => {
                     try {
                         const targetContentId = toggle.dataset.target;
                         const targetContentElement = document.getElementById(targetContentId);
                         
                         if (!targetContentElement) {
                             console.error(`Initialization Error: Target content with ID "${targetContentId}" not found for toggle:`, toggle);
-                            return; // Skip this toggle if its target content is missing
+                            return;
                         }
 
                         // If it's the SPM Modules Chart content, ensure it's uncollapsed initially.
@@ -1406,19 +1381,19 @@ Now see if you see any improvements compared to the last code i shared:
                             setCollapsedState(targetContentElement, toggle, true); // Initialize all other sections as collapsed
                         }
 
-                        // For specific module detail sections (Demand, Project, etc.), ensure their entire panel is hidden on load.
-                        if (targetContentId.includes('-details-content')) {
-                            toggle.classList.add('hidden'); // Hide the toggle button itself
-                            const parentPanel = targetContentElement.closest('.spm-module-detail-panel');
-                            if (parentPanel) {
-                                parentPanel.classList.add('hidden'); // Hide the entire panel container
-                            }
+                        // For specific module detail toggles, ensure they are hidden initially.
+                        // Their parent panels are already hidden via HTML classes.
+                        if (toggle.classList.contains('hidden-sub-toggle')) {
+                            toggle.classList.add('hidden-sub-toggle'); // Ensure it stays hidden
+                            // No need to hide the parent panel here, it's handled by HTML or chart click
                         }
+
                     } catch (error) {
                         console.error("Error during initial toggle setup:", error);
                     }
                 });
-                manageHeaderVisibility(); // Call header visibility manager once after initial setup.
+                // Call header visibility manager once after initial setup.
+                manageHeaderVisibility(mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
             }
 
             /**
@@ -1426,171 +1401,164 @@ Now see if you see any improvements compared to the last code i shared:
              * On slice click, it expands the parent 'Workshows & Workshops Structure' section
              * (if collapsed), then hides all other module detail panels and reveals the clicked one.
              * Finally, it updates the main header visibility.
+             * @param {HTMLCanvasElement} spmModulesCtxElement - The canvas element for the SPM modules chart.
+             * @param {HTMLElement} workshopsStructureToggle - The toggle element for the 'Workshows & Workshops Structure' section.
+             * @param {HTMLElement} workshopsStructureContent - The content element for the 'Workshows & Workshops Structure' section.
+             * @param {HTMLElement} mainHeader - The main header element for visibility management.
+             * @param {NodeListOf<Element>} spmModuleDetailPanels - A NodeList of all SPM module detail panel elements.
+             * @param {Array<string>} otherMainSectionContentIds - An array of IDs for other primary section content elements.
+             * @returns {void}
              */
-            function initializeSpmModulesChart() {
-                const spmModulesCtxElement = document.getElementById('spmModulesChart'); // Renamed for clarity
-                if (spmModulesCtxElement) {
-                    try {
-                        const spmModulesChart = new Chart(spmModulesCtxElement.getContext('2d'), { // Store chart instance
-                            type: 'doughnut',
-                            data: {
-                                labels: ['Demand Management', 'Project Management', 'Resource Management', 'Time Management'],
-                                datasets: [{
-                                    data: [40, 30, 20, 10], // Relative sizes: Demand > Project > Resource > Time
-                                    backgroundColor: [
-                                        '#00A9E0', // Teal for Demand
-                                        '#4CAF50', // Green for Project
-                                        '#FFC107', // Yellow for Resource
-                                        '#F37021'  // Orange for Time
-                                    ],
-                                    borderColor: '#FFFFFF',
-                                    borderWidth: 4
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                cutout: '70%',
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom', // Show legend at the bottom
-                                        labels: {
-                                            color: '#333' // Legend text color
-                                        }
-                                    },
-                                    tooltip: {
-                                        callbacks: {
-                                            label: function(tooltipItem) {
-                                                return tooltipItem.label + ': ' + tooltipItem.raw + '%';
-                                            }
-                                        }
+            function initializeSpmModulesChart(spmModulesCtxElement, workshopsStructureToggle, workshopsStructureContent, mainHeader, spmModuleDetailPanels, otherMainSectionContentIds) {
+                if (!spmModulesCtxElement) {
+                    console.warn("initializeSpmModulesChart: Canvas element not found, skipping initialization.");
+                    return;
+                }
+                try {
+                    const spmModulesChart = new Chart(spmModulesCtxElement.getContext('2d'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Demand Management', 'Project Management', 'Resource Management', 'Time Management'],
+                            datasets: [{
+                                label: 'Business PMO Contacts',
+                                data: [40, 30, 20, 10], // Relative sizes: Demand > Project > Resource > Time
+                                backgroundColor: [
+                                    '#00A9E0', // Teal for Demand
+                                    '#4CAF50', // Green for Project
+                                    '#FFC107', // Yellow for Resource
+                                    '#F37021'  // Orange for Time
+                                ],
+                                borderColor: '#FFFFFF',
+                                borderWidth: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '70%',
+                            plugins: {
+                                legend: {
+                                    position: 'bottom', // Show legend at the bottom
+                                    labels: {
+                                        color: '#333' // Legend text color
                                     }
                                 },
-                                onClick: (event, elements) => {
-                                    try {
-                                        // Check if a slice was actually clicked
-                                        if (elements.length > 0) {
-                                            const clickedElementIndex = elements[0].index;
-                                            const clickedLabel = spmModulesChart.data.labels[clickedElementIndex];
-
-                                            const workshopsStructureToggle = document.querySelector('#workshops-structure-section .collapsible-toggle');
-                                            const workshopsStructureContent = document.getElementById('workshops-structure-content');
-
-                                            // IMP: Ensure the parent 'Workshows & Workshops Structure' section is expanded
-                                            // This ensures the header visibility logic has the correct parent state.
-                                            if (workshopsStructureContent && workshopsStructureContent.classList.contains('collapsed')) {
-                                                setCollapsedState(workshopsStructureContent, workshopsStructureToggle, false); // Explicitly expand parent
-                                            }
-
-                                            // Map of all module details including their panel elements
-                                            const moduleDetailsMap = {
-                                                'Demand Management': {
-                                                    panel: document.getElementById('demand-management-details-panel'),
-                                                    content: document.getElementById('demand-management-details-content'),
-                                                    toggle: document.getElementById('demand-management-details-content').previousElementSibling,
-                                                    bgColorClass: 'demand-bg-light'
-                                                },
-                                                'Project Management': {
-                                                    panel: document.getElementById('project-management-details-panel'),
-                                                    content: document.getElementById('project-management-details-content'),
-                                                    toggle: document.getElementById('project-management-details-content').previousElementSibling,
-                                                    bgColorClass: 'project-bg-light'
-                                                },
-                                                'Resource Management': {
-                                                    panel: document.getElementById('resource-management-details-panel'),
-                                                    content: document.getElementById('resource-management-details-content'),
-                                                    toggle: document.getElementById('resource-management-details-content').previousElementSibling,
-                                                    bgColorClass: 'resource-bg-light'
-                                                },
-                                                'Time Management': {
-                                                    panel: document.getElementById('time-management-details-panel'),
-                                                    content: document.getElementById('time-management-details-content'),
-                                                    toggle: document.getElementById('time-management-details-content').previousElementSibling,
-                                                    bgColorClass: 'time-bg-light'
-                                                }
-                                            };
-
-                                            // Iterate through all module details to manage their visibility (hide others, show clicked)
-                                            for (const labelKey in moduleDetailsMap) {
-                                                const module = moduleDetailsMap[labelKey];
-                                                // Ensure all necessary elements for this module exist
-                                                if (module.panel && module.content && module.toggle) {
-                                                    if (labelKey === clickedLabel) { // This is the module corresponding to the clicked slice
-                                                        // Toggle visibility: If already open, close it; otherwise, open it.
-                                                        const isCurrentlyOpen = !module.content.classList.contains('collapsed');
-
-                                                        // Manage the entire panel's visibility
-                                                        if (isCurrentlyOpen) {
-                                                            module.panel.classList.add('hidden'); // Hide the entire panel
-                                                        } else {
-                                                            module.panel.classList.remove('hidden'); // Show the entire panel
-                                                        }
-                                                        
-                                                        // Manage the content and its toggle/icon
-                                                        setCollapsedState(module.content, module.toggle, isCurrentlyOpen); // Set to collapsed if already open, else uncollapsed
-
-                                                        if (!isCurrentlyOpen) { // If it just became open
-                                                            module.toggle.classList.remove('hidden'); // Ensure toggle is visible
-                                                            module.content.classList.add(module.bgColorClass); // Apply background color
-                                                            module.panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // Scroll to the panel
-                                                        } else { // If it just became closed
-                                                            module.toggle.classList.add('hidden'); // Hide toggle
-                                                            module.content.classList.remove(module.bgColorClass); // Remove background
-                                                        }
-                                                        
-                                                    } else { // This is a different module, so hide it completely
-                                                        setCollapsedState(module.content, module.toggle, true); // Collapse content
-                                                        module.toggle.classList.add('hidden'); // Hide toggle
-                                                        module.content.classList.remove(module.bgColorClass); // Remove background
-                                                        module.panel.classList.add('hidden'); // Hide the entire panel container
-                                                    }
-                                                }
-                                            }
-                                            
-                                            // IMPORTANT: Call manageHeaderVisibility after all panel and content states have been updated
-                                            manageHeaderVisibility();
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(tooltipItem) {
+                                            return tooltipItem.label + ': ' + tooltipItem.raw + '%';
                                         }
-                                    } catch (error) {
-                                        console.error("Error in Chart.js onClick handler:", error);
                                     }
                                 }
+                            },
+                            onClick: (event, elements) => {
+                                try {
+                                    if (elements.length > 0) {
+                                        const clickedElementIndex = elements[0].index;
+                                        const clickedLabel = spmModulesChart.data.labels[clickedElementIndex];
+
+                                        // Ensure the parent 'Workshows & Workshops Structure' section is expanded
+                                        if (workshopsStructureContent && workshopsStructureContent.classList.contains('collapsed')) {
+                                            setCollapsedState(workshopsStructureContent, workshopsStructureToggle, false); // Explicitly expand parent
+                                        }
+
+                                        // Map of all module details including their panel elements
+                                        const moduleDetailsMap = {
+                                            'Demand Management': {
+                                                panel: document.getElementById('demand-management-details-panel'),
+                                                content: document.getElementById('demand-management-details-content'),
+                                                toggle: document.querySelector('#demand-management-details-panel .sub-collapsible-toggle'),
+                                                bgColorClass: 'demand-bg-light'
+                                            },
+                                            'Project Management': {
+                                                panel: document.getElementById('project-management-details-panel'),
+                                                content: document.getElementById('project-management-details-content'),
+                                                toggle: document.querySelector('#project-management-details-panel .sub-collapsible-toggle'),
+                                                bgColorClass: 'project-bg-light'
+                                            },
+                                            'Resource Management': {
+                                                panel: document.getElementById('resource-management-details-panel'),
+                                                content: document.getElementById('resource-management-details-content'),
+                                                toggle: document.querySelector('#resource-management-details-panel .sub-collapsible-toggle'),
+                                                bgColorClass: 'resource-bg-light'
+                                            },
+                                            'Time Management': {
+                                                panel: document.getElementById('time-management-details-panel'),
+                                                content: document.getElementById('time-management-details-content'),
+                                                toggle: document.querySelector('#time-management-details-panel .sub-collapsible-toggle'),
+                                                bgColorClass: 'time-bg-light'
+                                            }
+                                        };
+
+                                        // Iterate through all module details to manage their visibility (hide others, show clicked)
+                                        for (const labelKey in moduleDetailsMap) {
+                                            const module = moduleDetailsMap[labelKey];
+                                            if (!module.panel || !module.content || !module.toggle) {
+                                                console.warn(`Chart click handler: Missing elements for module "${labelKey}".`);
+                                                continue;
+                                            }
+
+                                            if (labelKey === clickedLabel) { // This is the module corresponding to the clicked slice
+                                                // Toggle visibility: If already open, close it; otherwise, open it.
+                                                const isCurrentlyOpen = !module.content.classList.contains('collapsed');
+
+                                                if (isCurrentlyOpen) { // If it's open, now close it
+                                                    module.panel.classList.add('hidden'); // Hide the entire panel
+                                                    setCollapsedState(module.content, module.toggle, true); // Collapse content
+                                                    module.toggle.classList.add('hidden-sub-toggle'); // Hide its own toggle
+                                                    module.content.classList.remove(module.bgColorClass); // Remove background
+                                                } else { // If it's closed, now open it
+                                                    module.panel.classList.remove('hidden'); // Show the entire panel
+                                                    module.toggle.classList.remove('hidden-sub-toggle'); // Show its own toggle
+                                                    setCollapsedState(module.content, module.toggle, false); // Uncollapse content
+                                                    module.content.classList.add(module.bgColorClass); // Apply background color
+                                                    module.panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // Scroll to the panel
+                                                }
+                                            } else { // This is a different module, so hide it completely
+                                                setCollapsedState(module.content, module.toggle, true); // Collapse content
+                                                module.toggle.classList.add('hidden-sub-toggle'); // Hide toggle
+                                                module.content.classList.remove(module.bgColorClass); // Remove background
+                                                module.panel.classList.add('hidden'); // Hide the entire panel container
+                                            }
+                                        }
+                                        
+                                        // IMPORTANT: Call manageHeaderVisibility after all panel and content states have been updated
+                                        manageHeaderVisibility(mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
+                                    }
+                                } catch (error) {
+                                    console.error("Error in Chart.js onClick handler:", error);
+                                }
                             }
-                        });
-                    } catch (error) {
-                        console.error("Error initializing SPM Modules Chart:", error);
-                    }
+                        }
+                    });
+                } catch (error) {
+                    console.error("Error initializing SPM Modules Chart:", error);
                 }
             }
 
 
-            // Get the logo element (for shrinking/expanding based on any main section state)
-            const echostarLogo = document.getElementById('echostarLogo');
-            
-            // List of all main collapsible section toggles, used for the logo shrinking behavior.
-            const mainCollapsibleTogglesForLogo = Array.from(document.querySelectorAll(
-                '#organization-section .collapsible-toggle, ' +
-                '#metrics-stakeholders-section .collapsible-toggle, ' +
-                '#technical-readiness-section .collapsible-toggle, ' +
-                '#timeline-section .collapsible-toggle, ' +
-                '#workshops-structure-section .collapsible-toggle, ' +
-                '#implementation-phases-section .collapsible-toggle'
-            ));
-
-
             /**
-             * Unified event listener for all collapsible toggles (main sections, sub-sections, stakeholder cards).
-             * Handles expanding/collapsing content, managing related panel visibility, and triggering
-             * overall header visibility updates.
+             * Sets up event listeners for all collapsible toggles across the infographic.
+             * Handles expanding/collapsing content, managing related panel visibility,
+             * updating logo state, and triggering overall header visibility updates.
+             * @param {NodeListOf<Element>} allToggles - A NodeList of all collapsible toggle elements.
+             * @param {HTMLElement} echostarLogo - The EchoStar logo element for shrinking/expanding.
+             * @param {Array<HTMLElement>} mainCollapsibleTogglesForLogo - An array of primary section toggles affecting logo state.
+             * @param {HTMLElement} mainHeader - The main header element for visibility management.
+             * @param {HTMLElement} workshopsStructureContent - The content element of the 'Workshows & Workshops Structure' section.
+             * @param {NodeListOf<Element>} spmModuleDetailPanels - A NodeList of all SPM module detail panel elements.
+             * @param {Array<string>} otherMainSectionContentIds - An array of IDs for other primary section content elements.
+             * @returns {void}
              */
-            function setupCollapsibleToggleListeners() {
-                document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle, .stakeholder-card-toggle').forEach(toggleElement => {
+            function setupCollapsibleToggleListeners(allToggles, echostarLogo, mainCollapsibleTogglesForLogo, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds) {
+                allToggles.forEach(toggleElement => {
                     try {
                         const targetContentId = toggleElement.dataset.target;
                         const targetContentElement = document.getElementById(targetContentId);
                         
                         if (!targetContentElement) {
                             console.error(`Event Listener Setup Error: Target content with ID "${targetContentId}" not found for toggle:`, toggleElement);
-                            return; // Skip if target content is missing
+                            return;
                         }
 
                         const handleToggleClick = () => {
@@ -1599,31 +1567,16 @@ Now see if you see any improvements compared to the last code i shared:
                             // Toggle the state of the content and its associated toggle visual.
                             setCollapsedState(targetContentElement, toggleElement, !isCurrentlyCollapsed);
 
-                            // Specific logic for SPM module detail panels: manage their overall visibility
-                            // This applies when a user manually clicks the sub-collapsible toggle for a module detail,
-                            // not just when clicking the donut slice.
-                            if (targetContentId.includes('-details-content')) {
-                                const parentPanel = targetContentElement.closest('.spm-module-detail-panel');
-                                if (parentPanel) {
-                                    if (!targetContentElement.classList.contains('collapsed')) { // If content just became uncollapsed
-                                        parentPanel.classList.remove('hidden'); // Show the entire panel
-                                        toggleElement.classList.remove('hidden'); // Ensure its own toggle is visible
-                                    } else { // If content just became collapsed
-                                        parentPanel.classList.add('hidden'); // Hide the entire panel
-                                        toggleElement.classList.add('hidden'); // Hide its own toggle
-                                    }
-                                }
-                            } else if (targetContentId === 'workshops-structure-content' && targetContentElement.classList.contains('collapsed')) {
-                                // If the main "Workshows & Workshops Structure" section is being manually collapsed,
-                                // ensure all its module detail panels are also hidden.
-                                const spmDetailPanels = document.querySelectorAll('.spm-module-detail-panel');
-                                spmDetailPanels.forEach(panel => {
+                            // Specific logic for SPM module detail panels: if main "Workshows & Workshops Structure"
+                            // section is being collapsed, hide its sub-panels.
+                            if (targetContentId === 'workshops-structure-content' && targetContentElement.classList.contains('collapsed')) {
+                                Array.from(spmModuleDetailPanels).forEach(panel => {
                                     panel.classList.add('hidden'); // Hide the panel
                                     const content = document.getElementById(panel.querySelector('[data-target]').dataset.target);
                                     const toggle = panel.querySelector('.sub-collapsible-toggle');
                                     if (content && toggle) {
                                         setCollapsedState(content, toggle, true); // Ensure content is collapsed
-                                        toggle.classList.add('hidden'); // Hide toggle
+                                        toggle.classList.add('hidden-sub-toggle'); // Hide toggle
                                         content.classList.remove('demand-bg-light', 'project-bg-light', 'resource-bg-light', 'time-bg-light'); // Remove background
                                     }
                                 });
@@ -1635,7 +1588,7 @@ Now see if you see any improvements compared to the last code i shared:
                                     echostarLogo.classList.add('logo-shrink');
                                 } else { // This main section is now collapsed
                                     // Check if ANY other main section is still expanded to keep logo shrunk
-                                    const anyOtherMainSectionExpandedForLogo = Array.from(mainCollapsibleTogglesForLogo).some(otherToggle => {
+                                    const anyOtherMainSectionExpandedForLogo = mainCollapsibleTogglesForLogo.some(otherToggle => {
                                         const otherContent = document.getElementById(otherToggle.dataset.target);
                                         // Make sure 'otherContent' exists, is not the current 'targetContentElement', and is not collapsed
                                         return otherContent && (otherContent.id !== targetContentElement.id) && !otherContent.classList.contains('collapsed');
@@ -1648,7 +1601,7 @@ Now see if you see any improvements compared to the last code i shared:
                             }
                             
                             // Always call the centralized header visibility manager after any toggle action.
-                            manageHeaderVisibility();
+                            manageHeaderVisibility(mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
                         };
 
                         toggleElement.addEventListener('click', handleToggleClick);
@@ -1667,20 +1620,21 @@ Now see if you see any improvements compared to the last code i shared:
             /**
              * Manages the text carousel effect in the header.
              * Alternates between the main title and a strategic descriptive paragraph.
+             * @param {HTMLElement} mainTitle - The main title element.
+             * @param {HTMLElement} strategyText - The strategic text element.
+             * @returns {void}
              */
-            function setupHeaderTextCarousel() {
-                const mainTitle = document.getElementById('mainTitle');
-                const strategyText = document.getElementById('strategyText');
+            function setupHeaderTextCarousel(mainTitle, strategyText) {
                 let isTitleActive = true;
 
                 // Set initial state for carousel
-                if (mainTitle && strategyText) {
-                    mainTitle.classList.add('active-fade', 'h1-glow');
-                    strategyText.classList.add('inactive-fade');
-                } else {
+                if (!mainTitle || !strategyText) {
                     console.warn("setupHeaderTextCarousel: Header text elements not found, carousel disabled.");
                     return; // Exit if elements are missing
                 }
+
+                mainTitle.classList.add('active-fade', 'h1-glow');
+                strategyText.classList.add('inactive-fade');
 
                 function toggleHeaderText() {
                     if (isTitleActive) {
@@ -1710,12 +1664,12 @@ Now see if you see any improvements compared to the last code i shared:
             /**
              * Controls the visibility of future roadmap phases and their details.
              * Toggles elements with 'hidden-element' and 'show-element' classes.
+             * @param {HTMLElement} showFutureButton - The button to toggle future states.
+             * @param {NodeListOf<Element>} futureTimelineElements - Elements forming the future timeline visualization.
+             * @param {NodeListOf<Element>} futureDetailCards - Detail cards for future phases.
+             * @returns {void}
              */
-            function setupFutureStatesToggle() {
-                const showFutureButton = document.getElementById('show-future-button');
-                const futureTimelineElements = document.querySelectorAll('#line-2-3, #milestone-3, #line-3-4, #milestone-4');
-                const futureDetailCards = document.querySelectorAll('#phase-detail-3, #phase-detail-4');
-
+            function setupFutureStatesToggle(showFutureButton, futureTimelineElements, futureDetailCards) {
                 let futureStatesVisible = false;
 
                 // Initially hide the future detail cards and timeline elements
@@ -1743,7 +1697,7 @@ Now see if you see any improvements compared to the last code i shared:
                                 if (futureStatesVisible) {
                                     el.classList.remove('hidden-element');
                                     // Use flex/block display to participate in layout before opacity transition
-                                    el.style.display = el.classList.contains('roadmap-milestone') ? 'flex' : 'block'; 
+                                    el.style.display = el.classList.contains('roadmap-milestone') ? 'flex' : 'block';
                                     setTimeout(() => el.classList.add('show-element'), 10); // Trigger opacity transition after display
                                 } else {
                                     el.classList.remove('show-element');
@@ -1753,7 +1707,7 @@ Now see if you see any improvements compared to the last code i shared:
                                         el.removeEventListener('transitionend', handler);
                                     }, { once: true });
                                     // Fallback for cases where transition might not fire (e.g., if already hidden)
-                                    if (getComputedStyle(el).transitionDuration === '0s' || getComputedStyle(el).opacity === '0') {
+                                    if (getComputedStyle(el).transitionDuration === '0s' || parseFloat(getComputedStyle(el).opacity) === 0) {
                                         el.style.display = 'none';
                                     }
                                     el.classList.add('hidden-element');
@@ -1774,7 +1728,7 @@ Now see if you see any improvements compared to the last code i shared:
                                         card.style.display = 'none';
                                         card.removeEventListener('transitionend', handler);
                                     }, { once: true });
-                                    if (getComputedStyle(card).transitionDuration === '0s' || getComputedStyle(card).opacity === '0') {
+                                    if (getComputedStyle(card).transitionDuration === '0s' || parseFloat(getComputedStyle(card).opacity) === 0) {
                                         card.style.display = 'none';
                                     }
                                     card.classList.add('hidden-element');
@@ -1794,6 +1748,7 @@ Now see if you see any improvements compared to the last code i shared:
             /**
              * Function to get and display the last update timestamp.
              * Formats the current date and time in Mountain Time (MT).
+             * @returns {void}
              */
             function setLastUpdateTimestamp() {
                 try {
@@ -1801,8 +1756,6 @@ Now see if you see any improvements compared to the last code i shared:
                     if (lastUpdatedElement) {
                         const now = new Date();
                         // Using toLocaleString with specific options to format for Mountain Time (approximated)
-                        // Note: Client-side JS date/time is based on the user's local settings,
-                        // but we can specify the time zone and format to match the request.
                         const options = { 
                             year: 'numeric', 
                             month: 'long', 
@@ -1825,16 +1778,51 @@ Now see if you see any improvements compared to the last code i shared:
 
             // Main execution block: Ensure DOM is loaded before running scripts
             document.addEventListener('DOMContentLoaded', function() {
-                initializeCollapsibleSections();
-                initializeSpmModulesChart();
-                setupCollapsibleToggleListeners();
-                setupHeaderTextCarousel();
-                setupFutureStatesToggle();
+                // Cache frequently used DOM elements once
+                const mainHeader = document.getElementById('mainHeader');
+                const echostarLogo = document.getElementById('echostarLogo');
+                const mainTitle = document.getElementById('mainTitle');
+                const strategyText = document.getElementById('strategyText');
+                const workshopsStructureToggle = document.querySelector('#workshops-structure-section .collapsible-toggle');
+                const workshopsStructureContent = document.getElementById('workshops-structure-content');
+                const spmModulesCtxElement = document.getElementById('spmModulesChart');
+                const spmModuleDetailPanels = document.querySelectorAll('.spm-module-detail-panel'); // All individual module panels
+                const showFutureButton = document.getElementById('show-future-button');
+                const futureTimelineElements = document.querySelectorAll('#line-2-3, #milestone-3, #line-3-4, #milestone-4');
+                const futureDetailCards = document.querySelectorAll('#phase-detail-3, #phase-detail-4');
+
+                // List of all main collapsible section content IDs (for header visibility logic)
+                const otherMainSectionContentIds = [
+                    'organization-content',
+                    'metrics-stakeholders-content',
+                    'technical-readiness-content',
+                    'timeline-content',
+                    'workshops-structure-content', // Include this as it's a main section
+                    'implementation-phases-content'
+                ];
+
+                // List of all general toggles for event listener setup
+                const allToggles = document.querySelectorAll('.collapsible-toggle, .sub-collapsible-toggle, .stakeholder-card-toggle');
+                // Main collapsible toggles that affect the logo size
+                const mainCollapsibleTogglesForLogo = Array.from(document.querySelectorAll(
+                    '#organization-section .collapsible-toggle, ' +
+                    '#metrics-stakeholders-section .collapsible-toggle, ' +
+                    '#technical-readiness-section .collapsible-toggle, ' +
+                    '#timeline-section .collapsible-toggle, ' +
+                    '#workshops-structure-section .collapsible-toggle, ' +
+                    '#implementation-phases-section .collapsible-toggle'
+                ));
+
+                // Initialize all core functionalities
+                initializeCollapsibleSections(allToggles, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
+                initializeSpmModulesChart(spmModulesCtxElement, workshopsStructureToggle, workshopsStructureContent, mainHeader, spmModuleDetailPanels, otherMainSectionContentIds);
+                setupCollapsibleToggleListeners(allToggles, echostarLogo, mainCollapsibleTogglesForLogo, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
+                setupHeaderTextCarousel(mainTitle, strategyText);
+                setupFutureStatesToggle(showFutureButton, futureTimelineElements, futureDetailCards);
                 setLastUpdateTimestamp();
             });
 
         })(); // End of IIFE
     </script>
-
 </body>
 </html>
