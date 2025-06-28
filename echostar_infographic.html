@@ -13,13 +13,13 @@
             background-color: #f0f4ff; /* Lighter background for better contrast */
         }
         /* Custom background colors for organizational units */
-        .dish-bg { background-color: #00A9E0; } /* Teal */
-        .sling-bg { background-color: #4CAF50; } /* Green */
+        .dish-bg { background-color: #00A9E0; } /* Teal (retained for consistency, though not directly used on new tiles) */
+        .sling-bg { background-color: #4CAF50; } /* Green (retained for consistency) */
         .video-services-bg { background-color: #7B1FA2; } /* Deep Purple */
         .shared-services-bg { background-color: #FFC107; } /* Yellow */
         .corporate-bg { background-color: #F44336; } /* Red */
         .wireless-bg { background-color: #F37021; } /* Orange */
-        .hughes-bg { background-color: #81D4FA; } /* Light Blue */
+        .hughes-bg { background-color: #81D4FA; } /* Light Blue (retained for consistency) */
 
         /* Teal shades for metrics section (backgrounds for front face) */
         .spm-modules-front { background-color: #007B9E; } /* Darker teal for SPM Modules */
@@ -269,8 +269,8 @@
         .flip-card {
             background-color: transparent;
             perspective: 1000px; /* Needed for 3D effect */
-            width: 140px; /* Fixed width for consistent size */
-            height: 140px; /* Fixed height for consistent card size */
+            width: 200px; /* Increased width for larger tiles */
+            height: 220px; /* Slightly longer tiles */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -282,16 +282,16 @@
         @media (min-width: 768px) { /* md breakpoint */
             .grid-cols-2 .flip-card,
             .grid-cols-3 .flip-card,
-            .grid-cols-7 .flip-card {
-                width: 140px;
-                height: 140px;
+            .grid-cols-4 .flip-card { /* Adjusted for the new 4-column layout */
+                width: 200px; /* Keep size consistent on medium/large screens */
+                height: 220px; /* Keep longer height */
             }
         }
 
         /* Specific adjustments for metric flip cards in Key Metrics & Stakeholder Overview */
         #metrics-stakeholders-section .flip-card {
             width: 100%; /* Make them fill their grid column */
-            height: 120px; /* Adjusted height for metrics boxes */
+            height: 120px; /* Adjusted height for metrics boxes (these remain smaller) */
             padding: 0; /* Reset padding to be controlled by inner elements */
             box-shadow: none; /* Remove outer shadow, it will be applied to inner faces */
             overflow: visible; /* Ensure content is not clipped by fixed dimensions */
@@ -326,37 +326,57 @@
             border-radius: inherit; /* Inherit rounded corners from flip-card */
             box-sizing: border-box; /* Include padding in the element's total width and height */
             box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Apply shadow directly to front/back faces */
+            color: white; /* All text on tiles should be white */
         }
         
         /* Default styling for the back face for organizational cards */
         .flip-card-back {
             transform: rotateY(180deg); /* Initially hidden */
-            color: #fff; /* Default white text for organizational cards */
-            font-size: 0.8rem; /* Consistent font size */
-            line-height: 1.3;
+            font-size: 1.125rem; /* Increased font size for readability (text-lg equivalent) */
+            line-height: 1.5; /* Adjusted line height for readability */
             text-align: center;
         }
 
         /* Apply background colors to front and back for organizational flip cards */
-        .dish-bg .flip-card-front, .dish-bg .flip-card-back { background-color: #00A9E0; color: white; }
-        .sling-bg .flip-card-front, .sling-bg .flip-card-back { background-color: #4CAF50; color: white; }
-        .video-services-bg .flip-card-front, .video-services-bg .flip-card-back { background-color: #7B1FA2; color: white; }
-        .shared-services-bg .flip-card-front, .shared-services-bg .flip-card-back { background-color: #FFC107; color: black; } /* Adjusted for visibility */
-        .corporate-bg .flip-card-front, .corporate-bg .flip-card-back { background-color: #F44336; color: white; }
-        .wireless-bg .flip-card-front, .wireless-bg .flip-card-back { background-color: #F37021; color: black; } /* Adjusted for visibility */
-        .hughes-bg .flip-card-front, .hughes-bg .flip-card-back { background-color: #81D4FA; color: black; } /* Adjusted for visibility */
+        .video-services-bg .flip-card-front, .video-services-bg .flip-card-back { background-color: #7B1FA2; } /* Deep Purple */
+        .shared-services-bg .flip-card-front, .shared-services-bg .flip-card-back { background-color: #FFC107; } /* Yellow */
+        .corporate-bg .flip-card-front, .corporate-bg .flip-card-back { background-color: #F44336; } /* Red */
+        .wireless-bg .flip-card-front, .wireless-bg .flip-card-back { background-color: #F37021; } /* Orange */
 
-        /* Ensure text on light backgrounds remains readable on both sides */
+        /* Ensure text on all backgrounds is white (overriding previous black for light backgrounds) */
         .shared-services-bg .flip-card-front strong,
         .corporate-bg .flip-card-front strong,
         .wireless-bg .flip-card-front strong {
-            color: inherit;
+            color: white; /* Explicitly set to white */
         }
         .shared-services-bg .flip-card-back,
         .corporate-bg .flip-card-back,
         .wireless-bg .flip-card-back {
-            color: inherit;
+            color: white; /* Explicitly set to white */
         }
+
+        /* IMPORTANT FIX: Ensure list items inside flip card backs are white and readable */
+        .flip-card-back .custom-bullet-list li {
+            color: white; /* Override the default gray from .custom-bullet-list li */
+            font-size: 1rem; /* Adjust list item font size for readability */
+        }
+
+        /* Increase font size for front of tiles */
+        .flip-card-front strong {
+            font-size: 1.5rem; /* Slightly larger main title */
+        }
+        .flip-card-front .text-sm { /* Adjusting text-sm for subtitle within strong context */
+            font-size: 1rem; /* Slightly larger subtitle */
+            opacity: 1; /* Ensure full opacity */
+        }
+
+        /* Styling for the "One way of Working!" text */
+        .one-way-working-text {
+            font-size: 1.5rem; /* Make it bigger */
+            color: #7B1FA2; /* Deep Purple, same as Video Services tile */
+            margin-bottom: 1rem; /* Add some space below */
+        }
+
 
         /* --- Specific Metric Flip Card Styling (Key Metrics Section) --- */
         #metrics-stakeholders-section .flip-card-front {
@@ -450,7 +470,7 @@
         .custom-bullet-list li {
             position: relative;
             margin-bottom: 0.25rem;
-            color: #555;
+            color: #555; /* Default color for custom bullets */
             text-align: left;
             padding-left: 1.2em;
         }
@@ -466,7 +486,7 @@
             padding-right: 0.3rem;
         }
 
-        /* NEW specific styles for the 4-point roadmap timeline */
+        /* NEW specific styles for the 4-point roadmap timeline (retained for now, but section is removed) */
         .roadmap-timeline {
             display: flex;
             align-items: center;
@@ -658,55 +678,51 @@
                 <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
             </div>
             <div id="organization-content" class="collapsible-content collapsed">
-                <div class="flex justify-center items-center mb-4 mt-6">
-                    <p class="text-center font-bold text-lg text-gray-700">Single SPM Instance Goal - Phased Approach</p>
+                <div class="flex justify-center items-center mt-6">
+                    <p class="text-center font-bold one-way-working-text">One way of Working!</p>
                 </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4 text-white text-center">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-white text-center">
                     
-                    <div class="flip-card dish-bg dish-glow">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <strong>DISH</strong><br><span class="text-sm opacity-80">Primary Focus</span>
-                            </div>
-                            <div class="flip-card-back">
-                                Traditional satellite TV business, primary focus for initial SPM implementation.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flip-card sling-bg">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <strong>Sling</strong><br><span class="text-sm opacity-80">Video Streaming</span>
-                            </div>
-                            <div class="flip-card-back">
-                                Video streaming services, aligned with DISH for implementation.
-                            </div>
-                        </div>
-                    </div>
-                    
+                    <!-- Video Services Tile (combined DISH, Sling, Video Services) -->
                     <div class="flip-card video-services-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <strong>Video Services</strong><br><span class="text-sm opacity-80">Marketing</span>
+                                <strong>Video Services</strong><br><span class="text-sm opacity-80">DISH & Sling</span>
                             </div>
                             <div class="flip-card-back">
-                                Marketing & retention, part of core video business implementation scope.
+                                <ul class="text-xs custom-bullet-list px-2" style="list-style-type: none; padding-left: 0; margin: 0; text-align: left;">
+                                    <li>Sales</li>
+                                    <li>Retention</li>
+                                    <li>Marketing</li>
+                                    <li>Programming</li>
+                                    <li>DISH Business</li>
+                                    <li>Product</li>
+                                    <li>DISH Media</li>
+                                    <li>Sling</li>
+                                    <li>DISH Tech</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                     
+                    <!-- Shared Services Tile -->
                     <div class="flip-card shared-services-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <strong>Shared Services</strong><br><span class="text-sm opacity-80">CXO Functions</span>
                             </div>
                             <div class="flip-card-back">
-                                Centralized CXO functions, included in the foundational phase.
+                                <ul class="text-xs custom-bullet-list px-2" style="list-style-type: none; padding-left: 0; margin: 0; text-align: left;">
+                                    <li>CXO</li>
+                                    <li>Billing & Credit (B&C)</li>
+                                    <li>In Home Services (IHS)</li>
+                                    <li>Manufacturing</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                     
+                    <!-- Corporate Tile -->
                     <div class="flip-card corporate-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
@@ -717,25 +733,15 @@
                             </div>
                         </div>
                     </div>
-                    
+
+                    <!-- Wireless Tile (combined Wireless & Hughes, now last) -->
                     <div class="flip-card wireless-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <strong>Wireless</strong><br><span class="text-sm opacity-80">Inclined to maintain status quo</span>
+                                <strong>Wireless</strong><br><span class="text-sm opacity-80">Retail & MNO</span>
                             </div>
                             <div class="flip-card-back">
-                                Retail & M&L divisions, characterized by 'startup mentality', 'fast-moving', and 'inclined to maintain the status quo'.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flip-card hughes-bg">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <strong>Hughes</strong><br><span class="text-sm opacity-80">Legacy EchoStar</span>
-                            </div>
-                            <div class="flip-card-back">
-                                Rockets, military, Delta Wi-Fi; has own instance, targeted for later integration.
+                                Retail and MNO divisions. Focus on mobile operations and customer engagement.
                             </div>
                         </div>
                     </div>
@@ -1218,9 +1224,15 @@
                         return;
                     }
 
-                    // 1. Check if the 'Workshows & Workshops Structure' main section is currently expanded.
-                    const isWorkshopsStructureOpen = !workshopsStructureContent.classList.contains('collapsed');
-
+                    // Safely declare and assign isWorkshopsStructureOpen
+                    let isWorkshopsStructureOpen = false;
+                    if (workshopsStructureContent && workshopsStructureContent.classList) {
+                        isWorkshopsStructureOpen = !workshopsStructureContent.classList.contains('collapsed');
+                    } else {
+                        console.warn("manageHeaderVisibility: workshopsStructureContent or its classList is unexpectedly missing. Defaulting isWorkshopsStructureOpen to false.");
+                        // Continue execution with default false, or return if this state is unrecoverable
+                    }
+                    
                     // 2. Check if any specific module detail *panel* within 'Workshows & Workshops Structure' is currently visible.
                     const anyModuleDetailPanelVisible = Array.from(spmModuleDetailPanels).some(panel => !panel.classList.contains('hidden'));
 
@@ -1680,10 +1692,6 @@
                 const workshopsStructureContent = document.getElementById('workshops-structure-content');
                 const spmModulesCtxElement = document.getElementById('spmModulesChart');
                 const spmModuleDetailPanels = document.querySelectorAll('.spm-module-detail-panel'); // All individual module panels
-                // Removed references to future roadmap elements as the section is being removed
-                // const showFutureButton = document.getElementById('show-future-button');
-                // const futureTimelineElements = document.querySelectorAll('#line-2-3, #milestone-3, #line-3-4, #milestone-4');
-                // const futureDetailCards = document.querySelectorAll('#phase-detail-3, #phase-detail-4');
 
                 // List of all main collapsible section content IDs (for header visibility logic)
                 const otherMainSectionContentIds = [
@@ -1708,8 +1716,6 @@
                 initializeSpmModulesChart(spmModulesCtxElement, workshopsStructureToggle, workshopsStructureContent, mainHeader, spmModuleDetailPanels, otherMainSectionContentIds);
                 setupCollapsibleToggleListeners(allToggles, echostarLogo, mainCollapsibleTogglesForLogo, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
                 setupHeaderTextCarousel(mainTitle, strategyText);
-                // Removed setupFutureStatesToggle call as the related HTML section is removed
-                // setupFutureStatesToggle(showFutureButton, futureTimelineElements, futureDetailCards);
                 setLastUpdateTimestamp();
             });
 
