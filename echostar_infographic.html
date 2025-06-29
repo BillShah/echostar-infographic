@@ -37,19 +37,17 @@
         .tooltip {
             visibility: hidden;
             color: #fff;
-            /* Changed to left to prevent cutting off on the left side of the chart */
-            text-align: left; 
+            text-align: left; /* Changed to left to prevent cutting off on the left side of the chart */
             border-radius: 6px;
             padding: 5px 10px;
             position: absolute;
             z-index: 100; /* High z-index to always be on top */
             bottom: 150%; /* Adjusted from 125% to 150% to prevent cut-off */
-            left: 0; /* Align to the start of the parent bar */
-            /* Removed transform: translateX(-50%) to prevent shifting left */
+            left: -100px; /* User's requested change: tooltip appears to the left of the info icon */
             opacity: 0;
             transition: opacity 0.3s;
-            min-width: 150px;
-            max-width: 250px;
+            min-width: 180px; /* Increased min-width for better readability */
+            max-width: 300px; /* Increased max-width */
             font-size: 0.875rem;
             line-height: 1.2;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -93,6 +91,23 @@
         .gantt-bar.workshop-project-biz .tooltip::after { border-color: #FFC107 transparent transparent transparent; }
         .gantt-bar.workshop-resource-it .tooltip { background-color: #2C3E50; }
         .gantt-bar.workshop-resource-it .tooltip::after { border-color: #2C3E50 transparent transparent transparent; }
+
+        /* General tooltip styles for the "i" info icon */
+        .tooltip-dark-blue { background-color: #007B9E; } /* Match Preview A */
+        .tooltip-dark-blue::after { border-color: #007B9E transparent transparent transparent; }
+
+        .tooltip-dark-green { background-color: #4CAF50; } /* Match Workshop Demand Biz */
+        .tooltip-dark-green::after { border-color: #4CAF50 transparent transparent transparent; }
+
+        .tooltip-purple { background-color: #7B1FA2; } /* Match Workshow Demand */
+        .tooltip-purple::after { border-color: #7B1FA2 transparent transparent transparent; }
+
+        .tooltip-dark-brown { background-color: #F37021; } /* Match Workshow Project */
+        .tooltip-dark-brown::after { border-color: #F37021 transparent transparent transparent; }
+
+        .tooltip-dark-gray { background-color: #2C3E50; } /* Match Workshop Resource IT */
+        .tooltip-dark-gray::after { border-color: #2C3E50 transparent transparent transparent; }
+
 
         /* Styles for the folder icon link */
         .timeline-card .folder-link {
@@ -738,8 +753,8 @@
             position: absolute;
             top: 0;
             /* Position at the end of June: June has 16 visible days (15th to 30th). 
-             So, it's (16 / 40) * 100% into the timeline from its start.
-             The + var(--gantt-label-width) aligns it after the label column. */
+               So, it's (16 / 40) * 100% into the timeline from its start.
+               The + var(--gantt-label-width) aligns it after the label column. */
             left: calc(var(--gantt-label-width) + (16 / var(--gantt-total-days-period) * var(--gantt-timeline-display-width)));
             height: 100%; /* Extend all the way down */
             border-left: 2px dotted #ccc; /* Dotted line style */
@@ -788,11 +803,11 @@
             border-radius: 4px;
             width: var(--gantt-timeline-display-width); /* Match the total drawable area width */
             flex-shrink: 0; /* Prevent from shrinking */
-            /* Removed overflow: hidden; from here to allow tooltips to escape */
+            overflow: visible; /* Changed to visible to allow tooltips to escape */
         }
 
         .gantt-bar {
-            position: relative; /* Changed to relative for tooltip-container to work */
+            position: absolute; /* Changed to absolute for precise positioning within .gantt-bar-area */
             height: 80%;
             top: 10%;
             border-radius: 4px;
@@ -804,12 +819,11 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.15);
             padding: 0 3px; /* Reduced padding */
             box-sizing: border-box;
-            overflow: visible; /* Changed to visible for tooltip to show */
+            overflow: visible; /* Ensure content within the bar (e.g., tooltip) is not clipped */
             white-space: nowrap; /* Prevent text wrapping inside bars */
-            left: 0; /* All bars start from the beginning of the bar area */
-            /* Width will be calculated based on the day of the event relative to June 15th */
             min-width: 5px; /* Ensure bars are visible even for very short durations */
             cursor: help; /* Indicate hoverable element */
+            left: 0; /* All bars start at the same position as per new requirement */
         }
 
         /* Specific colors for Gantt bars */
@@ -1161,11 +1175,11 @@
                 </div>
 
                 <div class="mt-8 bg-white rounded-lg shadow-md p-6">
-                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="gantt-view-content" tabindex="0" role="button" aria-expanded="false" aria-controls="gantt-view-content">
+                    <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle" data-target="gantt-view-content" tabindex="0" role="button" aria-expanded="true" aria-controls="gantt-view-content">
                         <h4 class="font-bold text-lg text-teal-500 mb-0">GANTT Chart View - A simplified visual representation of the timeline</h4>
-                        <span class="collapsible-icon">▼</span>
+                        <span class="collapsible-icon">▲</span>
                     </div>
-                    <div id="gantt-view-content" class="collapsible-content sub-collapsible-content collapsed">
+                    <div id="gantt-view-content" class="collapsible-content sub-collapsible-content">
                         
                         <div class="gantt-chart-container mt-4">
                             <div class="gantt-grid">
@@ -1173,10 +1187,12 @@
                                     <div class="gantt-month-name">June 2025</div>
                                     <div class="gantt-month-name">July 2025</div>
                                 </div>
-                                <div class="gantt-vertical-separator-line"></div> <div class="gantt-task-row">
+                                <div class="gantt-vertical-separator-line"></div> 
+                                <!-- Gantt Task Rows -->
+                                <div class="gantt-task-row">
                                     <div class="gantt-task-label">Preview A</div>
                                     <div class="gantt-bar-area">
-                                        <div class="gantt-bar preview-a tooltip-container" style="width: calc(8 / var(--gantt-total-days-period) * 100%);">
+                                        <div class="gantt-bar preview-a tooltip-container" style="left: 0%; width: calc(13 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Preview A – Demand & Project</strong><br>
                                                 Date: Monday, June 23, 2025<br>
@@ -1189,7 +1205,7 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshow Demand</div>
                                     <div class="gantt-bar-area">
-                                        <div class="gantt-bar workshow-demand tooltip-container" style="width: calc(10 / var(--gantt-total-days-period) * 100%);">
+                                        <div class="gantt-bar workshow-demand tooltip-container" style="left: 0%; width: calc(18 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshow – Demand</strong><br>
                                                 Date: Wednesday, June 25, 2025<br>
@@ -1202,7 +1218,7 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Preview B</div>
                                     <div class="gantt-bar-area">
-                                        <div class="gantt-bar preview-b tooltip-container" style="width: calc(15 / var(--gantt-total-days-period) * 100%);">
+                                        <div class="gantt-bar preview-b tooltip-container" style="left: 0%; width: calc(22 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Preview B – Resource & Timecard</strong><br>
                                                 Date: Monday, June 30, 2025<br>
@@ -1215,7 +1231,7 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshow Project</div>
                                     <div class="gantt-bar-area">
-                                        <div class="gantt-bar workshow-project tooltip-container" style="width: calc(16 / var(--gantt-total-days-period) * 100%);">
+                                        <div class="gantt-bar workshow-project tooltip-container" style="left: 0%; width: calc(24 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshow – Project</strong><br>
                                                 Date: Tuesday, July 1, 2025<br>
@@ -1228,7 +1244,7 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshow Resource</div>
                                     <div class="gantt-bar-area">
-                                        <div class="gantt-bar workshow-resource tooltip-container" style="width: calc(23 / var(--gantt-total-days-period) * 100%);">
+                                        <div class="gantt-bar workshow-resource tooltip-container" style="left: 0%; width: calc(31 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshow – Resource / Timecard</strong><br>
                                                 Date: Tuesday, July 8, 2025<br>
@@ -1241,7 +1257,7 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshop Demand IT</div>
                                     <div class="gantt-bar-area">
-                                        <div class="gantt-bar workshop-demand-it tooltip-container" style="width: calc(25 / var(--gantt-total-days-period) * 100%);">
+                                        <div class="gantt-bar workshop-demand-it tooltip-container" style="left: 0%; width: calc(35 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshop – Demand – IT</strong><br>
                                                 Date: Thursday, July 10, 2025<br>
@@ -1254,7 +1270,7 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshop Demand Biz</div>
                                     <div class="gantt-bar-area">
-                                        <div class="gantt-bar workshop-demand-biz tooltip-container" style="width: calc(26 / var(--gantt-total-days-period) * 100%);">
+                                        <div class="gantt-bar workshop-demand-biz tooltip-container" style="left: 0%; width: calc(37 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshop – Demand – Business</strong><br>
                                                 Date: Friday, July 11, 2025<br>
@@ -1267,7 +1283,7 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshop Project IT</div>
                                     <div class="gantt-bar-area">
-                                        <div class="gantt-bar workshop-project-it tooltip-container" style="width: calc(29 / var(--gantt-total-days-period) * 100%);">
+                                        <div class="gantt-bar workshop-project-it tooltip-container" style="left: 0%; width: calc(44 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshop – Project – IT</strong><br>
                                                 Date: Monday, July 14, 2025<br>
@@ -1280,7 +1296,7 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshop Project Biz</div>
                                     <div class="gantt-bar-area">
-                                        <div class="gantt-bar workshop-project-biz tooltip-container" style="width: calc(30 / var(--gantt-total-days-period) * 100%);">
+                                        <div class="gantt-bar workshop-project-biz tooltip-container" style="left: 0%; width: calc(48 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshop – Project – Business</strong><br>
                                                 Date: Tuesday, July 15, 2025<br>
@@ -1293,7 +1309,7 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshop Resource IT</div>
                                     <div class="gantt-bar-area">
-                                        <div class="gantt-bar workshop-resource-it tooltip-container" style="width: calc(36 / var(--gantt-total-days-period) * 100%);">
+                                        <div class="gantt-bar workshop-resource-it tooltip-container" style="left: 0%; width: calc(61 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshop – Resource/TC – IT</strong><br>
                                                 Date: Monday, July 21, 2025<br>
@@ -1311,7 +1327,7 @@
         </section>
 
         <section id="workshops-structure-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
-            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="workshops-structure-content" tabindex="0" role="button" aria-expanded="false" aria-controls="workshops-structure-content">
+            <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="workshops-structure-content" tabindex="0" role="button" aria-expanded="false" aria-controls="workshops-content">
                 <h3 class="text-2xl font-bold teal-text mb-0">Workshows & Workshops Structure</h3>
                 <span class="text-3xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
             </div>
