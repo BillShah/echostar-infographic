@@ -889,6 +889,26 @@
         #resetButton:hover svg {
             transform: rotate(360deg); /* Spin effect on hover */
         }
+
+        /* Completion banner styles */
+        .completion-banner {
+            background-color: #d1fae5; /* emerald-100 */
+            border: 1px solid #10b981; /* emerald-500 border */
+            border-left-width: 4px; /* emphasize left strip */
+            border-radius: 0.5rem; /* rounded corners */
+            color: #047857; /* emerald-700 text */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* subtle shadow */
+            padding: 0.5rem; /* inner spacing */
+            margin-bottom: 0.5rem; /* space below banner */
+            display: flex;
+            align-items: center;
+        }
+        .completion-banner svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
@@ -2154,6 +2174,35 @@
                 setupCollapsibleToggleListeners(allToggles, echostarLogo, mainCollapsibleTogglesForLogo, mainHeader, workshopsStructureContent, spmModuleDetailPanels, otherMainSectionContentIds);
                 setupHeaderTextCarousel(mainTitle, strategyText);
                 setLastUpdateTimestamp();
+
+                // Insert completion banners for past events
+                try {
+                    const nowMT = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Denver' }));
+                    document.querySelectorAll('.timeline-card').forEach(card => {
+                        const dateEl = card.querySelector('p:nth-of-type(2)');
+                        const timeEl = card.querySelector('p:nth-of-type(3)');
+                        if (!dateEl || !timeEl) return;
+
+                        const dateText = dateEl.textContent.replace(/^\s*Date:\s*/i, '').trim();
+                        const dateWithoutDay = dateText.replace(/^\w+,\s*/, '');
+                        const timeMatch = timeEl.textContent.match(/Time:\s*(\d{1,2}:\d{2})/i);
+                        if (!timeMatch) return;
+                        const startTime = timeMatch[1];
+                        const eventStart = new Date(`${dateWithoutDay} ${startTime} GMT-06:00`);
+                        if (nowMT > eventStart) {
+                            const banner = document.createElement('div');
+                            banner.className = 'completion-banner';
+                            banner.innerHTML = `
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 10-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                <span>This event was<br>successfully completed<br>on ${dateWithoutDay}</span>`;
+                            card.insertBefore(banner, card.firstElementChild);
+                        }
+                    });
+                } catch (e) {
+                    console.error('Error inserting completion banners', e);
+                }
 
                 // Add event listener for the reset button
                 if (resetButton) {
