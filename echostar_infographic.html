@@ -43,7 +43,7 @@
             padding: 5px 10px;
             position: absolute;
             z-index: 100; /* High z-index to always be on top */
-            bottom: 125%; /* Position above the element */
+            bottom: 150%; /* Adjusted from 125% to 150% to prevent cut-off */
             left: 0; /* Align to the start of the parent bar */
             /* Removed transform: translateX(-50%) to prevent shifting left */
             opacity: 0;
@@ -862,7 +862,6 @@
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-white text-center">
                     
-                    <!-- Video Services Tile (combined DISH, Sling, Video Services) -->
                     <div class="flip-card video-services-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
@@ -884,7 +883,6 @@
                         </div>
                     </div>
                     
-                    <!-- Shared Services Tile -->
                     <div class="flip-card shared-services-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
@@ -901,7 +899,6 @@
                         </div>
                     </div>
                     
-                    <!-- Corporate Tile -->
                     <div class="flip-card corporate-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
@@ -913,7 +910,6 @@
                         </div>
                     </div>
 
-                    <!-- Wireless Tile (combined Wireless & Hughes, now last) -->
                     <div class="flip-card wireless-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
@@ -928,7 +924,6 @@
             </div>
         </section>
 
-        <!-- START: RENAMED AND RESTRUCTURED SECTION -->
         <section id="metrics-stakeholders-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
             <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="metrics-stakeholders-content" tabindex="0" role="button" aria-expanded="false" aria-controls="metrics-stakeholders-content">
                 <h3 class="text-2xl font-bold teal-text mb-0">Stakeholder Overview</h3>
@@ -937,7 +932,6 @@
             <div id="metrics-stakeholders-content" class="collapsible-content collapsed">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-white text-center mt-6">
                     
-                    <!-- Core Project Team Tile -->
                     <div class="flip-card core-project-team-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
@@ -954,7 +948,6 @@
                         </div>
                     </div>
                     
-                    <!-- IT Decision Makers Tile (formerly IT Stakeholders) -->
                     <div class="flip-card it-decision-makers-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
@@ -969,7 +962,6 @@
                         </div>
                     </div>
                     
-                    <!-- Steering Committee Tile (formerly Business Stakeholders) -->
                     <div class="flip-card steering-committee-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
@@ -986,7 +978,6 @@
                         </div>
                     </div>
 
-                    <!-- NEW Stakeholders Tile -->
                     <div class="flip-card stakeholders-bg">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
@@ -1001,8 +992,6 @@
                 </div>
             </div>
         </section>
-        <!-- END: RENAMED AND RESTRUCTURED SECTION -->
-        
         <section id="timeline-section" class="mb-6 bg-white rounded-lg shadow-md p-6">
             <div class="flex justify-between items-center cursor-pointer collapsible-toggle collapsed" data-target="timeline-content" tabindex="0" role="button" aria-expanded="false" aria-controls="timeline-content">
                 <h3 class="text-2xl font-bold teal-text mb-0">Engagement Timeline</h3>
@@ -1021,7 +1010,7 @@
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
                                     <span>Preview A – Demand & Project</span>
-                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Preview A – Demand & Project session">
+                                    <a href="https://drive.google.com/drive/folders/1sMHDHscoBQf9d2EOlvRob4uEvkxGnvPh?usp=drive_link" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Preview A – Demand & Project session">
                                         <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
                                         </svg>
@@ -1144,8 +1133,7 @@
                                         Access Artifacts
                                     </a>
                                 </p>
-                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 14, 2025</p> <!-- Added date for consistency -->
-                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 14, 2025</p> <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
                             </div>
                             <div class="timeline-card">
@@ -1158,8 +1146,7 @@
                                         Access Artifacts
                                     </a>
                                 </p>
-                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 15, 2025</p> <!-- Added date for consistency -->
-                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90 mins</span></span></p>
+                                <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 15, 2025</p> <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
                             </div>
                             <div class="timeline-card">
@@ -1194,13 +1181,9 @@
                                     <div class="gantt-month-name">June 2025</div>
                                     <div class="gantt-month-name">July 2025</div>
                                 </div>
-                                <div class="gantt-vertical-separator-line"></div> <!-- Vertical dotted line -->
-
-                                <!-- Each row represents a task/event -->
-                                <div class="gantt-task-row">
+                                <div class="gantt-vertical-separator-line"></div> <div class="gantt-task-row">
                                     <div class="gantt-task-label">Preview A</div>
                                     <div class="gantt-bar-area">
-                                        <!-- June 23rd: Day 8 from June 15th (start of visible period) out of 40 total days -->
                                         <div class="gantt-bar preview-a tooltip-container" style="width: calc(8 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Preview A – Demand & Project</strong><br>
@@ -1214,7 +1197,6 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshow Demand</div>
                                     <div class="gantt-bar-area">
-                                        <!-- June 25th: Day 10 from June 15th -->
                                         <div class="gantt-bar workshow-demand tooltip-container" style="width: calc(10 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshow – Demand</strong><br>
@@ -1228,7 +1210,6 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Preview B</div>
                                     <div class="gantt-bar-area">
-                                        <!-- June 30th: Day 15 from June 15th -->
                                         <div class="gantt-bar preview-b tooltip-container" style="width: calc(15 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Preview B – Resource & Timecard</strong><br>
@@ -1242,7 +1223,6 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshow Project</div>
                                     <div class="gantt-bar-area">
-                                        <!-- July 1st: Day 16 from June 15th -->
                                         <div class="gantt-bar workshow-project tooltip-container" style="width: calc(16 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshow – Project</strong><br>
@@ -1256,7 +1236,6 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshow Resource</div>
                                     <div class="gantt-bar-area">
-                                        <!-- July 8th: Day 23 from June 15th -->
                                         <div class="gantt-bar workshow-resource tooltip-container" style="width: calc(23 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshow – Resource / Timecard</strong><br>
@@ -1270,7 +1249,6 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshop Demand IT</div>
                                     <div class="gantt-bar-area">
-                                        <!-- July 10th: Day 25 from June 15th -->
                                         <div class="gantt-bar workshop-demand-it tooltip-container" style="width: calc(25 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshop – Demand – IT</strong><br>
@@ -1284,7 +1262,6 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshop Demand Biz</div>
                                     <div class="gantt-bar-area">
-                                        <!-- July 11th: Day 26 from June 15th -->
                                         <div class="gantt-bar workshop-demand-biz tooltip-container" style="width: calc(26 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshop – Demand – Business</strong><br>
@@ -1298,7 +1275,6 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshop Project IT</div>
                                     <div class="gantt-bar-area">
-                                        <!-- July 14th: Day 29 from June 15th -->
                                         <div class="gantt-bar workshop-project-it tooltip-container" style="width: calc(29 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshop – Project – IT</strong><br>
@@ -1312,7 +1288,6 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshop Project Biz</div>
                                     <div class="gantt-bar-area">
-                                        <!-- July 15th: Day 30 from June 15th -->
                                         <div class="gantt-bar workshop-project-biz tooltip-container" style="width: calc(30 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshop – Project – Business</strong><br>
@@ -1326,7 +1301,6 @@
                                 <div class="gantt-task-row">
                                     <div class="gantt-task-label">Workshop Resource IT</div>
                                     <div class="gantt-bar-area">
-                                        <!-- July 21st: Day 36 from June 15th -->
                                         <div class="gantt-bar workshop-resource-it tooltip-container" style="width: calc(36 / var(--gantt-total-days-period) * 100%);">
                                             <span class="tooltip">
                                                 <strong>Workshop – Resource/TC – IT</strong><br>
@@ -1374,21 +1348,18 @@
                     </div>
                 </div>
 
-                <!-- Container for the SPM Modules Chart -->
                 <div class="mt-8 bg-white rounded-lg shadow-md p-6">
                     <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle" data-target="spm-modules-chart-content" tabindex="0" role="button" aria-expanded="true" aria-controls="spm-modules-chart-content">
                         <h4 class="font-bold text-lg text-gray-800 mb-0">SPM Modules Overview (Click for Details!)</h4>
                         <span class="collapsible-icon">▲</span>
                     </div>
-                    <div id="spm-modules-chart-content" class="collapsible-content sub-collapsible-content"> <!-- Uncollapsed by default -->
-                        <div class="chart-container h-48 md:h-64 mt-4">
+                    <div id="spm-modules-chart-content" class="collapsible-content sub-collapsible-content"> <div class="chart-container h-48 md:h-64 mt-4">
                             <canvas id="spmModulesChart"></canvas>
                         </div>
                         <p class="text-center text-gray-500 text-sm mt-4">Click on a slice for more details.</p>
                     </div>
                 </div>
 
-                <!-- Collapsible content for Demand Management details -->
                 <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel hidden" id="demand-management-details-panel">
                     <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle hidden-sub-toggle" data-target="demand-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="demand-management-details-content">
                         <h4 class="font-bold text-lg text-gray-800 mb-0">Demand Management Details</h4>
@@ -1414,7 +1385,6 @@
                     </div>
                 </div>
 
-                <!-- Collapsible content for Project Management details -->
                 <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel hidden" id="project-management-details-panel">
                     <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle hidden-sub-toggle" data-target="project-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="project-management-details-content">
                         <h4 class="font-bold text-lg text-gray-800 mb-0">Project Management Details</h4>
@@ -1440,7 +1410,6 @@
                     </div>
                 </div>
 
-                <!-- NEW: Collapsible content for Resource Management details -->
                 <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel hidden" id="resource-management-details-panel">
                     <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle hidden-sub-toggle" data-target="resource-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="resource-management-details-content">
                         <h4 class="font-bold text-lg text-gray-800 mb-0">Resource Management Details</h4>
@@ -1467,7 +1436,6 @@
                     </div>
                 </div>
 
-                <!-- NEW: Collapsible content for Time Management details -->
                 <div class="mt-8 bg-white rounded-lg shadow-md p-6 spm-module-detail-panel hidden" id="time-management-details-panel">
                     <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle hidden-sub-toggle" data-target="time-management-details-content" tabindex="0" role="button" aria-expanded="false" aria-controls="time-management-details-content">
                         <h4 class="font-bold text-lg text-gray-800 mb-0">Time Management Details</h4>
