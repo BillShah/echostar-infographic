@@ -252,16 +252,6 @@
             text-shadow: none;
         }
 
-        /* H1 text size reduction (20%) */
-        #mainTitle {
-            font-size: 1.5rem; /* 20% reduction from original text-3xl (1.875rem) */
-        }
-        @media (min-width: 768px) { /* md breakpoint */
-            #mainTitle {
-                font-size: 2.4rem; /* 20% reduction from original text-5xl (3rem) */
-            }
-        }
-
         @keyframes glow {
             from {
                 box-shadow: 0 0 5px rgba(0, 169, 224, 0.5), 0 0 10px rgba(0, 169, 224, 0.2);
@@ -748,8 +738,8 @@
             position: absolute;
             top: 0;
             /* Position at the end of June: June has 16 visible days (15th to 30th). 
-                So, it's (16 / 40) * 100% into the timeline from its start.
-                The + var(--gantt-label-width) aligns it after the label column. */
+             So, it's (16 / 40) * 100% into the timeline from its start.
+             The + var(--gantt-label-width) aligns it after the label column. */
             left: calc(var(--gantt-label-width) + (16 / var(--gantt-total-days-period) * var(--gantt-timeline-display-width)));
             height: 100%; /* Extend all the way down */
             border-left: 2px dotted #ccc; /* Dotted line style */
@@ -786,7 +776,9 @@
             color: #333;
             padding-right: 1rem;
             text-align: right;
-            white-space: normal; /* Allow label to wrap if needed */
+            white-space: nowrap; /* Forces text to stay on a single line */
+            overflow: hidden; /* Hides content that overflows the element's box */
+            text-overflow: ellipsis; /* Displays an ellipsis (...) to represent clipped text */
         }
 
         .gantt-bar-area {
