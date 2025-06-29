@@ -37,14 +37,15 @@
         .tooltip {
             visibility: hidden;
             color: #fff;
-            text-align: center;
+            /* Changed to left to prevent cutting off on the left side of the chart */
+            text-align: left; 
             border-radius: 6px;
             padding: 5px 10px;
             position: absolute;
             z-index: 100; /* High z-index to always be on top */
             bottom: 125%; /* Position above the element */
-            left: 50%;
-            transform: translateX(-50%);
+            left: 0; /* Align to the start of the parent bar */
+            /* Removed transform: translateX(-50%) to prevent shifting left */
             opacity: 0;
             transition: opacity 0.3s;
             min-width: 150px;
@@ -60,7 +61,7 @@
             content: "";
             position: absolute;
             top: 100%;
-            left: 50%;
+            left: 10%; /* Adjusted arrow position */
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
@@ -92,6 +93,25 @@
         .gantt-bar.workshop-project-biz .tooltip::after { border-color: #FFC107 transparent transparent transparent; }
         .gantt-bar.workshop-resource-it .tooltip { background-color: #2C3E50; }
         .gantt-bar.workshop-resource-it .tooltip::after { border-color: #2C3E50 transparent transparent transparent; }
+
+        /* Styles for the folder icon link */
+        .timeline-card .folder-link {
+            color: #00A9E0; /* Teal color for the text */
+            transition: color 0.2s ease-in-out;
+        }
+        .timeline-card .folder-link:hover {
+            color: #007B9E; /* Darker teal on hover for text */
+        }
+        /* Specific styling for the SVG icon within the folder link */
+        .timeline-card .folder-link svg {
+            fill: #FFD700; /* Yellow color for the icon fill */
+            stroke: #FFD700; /* Yellow color for the icon stroke */
+            transition: fill 0.2s ease-in-out, stroke 0.2s ease-in-out;
+        }
+        .timeline-card .folder-link:hover svg {
+            fill: #FFA500; /* Darker yellow on hover for icon fill */
+            stroke: #FFA500; /* Darker yellow on hover for icon stroke */
+        }
 
 
         /* Specific styles for the timeline cards */
@@ -302,7 +322,6 @@
         }
 
         /* Specific adjustments for metric flip cards in Key Metrics & Stakeholder Overview */
-        /* Removed specific height/padding overrides for metrics flip cards as they are now stakeholder cards */
         #metrics-stakeholders-section .flip-card {
             width: 100%; /* Make them fill their grid column */
             height: 220px; /* Ensure consistent height for all stakeholder tiles */
@@ -510,7 +529,7 @@
         }
 
         .custom-bullet-list li::before {
-            content: '\2713'; /* Checkmark unicode */
+            content: '\2713';
             color: #00A9E0;
             font-size: 0.9rem;
             position: absolute;
@@ -729,8 +748,8 @@
             position: absolute;
             top: 0;
             /* Position at the end of June: June has 16 visible days (15th to 30th). 
-               So, it's (16 / 40) * 100% into the timeline from its start.
-               The + var(--gantt-label-width) aligns it after the label column. */
+                So, it's (16 / 40) * 100% into the timeline from its start.
+                The + var(--gantt-label-width) aligns it after the label column. */
             left: calc(var(--gantt-label-width) + (16 / var(--gantt-total-days-period) * var(--gantt-timeline-display-width)));
             height: 100%; /* Extend all the way down */
             border-left: 2px dotted #ccc; /* Dotted line style */
@@ -1000,13 +1019,29 @@
                         </div>
                         <div id="previews-content" class="collapsible-content sub-collapsible-content collapsed">
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800">Preview A – Demand & Project</p>
+                                <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
+                                    <span>Preview A – Demand & Project</span>
+                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Preview A – Demand & Project session">
+                                        <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                                        </svg>
+                                        Access Artifacts
+                                    </a>
+                                </p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 23, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 45 min</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core (Laura, Sarah, Managers and Intact leads)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800"><strong>2. Preview B – Resource & Timecard</strong></p>
+                                <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
+                                    <span>2. Preview B – Resource & Timecard</span>
+                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Preview B – Resource & Timecard session">
+                                        <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                                        </svg>
+                                        Access Artifacts
+                                    </a>
+                                </p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, June 30, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 08:00–08:45 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 45 min</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core team</p>
@@ -1021,19 +1056,43 @@
                         </div>
                         <div id="workshows-content" class="collapsible-content sub-collapsible-content collapsed">
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800"><strong>1. Demand</strong></p>
+                                <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
+                                    <span><strong>1. Demand</strong></span>
+                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Workshow – Demand session">
+                                        <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                                        </svg>
+                                        Access Artifacts
+                                    </a>
+                                </p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Wednesday, June 25, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800"><strong>2. Project</strong></p>
+                                <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
+                                    <span><strong>2. Project</strong></span>
+                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Workshow – Project session">
+                                        <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                                        </svg>
+                                        Access Artifacts
+                                    </a>
+                                </p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 1, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800"><strong>3. Resource / Timecard</strong></p>
+                                <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
+                                    <span><strong>3. Resource / Timecard</strong></span>
+                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Workshow – Resource / Timecard session">
+                                        <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                                        </svg>
+                                        Access Artifacts
+                                    </a>
+                                </p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 8, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–13:00 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90-120 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core Team + IT + Business</p>
@@ -1048,31 +1107,71 @@
                         </div>
                         <div id="workshops-content" class="collapsible-content sub-collapsible-content collapsed">
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800"><strong>1. Demand – IT</strong></p>
+                                <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
+                                    <span><strong>1. Demand – IT</strong></span>
+                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Workshop – Demand – IT session">
+                                        <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                                        </svg>
+                                        Access Artifacts
+                                    </a>
+                                </p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Thursday, July 10, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800"><strong>2. Demand – Business</strong></p>
+                                <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
+                                    <span><strong>2. Demand – Business</strong></span>
+                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Workshop – Demand – Business session">
+                                        <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                                        </svg>
+                                        Access Artifacts
+                                    </a>
+                                </p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Friday, July 11, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-green">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800"><strong>3. Project – IT</strong></p>
+                                <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
+                                    <span><strong>3. Project – IT</strong></span>
+                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Workshop – Project – IT session">
+                                        <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                                        </svg>
+                                        Access Artifacts
+                                    </a>
+                                </p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 14, 2025</p> <!-- Added date for consistency -->
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800"><strong>4. Project – Business</strong></p>
+                                <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
+                                    <span><strong>4. Project – Business</strong></span>
+                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Workshop – Project – Business session">
+                                        <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                                        </svg>
+                                        Access Artifacts
+                                    </a>
+                                </p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 15, 2025</p> <!-- Added date for consistency -->
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
                             </div>
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800"><strong>5. Resource/TC – IT</strong></p>
+                                <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
+                                    <span><strong>5. Resource/TC – IT</strong></span>
+                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Workshop – Resource/TC – IT session">
+                                        <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                                        </svg>
+                                        Access Artifacts
+                                    </a>
+                                </p>
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 21, 2025</p>
                                 <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
@@ -1084,11 +1183,11 @@
 
                 <div class="mt-8 bg-white rounded-lg shadow-md p-6">
                     <div class="flex justify-between items-center cursor-pointer sub-collapsible-toggle collapsed" data-target="gantt-view-content" tabindex="0" role="button" aria-expanded="false" aria-controls="gantt-view-content">
-                        <h4 class="font-bold text-lg text-gray-800 mb-0">GANTT Chart View (Conceptual)</h4>
+                        <h4 class="font-bold text-lg text-teal-500 mb-0">GANTT Chart View - A simplified visual representation of the timeline</h4>
                         <span class="collapsible-icon">▼</span>
                     </div>
                     <div id="gantt-view-content" class="collapsible-content sub-collapsible-content collapsed">
-                        <p class="text-sm text-gray-700 mt-2">A simplified visual representation of the timeline. For a fully interactive and dynamic Gantt chart, a dedicated library would be required.</p>
+                        
                         <div class="gantt-chart-container mt-4">
                             <div class="gantt-grid">
                                 <div class="gantt-month-header">
