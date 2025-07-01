@@ -941,6 +941,86 @@
             left:0;                            /* align to new indent */
             color:#ffffff;                     /* white ✓ for dark‑blue backgrounds */
         }
+
+        /* ---- 1. Stop Gantt bars from stealing the mouse ---- */
+        /* .gantt-bar{
+          pointer-events:none !important;
+        } */
+
+        /* ---- 2. Make sure the row’s track doesn’t crop tooltips ---- */
+        .gantt-bar-area{
+          overflow:visible !important;     /* bars may extend but not clip */
+        }
+
+        /* ---- 3. Raise the three W&W Structure boxes and their tooltips ---- */
+        #workshops-structure-section .tooltip-container{
+          position:relative;               /* establish stacking context */
+          z-index:150;                     /* higher than any Gantt element (z=0) */
+        }
+        #workshops-structure-section .tooltip{
+          z-index:200;                     /* tooltip on top of its tile */
+        }
+
+        /* --- Bring Workshows & Workshops Structure above the GANTT chart --- */
+        #workshops-structure-section{ position:relative; z-index:50; }   /* on top */
+        #gantt-view-content          { position:relative; z-index:1;  }   /* below  */
+        
+        /* ============================================================
+           Workshows & Workshops Structure – restore full‑size tooltips
+           ============================================================ */
+
+        /* 1 – Allow tooltips to extend outside the rounded container */
+        #workshops-structure-section{
+          position:relative;          /* create stacking context */
+          overflow:visible !important; /* stop clipping */
+          z-index:60;                 /* sit above GANTT (z=1)… well below reset btn */
+        }
+
+        /* 2 – The flex row that holds the three tiles must also allow overflow */
+        #workshops-structure-section .flex{
+          overflow:visible !important;
+        }
+
+        /* 3 – Just in case any tooltip container sets overflow, override it */
+        #workshops-structure-section .tooltip-container{
+          overflow:visible !important;
+        }
+
+        /* 4 – Optional: widen tooltip max‑width so text wraps neatly */
+        #workshops-structure-section .tooltip{
+          max-width:260px;
+          white-space:normal;
+        }
+        
+        /* --- Engagement Process Flip Cards --- */
+        .engagement-card {
+            width: 250px; /* A bit wider to accommodate content */
+            height: 180px; /* Adjust height */
+            box-shadow: none; /* Remove the default flip-card shadow */
+        }
+
+        .engagement-card .flip-card-front,
+        .engagement-card .flip-card-back {
+            background-color: #ffffff;
+            color: #333; /* Dark text for light background */
+            border: 2px dashed;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .engagement-card .flip-card-back {
+            font-size: 0.875rem; /* text-sm */
+            line-height: 1.4;
+            align-items: center; /* Center text vertically */
+        }
+
+        /* Specific border colors */
+        .preview-card-border { border-color: #d1d5db; } /* gray-300 */
+        .workshow-card-border { border-color: #00A9E0; } /* teal */
+        .workshop-card-border { border-color: #F37021; } /* orange */
     </style>
 </head>
 <body>
@@ -1470,25 +1550,41 @@
             <div id="workshops-structure-content" class="collapsible-content collapsed">
                 <p class="text-center text-gray-500 text-sm mb-6 mt-6">Our structured engagement process ensures alignment, demonstrates value, and captures detailed needs through an iterative cycle.</p>
                 <div class="flex flex-col md:flex-row items-center justify-around space-y-4 md:space-y-0 md:space-x-4">
-                    <div class="text-center p-4 border-2 border-dashed border-gray-300 rounded-lg tooltip-container">
-                        <h4 class="font-bold">1. Preview Sessions</h4>
-                        <p class="text-xs text-gray-500">Core Team Only (1hr)</p>
-                        <p class="text-sm mt-1">High-level overview & content filtering.</p>
-                        <span class="tooltip tooltip-dark-green">Internal sessions to align the core project team and refine content before broader stakeholder engagement. <strong>Purpose:</strong> Prevent "opening a can of worms" by showing irrelevant or premature info.</span>
+                    <div class="flip-card engagement-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front engagement-card-front preview-card-border">
+                                <h4 class="font-bold">1. Preview Sessions</h4>
+                                <p class="text-xs text-gray-500">Core Team Only (1hr)</p>
+                                <p class="text-sm mt-1">High-level overview & content filtering.</p>
+                            </div>
+                            <div class="flip-card-back engagement-card-back preview-card-border">
+                                <p>Internal sessions to align the core project team and refine content before broader stakeholder engagement. <strong>Purpose:</strong> Prevent "opening a can of worms" by showing irrelevant or premature info.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flow-arrow transform md:rotate-0">↓</div>
-                    <div class="text-center p-4 border-2 border-dashed border-teal-400 rounded-lg tooltip-container">
-                        <h4 class="font-bold">2. Workshows</h4>
-                        <p class="text-xs text-gray-500">Stakeholders (2hr)</p>
-                        <p class="text-sm mt-1">"See what you're getting" with OOTB demos.</p>
-                        <span class="tooltip tooltip-purple">Demonstrating out-of-the-box functionality to a wider audience. <strong>Definition:</strong> Purely for showing what it looks like and how it functions.</span>
+                    <div class="flip-card engagement-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front engagement-card-front workshow-card-border">
+                                <h4 class="font-bold">2. Workshows</h4>
+                                <p class="text-xs text-gray-500">Stakeholders (2hr)</p>
+                                <p class="text-sm mt-1">"See what you're getting" with OOTB demos.</p>
+                            </div>
+                            <div class="flip-card-back engagement-card-back workshow-card-border">
+                                <p>Demonstrating out-of-the-box functionality to a wider audience. <strong>Definition:</strong> Purely for showing what it looks like and how it functions.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flow-arrow transform md:rotate-0">↓</div>
-                    <div class="text-center p-4 border-2 border-dashed border-orange-400 rounded-lg tooltip-container">
-                        <h4 class="font-bold">3. Workshops</h4>
-                        <p class="text-xs text-gray-500">Stakeholders</p>
-                        <p class="text-sm mt-1">Capture gaps & configuration requirements.</p>
-                        <span class="tooltip tooltip-dark-brown">Detailed requirements gathering sessions to capture specific needs and identify configuration requirements. <strong>Definition:</strong> The "interview" phase to capture specific needs, document gaps, and gather input for configuration.</span>
+                    <div class="flip-card engagement-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front engagement-card-front workshop-card-border">
+                                <h4 class="font-bold">3. Workshops</h4>
+                                <p class="text-xs text-gray-500">Stakeholders</p>
+                                <p class="text-sm mt-1">Capture gaps & configuration requirements.</p>
+                            </div>
+                            <div class="flip-card-back engagement-card-back workshop-card-border">
+                                <p>Detailed requirements gathering sessions to capture specific needs and identify configuration requirements. <strong>Definition:</strong> The "interview" phase to capture specific needs, document gaps, and gather input for configuration.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
