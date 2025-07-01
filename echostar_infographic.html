@@ -920,6 +920,27 @@
         #timeline-content.collapsible-content:not(.collapsed){
           max-height: none !important;    /* no arbitrary ceiling */
         }
+        
+        /* ========== Stakeholder Overview readability touch‑ups ========== */
+
+        /* 1 – Extra inner padding & better line‑height on the flip‑back sides */
+        #metrics-stakeholders-section .flip-card-back{
+            padding:1rem 1.25rem !important;   /* more breathing room */
+            line-height:1.35;                  /* relaxed vertical spacing */
+            overflow-wrap:anywhere;            /* long words wrap instead of overflow */
+        }
+
+        /* 2 – Roomier left indent for the custom checkmark bullets */
+        #metrics-stakeholders-section .custom-bullet-list li{
+            padding-left:1.6rem;               /* give the ✓ its own gutter */
+            margin-bottom:0.35rem;             /* small gap between bullets */
+        }
+
+        /* 3 – Make the bullet white on *only* the Stakeholder tiles (dark bg) */
+        #metrics-stakeholders-section .custom-bullet-list li::before{
+            left:0;                            /* align to new indent */
+            color:#ffffff;                     /* white ✓ for dark‑blue backgrounds */
+        }
     </style>
 </head>
 <body>
