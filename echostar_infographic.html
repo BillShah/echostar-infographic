@@ -19,7 +19,13 @@
         .shared-services-bg { background-color: #FFC107; } /* Yellow */
         .corporate-bg { background-color: #F44336; } /* Red */
         .wireless-bg { background-color: #F37021; } /* Orange */
-        .hughes-bg { background-color: #81D4FA; } /* Light Blue (retained for consistency) */
+        
+        /* Hughes / Legacy EchoStar tile – soft blue */
+        .hughes-bg .flip-card-front,
+        .hughes-bg .flip-card-back{
+          background-color:#2196F3;    /* blue‑500 – distinct from the other four */
+          color:#ffffff;               /* keep text white for contrast */
+        }
 
         /* Teal shades for metrics section (backgrounds for front face) - retained for SPM modules section */
         .spm-modules-front { background-color: #007B9E; } /* Darker teal for SPM Modules */
@@ -1001,6 +1007,18 @@
                                 Retail and MNO divisions. Focus on mobile operations and customer engagement.
                             </div>
                         </div>
+                    </div>
+                    <!-- NEW Hughes tile -->
+                    <div class="flip-card hughes-bg">
+                      <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                          <strong>Hughes</strong><br>
+                          <span class="text-sm opacity-80">Legacy EchoStar</span>
+                        </div>
+                        <div class="flip-card-back">
+                          Satellite & legacy EchoStar operations.
+                        </div>
+                      </div>
                     </div>
                 </div>
             </div>
