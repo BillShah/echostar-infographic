@@ -1021,22 +1021,30 @@
         .workshow-card-border { border-color: #00A9E0; } /* teal */
         .workshop-card-border { border-color: #F37021; } /* orange */
 
-        /* -----------------------------------------------------------
-           Make the green “completed‑badge” float right so the
-           Date / Time / Audience block flows up alongside it.
-           Applies only inside timeline-card elements.
-           ----------------------------------------------------------- */
-        .timeline-card .completed-badge{
-            float:right;          /* badge moves to card’s right edge   */
-            margin:0 0 0.25rem 1rem;  /* small gap below + gap on left  */
+        /* ==========================================================
+           Stack green badge above Access‑Artifacts link (right‑aligned)
+           ========================================================== */
+
+        /* 1 – make the wrapper a vertical stack, badge first */
+        .timeline-card .card-actions{
+            display:flex !important;
+            flex-direction:column !important; /* DOM order: link→badge; reverse puts badge on top */
+            align-items:flex-end !important;          /* keep both items flush right */
+            gap:0.25rem;                              /* small space between them */
+            float:right;           /* occupy the right column   */
+            margin-left:1rem;      /* gap from left content     */
         }
 
-        /* Ensure the Date / Time / Audience paragraphs clear below the badge row,
-           so nothing jumps under it when the line wraps.  */
+        /* 2 – badge no longer floats; flex gap handles spacing */
+        .timeline-card .completed-badge{
+            float:none !important;
+            margin:0 !important;
+        }
+        /* ensure following paragraphs start below the float */
         .timeline-card::after{
             content:"";
             display:block;
-            clear:both;           /* pushes subsequent content below float */
+            clear:both;
         }
     </style>
 </head>
@@ -1244,132 +1252,95 @@
                                 <div class="gantt-vertical-separator-line"></div> 
                                 <!-- Gantt Task Rows -->
                                 <div class="gantt-task-row">
-                                    <div class="gantt-task-label">Preview A</div>
-                                    <div class="gantt-bar-area">
-                                        <!-- June 23rd is day 9 if June 15th is day 1. Duration = 9 days -->
-                                        <div class="gantt-bar preview-a tooltip-container" style="left: 0%; width: calc(9 / var(--gantt-total-days-period) * 100%);">
-                                            <span class="tooltip">
-                                                <strong>Preview A – Demand & Project</strong><br>
-                                                Date: Monday, June 23, 2025<br>
-                                                Time: 08:00–08:45 MT<br>
-                                                Audience: Core (Laura, Sarah, Managers and Intact leads)
-                                            </span>
-                                        </div>
+                                  <div class="gantt-task-label">Preview&nbsp;A&nbsp;–&nbsp;Demand&nbsp;&amp;&nbsp;Project</div>
+                                  <div class="gantt-bar-area">
+                                    <div class="gantt-bar preview-a tooltip-container" style="left:0%; width:calc(9 / var(--gantt-total-days-period) * 100%);">
+                                      <span class="tooltip">
+                                        <strong>Preview&nbsp;A&nbsp;–&nbsp;Demand&nbsp;&amp;&nbsp;Project</strong><br>
+                                        Date: Monday,&nbsp;June&nbsp;23,&nbsp;2025<br>
+                                        Time: 08:00–08:45&nbsp;MT<br>
+                                        Audience: Core&nbsp;(Laura,&nbsp;Sarah,&nbsp;Managers&nbsp;and&nbsp;Intact&nbsp;leads)
+                                      </span>
                                     </div>
-                                </div>
-                                <!-- Gantt row for Preview B – delete or comment -->
-                                <!--
-                                <div class="gantt-task-row">
-                                    <div class="gantt-task-label">Preview B</div>
-                                    <div class="gantt-bar-area">
-                                        <div class="gantt-bar preview-b tooltip-container" style="left: 0%; width: calc(16 / var(--gantt-total-days-period) * 100%);">
-                                            <span class="tooltip">
-                                                <strong>Preview B – Resource & Timecard</strong><br>
-                                                Date: Monday, June 30, 2025<br>
-                                                Time: 08:00–08:45 MT<br>
-                                                Audience: Core team
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                -->
-                                <div class="gantt-task-row">
-                                    <div class="gantt-task-label">Workshow Project</div>
-                                    <div class="gantt-bar-area">
-                                        <!-- July 1st is day 17 if June 15th is day 1. Duration = 17 days -->
-                                        <div class="gantt-bar workshow-project tooltip-container" style="left: 0%; width: calc(17 / var(--gantt-total-days-period) * 100%);">
-                                            <span class="tooltip">
-                                                <strong>Workshow – Project</strong><br>
-                                                Date: Tuesday, July 1, 2025<br>
-                                                Time: 11:00–13:00 MT<br>
-                                                Audience: Core Team + IT + Business
-                                            </span>
-                                        </div>
-                                    </div>
+                                  </div>
                                 </div>
                                 <div class="gantt-task-row">
-                                    <div class="gantt-task-label">Workshow Resource</div>
-                                    <div class="gantt-bar-area">
-                                        <!-- July 8th is day 24 if June 15th is day 1. Duration = 24 days -->
-                                        <div class="gantt-bar workshow-resource tooltip-container" style="left: 0%; width: calc(24 / var(--gantt-total-days-period) * 100%);">
-                                            <span class="tooltip">
-                                                <strong>Workshow – Resource / Timecard</strong><br>
-                                                Date: Tuesday, July 8, 2025<br>
-                                                Time: 11:00–13:00 MT<br>
-                                                Audience: Core Team + IT + Business
-                                            </span>
-                                        </div>
+                                  <div class="gantt-task-label">Work&nbsp;show&nbsp;Demand</div>
+                                  <div class="gantt-bar-area">
+                                    <div class="gantt-bar workshow-demand tooltip-container" style="left:0%; width:calc(11 / var(--gantt-total-days-period) * 100%);">
+                                      <span class="tooltip">
+                                        <strong>Work&nbsp;show&nbsp;Demand</strong><br>
+                                        Date: Wednesday,&nbsp;June&nbsp;25,&nbsp;2025<br>
+                                        Time: 11:00–13:00&nbsp;MT<br>
+                                        Audience: Core&nbsp;Team&nbsp;+&nbsp;IT&nbsp;+&nbsp;Business
+                                      </span>
                                     </div>
+                                  </div>
                                 </div>
                                 <div class="gantt-task-row">
-                                    <div class="gantt-task-label">Workshop Demand IT</div>
-                                    <div class="gantt-bar-area">
-                                        <!-- July 10th is day 26 if June 15th is day 1. Duration = 26 days -->
-                                        <div class="gantt-bar workshop-demand-it tooltip-container" style="left: 0%; width: calc(26 / var(--gantt-total-days-period) * 100%);">
-                                            <span class="tooltip">
-                                                <strong>Workshop – Demand – IT</strong><br>
-                                                Date: Thursday, July 10, 2025<br>
-                                                Time: 11:00–12:30 MT<br>
-                                                Audience: Core + Decision‑makers (IT)
-                                            </span>
-                                        </div>
+                                  <div class="gantt-task-label">Work&nbsp;show&nbsp;Project</div>
+                                  <div class="gantt-bar-area">
+                                    <div class="gantt-bar workshow-project tooltip-container" style="left:0%; width:calc(17 / var(--gantt-total-days-period) * 100%);">
+                                      <span class="tooltip">
+                                        <strong>Work&nbsp;show&nbsp;Project</strong><br>
+                                        Date: Tuesday,&nbsp;July&nbsp;1,&nbsp;2025<br>
+                                        Time: 11:00–13:00&nbsp;MT<br>
+                                        Audience: Core&nbsp;Team&nbsp;+&nbsp;IT&nbsp;+&nbsp;Business
+                                      </span>
                                     </div>
+                                  </div>
                                 </div>
                                 <div class="gantt-task-row">
-                                    <div class="gantt-task-label">Workshop Demand Biz</div>
-                                    <div class="gantt-bar-area">
-                                        <!-- July 11th is day 27 if June 15th is day 1. Duration = 27 days -->
-                                        <div class="gantt-bar workshop-demand-biz tooltip-container" style="left: 0%; width: calc(27 / var(--gantt-total-days-period) * 100%);">
-                                            <span class="tooltip">
-                                                <strong>Workshop – Demand – Business</strong><br>
-                                                Date: Friday, July 11, 2025<br>
-                                                Time: 11:00–12:30 MT<br>
-                                                Audience: Core + Decision‑makers (Business)
-                                            </span>
-                                        </div>
+                                  <div class="gantt-task-label">Workshow&nbsp;Resource&nbsp;/&nbsp;Timecard</div>
+                                  <div class="gantt-bar-area">
+                                    <div class="gantt-bar workshow-resource tooltip-container" style="left:0%; width:calc(24 / var(--gantt-total-days-period) * 100%);">
+                                      <span class="tooltip">
+                                        <strong>Workshow&nbsp;Resource&nbsp;/&nbsp;Timecard</strong><br>
+                                        Date: Tuesday,&nbsp;July&nbsp;8,&nbsp;2025<br>
+                                        Time: 11:00–13:00&nbsp;MT<br>
+                                        Audience: Core&nbsp;Team&nbsp;+&nbsp;IT&nbsp;+&nbsp;Business
+                                      </span>
                                     </div>
+                                  </div>
                                 </div>
                                 <div class="gantt-task-row">
-                                    <div class="gantt-task-label">Workshop Project IT</div>
-                                    <div class="gantt-bar-area">
-                                        <!-- July 14th is day 30 if June 15th is day 1. Duration = 30 days -->
-                                        <div class="gantt-bar workshop-project-it tooltip-container" style="left: 0%; width: calc(30 / var(--gantt-total-days-period) * 100%);">
-                                            <span class="tooltip">
-                                                <strong>Workshop – Project – IT</strong><br>
-                                                Date: Monday, July 14, 2025<br>
-                                                Time: 11:00–12:30 MT<br>
-                                                Audience: Core + Decision‑makers (IT)
-                                            </span>
-                                        </div>
+                                  <div class="gantt-task-label">Workshop&nbsp;Demand</div>
+                                  <div class="gantt-bar-area">
+                                    <div class="gantt-bar workshop-demand-biz tooltip-container" style="left:0%; width:calc(27 / var(--gantt-total-days-period) * 100%);">
+                                      <span class="tooltip">
+                                        <strong>Workshop&nbsp;Demand</strong><br>
+                                        Date: Friday,&nbsp;July&nbsp;11,&nbsp;2025<br>
+                                        Time: 11:00–12:30&nbsp;MT<br>
+                                        Audience: Core&nbsp;+&nbsp;Decision‑makers&nbsp;(Business)
+                                      </span>
                                     </div>
+                                  </div>
                                 </div>
                                 <div class="gantt-task-row">
-                                    <div class="gantt-task-label">Workshop Project Biz</div>
-                                    <div class="gantt-bar-area">
-                                        <!-- July 15th is day 31 if June 15th is day 1. Duration = 31 days -->
-                                        <div class="gantt-bar workshop-project-biz tooltip-container" style="left: 0%; width: calc(31 / var(--gantt-total-days-period) * 100%);">
-                                            <span class="tooltip">
-                                                <strong>Workshop – Project – Business</strong><br>
-                                                Date: Tuesday, July 15, 2025<br>
-                                                Time: 11:00–12:30 MT<br>
-                                                Audience: Core + Decision‑makers (Business)
-                                            </span>
-                                        </div>
+                                  <div class="gantt-task-label">Workshop&nbsp;Project</div>
+                                  <div class="gantt-bar-area">
+                                    <div class="gantt-bar workshop-project-biz tooltip-container" style="left:0%; width:calc(31 / var(--gantt-total-days-period) * 100%);">
+                                      <span class="tooltip">
+                                        <strong>Workshop&nbsp;Project</strong><br>
+                                        Date: Tuesday,&nbsp;July&nbsp;15,&nbsp;2025<br>
+                                        Time: 11:00–12:30&nbsp;MT<br>
+                                        Audience: Core&nbsp;+&nbsp;Decision‑makers&nbsp;(Business)
+                                      </span>
                                     </div>
+                                  </div>
                                 </div>
                                 <div class="gantt-task-row">
-                                    <div class="gantt-task-label">Workshop Resource IT</div>
-                                    <div class="gantt-bar-area">
-                                        <!-- July 21st is day 37 if June 15th is day 1. Duration = 37 days -->
-                                        <div class="gantt-bar workshop-resource-it tooltip-container" style="left: 0%; width: calc(37 / var(--gantt-total-days-period) * 100%);">
-                                            <span class="tooltip">
-                                                <strong>Workshop – Resource/TC – IT</strong><br>
-                                                Date: Monday, July 21, 2025<br>
-                                                Time: 11:00–12:30 MT<br>
-                                                Audience: Core + Decision‑makers (IT)
-                                            </span>
-                                        </div>
+                                  <div class="gantt-task-label">Workshop&nbsp;Resource/TC</div>
+                                  <div class="gantt-bar-area">
+                                    <div class="gantt-bar workshop-resource-it tooltip-container" style="left:0%; width:calc(37 / var(--gantt-total-days-period) * 100%);">
+                                      <span class="tooltip">
+                                        <strong>Workshop&nbsp;Resource/TC</strong><br>
+                                        Date: Monday,&nbsp;July&nbsp;21,&nbsp;2025<br>
+                                        Time: 11:00–12:30&nbsp;MT<br>
+                                        Audience: Core&nbsp;+&nbsp;Decision‑makers&nbsp;(IT)
+                                      </span>
                                     </div>
+                                  </div>
                                 </div>
                             </div>
                         </div>
@@ -1782,7 +1753,7 @@
                         console.warn("manageHeaderVisibility: workshopsStructureContent or its classList is unexpectedly missing. Defaulting isWorkshowsStructureOpen to false.");
                     }
                     
-                    // 2. Check if any specific module detail *panel* within 'Workshows & Workshops Structure' is currently visible.
+                    // 2. Check if any specific module detail *panels* within 'Workshows & Workshops Structure' is currently visible.
                     const anyModuleDetailPanelVisible = Array.from(spmModuleDetailPanels).some(panel => !panel.classList.contains('hidden'));
 
                     // 3. Check if any *other* primary top-level section (excluding the 'Workshows & Workshops Structure' itself) is open.
@@ -2355,31 +2326,47 @@
                             return;
                         }
 
-                        /* 3–inject banner if event is in the past */
-                        if(todayMT.isAfter(eventStart)){
-                            const prettyDate = eventStart.format('MMMM D,YYYY');
-                            const bannerHTML = `
+                        /* 3 – inject banner if event is in the past */
+                        if (todayMT.isAfter(eventStart)) {
+                          const prettyDate = eventStart.format('MMMM D,YYYY');
+                          const badgeHTML = `
                             <div class="completed-badge">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect width="22" height="22" x="1" y="1" rx="4" ry="4"></rect>
-                                    <polyline points="5 13 9 17 19 7"></polyline>
-                                </svg>
-                                <div class="ml-3">
-                                    <span class="block">This event was</span>
-                                    <span class="block">successfully completed</span>
-                                    <span class="block">on ${prettyDate}</span>
-                                </div>
+                              <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"
+                                   stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="22" height="22" x="1" y="1" rx="4" ry="4"></rect>
+                                <polyline points="5 13 9 17 19 7"></polyline>
+                              </svg>
+                              <div class="ml-3">
+                                <span class="block">This event was</span>
+                                <span class="block">successfully completed</span>
+                                <span class="block">on&nbsp;${prettyDate}</span>
+                              </div>
                             </div>`;
 
-                            /* locate the folder‑link wrapper <p> */
-                            // Insert the banner *before* the folder-link parent <p> for "above" placement
-                            const folderLinkParent = card.querySelector('.folder-link')?.parentElement;
-                            if(folderLinkParent && !card.querySelector('.completed-badge')){
-                                folderLinkParent.insertAdjacentHTML('beforebegin', bannerHTML);
-                            }
+                          /* --- build wrapper --- */
+                          const cardActionsDiv = document.createElement('div');
+                          cardActionsDiv.classList.add('card-actions');        // ← CSS hooks
+                          cardActionsDiv.insertAdjacentHTML('beforeend', badgeHTML);
+                          
+                          // Get the folderLink element before it's potentially removed from its parent
+                          const folderLink = card.querySelector('.folder-link');
+                          if (folderLink) { // Ensure folderLink exists before appending
+                              cardActionsDiv.appendChild(folderLink);              // move link into wrapper
+                          } else {
+                              console.warn("Folder link not found for card:", card);
+                          }
+
+
+                          /* --- insert wrapper *after* the title <p> --- */
+                          const titleRow = card.querySelector('.text-md.font-semibold.text-gray-800'); // Assuming this is the title row
+                          if (titleRow) {
+                              titleRow.after(cardActionsDiv);                      // keeps title intact
+                          } else {
+                              console.warn("Title row not found for card:", card);
+                          }
                         }
                     });
-                })();    // end addCompletionBadges
+                })();    // end addCompletionBadages
                 // ------------------------------------------------------
 
 
