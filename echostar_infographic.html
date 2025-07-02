@@ -23,8 +23,8 @@
         /* Hughes / Legacy EchoStar tile – soft blue */
         .hughes-bg .flip-card-front,
         .hughes-bg .flip-card-back{
-          background-color:#2196F3;    /* blue‑500 – distinct from the other four */
-          color:#ffffff;                /* keep text white for contrast */
+            background-color:#2196F3;    /* blue‑500 – distinct from the other four */
+            color:#ffffff;                 /* keep text white for contrast */
         }
 
         /* Teal shades for metrics section (backgrounds for front face) - retained for SPM modules section */
@@ -898,7 +898,6 @@
         .completed-badge{
             display:flex;           /* pill */
             width:max-content;      /* hug content */
-            margin:0.25rem 0 0.25rem auto;    /* auto left margin pushes it RIGHT  */
             /* ---------- colours & look ---------- */
             background:#d1fae5;
             color:#065f46;
@@ -925,21 +924,21 @@
 
         /* 1 – Extra inner padding & better line‑height on the flip‑back sides */
         #metrics-stakeholders-section .flip-card-back{
-            padding:1rem 1.25rem !important;   /* more breathing room */
+            padding:1rem 1.25rem !important;    /* more breathing room */
             line-height:1.35;                   /* relaxed vertical spacing */
             overflow-wrap:anywhere;             /* long words wrap instead of overflow */
         }
 
         /* 2 – Roomier left indent for the custom checkmark bullets */
         #metrics-stakeholders-section .custom-bullet-list li{
-            padding-left:1.6rem;                /* give the ✓ its own gutter */
-            margin-bottom:0.35rem;              /* small gap between bullets */
+            padding-left:1.6rem;                  /* give the ✓ its own gutter */
+            margin-bottom:0.35rem;                /* small gap between bullets */
         }
 
         /* 3 – Make the bullet white on *only* the Stakeholder tiles (dark bg) */
         #metrics-stakeholders-section .custom-bullet-list li::before{
-            left:0;                             /* align to new indent */
-            color:#ffffff;                      /* white ✓ for dark‑blue backgrounds */
+            left:0;                               /* align to new indent */
+            color:#ffffff;                        /* white ✓ for dark‑blue backgrounds */
         }
 
         /* ---- 1. Stop Gantt bars from stealing the mouse ---- */
@@ -949,7 +948,7 @@
 
         /* ---- 2. Make sure the row’s track doesn’t crop tooltips ---- */
         .gantt-bar-area{
-          overflow:visible !important;     /* bars may extend but not clip */
+          overflow:visible !important;      /* bars may extend but not clip */
         }
 
         /* ---- 3. Raise the three W&W Structure boxes and their tooltips ---- */
@@ -962,16 +961,16 @@
         }
 
         /* --- Bring Workshows & Workshops Structure above the GANTT chart --- */
-        #workshops-structure-section{ position:relative; z-index:50; }   /* on top */
-        #gantt-view-content         { position:relative; z-index:1;  }   /* below  */
+        #workshops-structure-section{ position:relative; z-index:50; }    /* on top */
+        #gantt-view-content         { position:relative; z-index:1;  }    /* below  */
         
         /* ============================================================
-           Workshows & Workshops Structure – restore full‑size tooltips
-           ============================================================ */
+            Workshows & Workshops Structure – restore full‑size tooltips
+            ============================================================ */
 
         /* 1 – Allow tooltips to extend outside the rounded container */
         #workshops-structure-section{
-          position:relative;           /* create stacking context */
+          position:relative;            /* create stacking context */
           overflow:visible !important; /* stop clipping */
           z-index:60;                  /* sit above GANTT (z=1)… well below reset btn */
         }
@@ -1021,6 +1020,24 @@
         .preview-card-border { border-color: #d1d5db; } /* gray-300 */
         .workshow-card-border { border-color: #00A9E0; } /* teal */
         .workshop-card-border { border-color: #F37021; } /* orange */
+
+        /* -----------------------------------------------------------
+           Make the green “completed‑badge” float right so the
+           Date / Time / Audience block flows up alongside it.
+           Applies only inside timeline-card elements.
+           ----------------------------------------------------------- */
+        .timeline-card .completed-badge{
+            float:right;          /* badge moves to card’s right edge   */
+            margin:0 0 0.25rem 1rem;  /* small gap below + gap on left  */
+        }
+
+        /* Ensure the Date / Time / Audience paragraphs clear below the badge row,
+           so nothing jumps under it when the line wraps.  */
+        .timeline-card::after{
+            content:"";
+            display:block;
+            clear:both;           /* pushes subsequent content below float */
+        }
     </style>
 </head>
 <body>
@@ -1457,20 +1474,7 @@
                             <span class="text-2xl text-gray-500 transform transition-transform duration-300 collapsible-icon">▼</span>
                         </div>
                         <div id="workshops-content" class="collapsible-content sub-collapsible-content collapsed">
-                            <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
-                                    <span><strong>1. Demand – IT</strong></span>
-                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Workshop – Demand – IT session">
-                                        <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
-                                        </svg>
-                                        Access Artifacts
-                                    </a>
-                                </p>
-                                <p class="text-sm text-gray-600"><strong>Date:</strong> Thursday, July 10, 2025</p>
-                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-blue">Duration: 90 mins</span></span></p>
-                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
-                            </div>
+                            
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
                                     <span><strong>2. Demand – Business</strong></span>
@@ -1487,19 +1491,6 @@
                             </div>
                             <div class="timeline-card">
                                 <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
-                                    <span><strong>3. Project – IT</strong></span>
-                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Workshop – Project – IT session">
-                                        <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
-                                        </svg>
-                                        Access Artifacts
-                                    </a>
-                                </p>
-                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 14, 2025</p> <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-purple">Duration: 90 mins</span></span></p>
-                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
-                            </div>
-                            <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
                                     <span><strong>4. Project – Business</strong></span>
                                     <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Workshop – Project – Business session">
                                         <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1511,20 +1502,36 @@
                                 <p class="text-sm text-gray-600"><strong>Date:</strong> Tuesday, July 15, 2025</p> <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-brown">Duration: 90 mins</span></span></p>
                                 <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (Business)</p>
                             </div>
+                            <!-- 5. Resource/TC – IT  (restore this whole block) -->
                             <div class="timeline-card">
-                                <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
-                                    <span><strong>5. Resource/TC – IT</strong></span>
-                                    <a href="#" target="_blank" class="folder-link flex items-center text-sm" aria-label="Click to access artifacts for Workshop – Resource/TC – IT session">
-                                        <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
-                                        </svg>
-                                        Access Artifacts
-                                    </a>
-                                </p>
-                                <p class="text-sm text-gray-600"><strong>Date:</strong> Monday, July 21, 2025</p>
-                                <p class="text-sm text-gray-600"><strong>Time:</strong> 11:00–12:30 MT <span class="tooltip-container">ℹ️<span class="tooltip tooltip-dark-gray">Duration: 90 mins</span></span></p>
-                                <p class="text-sm text-gray-600"><strong>Audience:</strong> Core + Decision‑makers (IT)</p>
+                              <p class="text-md font-semibold text-gray-800 flex items-center justify-between">
+                                <span><strong>5. Resource/TC – IT</strong></span>
+                                <!-- Access‑Artifacts link -->
+                                <a href="#" target="_blank"
+                                   class="folder-link flex items-center text-sm"
+                                   aria-label="Click to access artifacts for Workshop – Resource/TC – IT session">
+                                    <svg class="h-5 w-5 mr-1" fill="#FFD700" stroke="#FFD700"
+                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                                    </svg>
+                                    Access&nbsp;Artifacts
+                                </a>
+                              </p>
+                              <p class="text-sm text-gray-600">
+                                <strong>Date:</strong> Monday,&nbsp;July&nbsp;21,&nbsp;2025
+                              </p>
+                              <p class="text-sm text-gray-600">
+                                <strong>Time:</strong> 11:00–12:30&nbsp;MT&nbsp;
+                                <span class="tooltip-container">ℹ️
+                                  <span class="tooltip tooltip-dark-gray">Duration: 90 mins</span>
+                                </span>
+                              </p>
+                              <p class="text-sm text-gray-600">
+                                <strong>Audience:</strong> Core + Decision‑makers (IT)
+                              </p>
                             </div>
+                            
                         </div>
                     </div>
 
@@ -1711,6 +1718,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/plugin/timezone.min.js"></script>
 
     <script>
+        // Register the plugins immediately after loading them
+        dayjs.extend(dayjs_plugin_utc);
+        dayjs.extend(dayjs_plugin_timezone);
+
         /**
          * The main entry point for the JavaScript logic, ensuring the DOM is fully loaded.
          * All primary event listeners, initial setups, and complex logic are encapsulated here.
@@ -2213,20 +2224,9 @@
                 try {
                     const lastUpdatedElement = document.getElementById('lastUpdated');
                     if (lastUpdatedElement) {
-                        const now = new Date();
-                        // Using toLocaleString with specific options to format for Mountain Time (approximated)
-                        const options = { 
-                            year: 'numeric', 
-                            month: 'long', 
-                            day: 'numeric', 
-                            hour: '2-digit', 
-                            minute: '2-digit', 
-                            hour12: true, 
-                            timeZone: 'America/Denver' // Mountain Time Zone
-                        };
-                        const formattedDate = now.toLocaleString('en-US', options);
-                        // Manually append "MT" as toLocaleString might use a full time zone name
-                        lastUpdatedElement.textContent = `This site was updated on ${formattedDate.replace(' AM', ' AM MT').replace(' PM', ' PM MT')}`;
+                        const now = dayjs().tz('America/Denver'); // Get current time in Mountain Time
+                        const formattedDate = now.format('MMMM D,YYYY hh:mm A'); // Format as "Month Day, Year HH:MM AM/PM"
+                        lastUpdatedElement.textContent = `This site was updated on ${formattedDate} MT`;
                     } else {
                         console.warn("setLastUpdateTimestamp: 'lastUpdated' element not found.");
                     }
@@ -2278,7 +2278,7 @@
                 echostarLogo.classList.remove('logo-shrink');
 
                 // Re-initialize the SPM chart content to be open (as per initial state)
-                const spmModulesChartToggle = document.querySelector('#workshops-structure-section #spm-modules-chart-content').previousElementSibling; // Get the toggle for the chart
+                const spmModulesChartToggle = document.querySelector('#workshops-structure-section .sub-collapsible-toggle[data-target="spm-modules-chart-content"]');
                 const spmModulesChartContent = document.getElementById('spm-modules-chart-content');
                 if (spmModulesChartContent && spmModulesChartToggle) {
                     setCollapsedState(spmModulesChartContent, spmModulesChartToggle, false); // Open the chart content
@@ -2327,52 +2327,58 @@
                 setupHeaderTextCarousel(mainTitle, strategyText);
                 setLastUpdateTimestamp();
 
-                // ---------- ✅ NEW: auto‑stamp past events (banner now ABOVE folder link)
-                dayjs.extend(dayjs_plugin_utc);
-                dayjs.extend(dayjs_plugin_timezone);
-
                 (function addCompletionBadges(){
-                  const MT_ZONE = 'America/Denver';
-                  const todayMT = dayjs().tz(MT_ZONE).startOf('minute');    // current time, MT
+                    const MT_ZONE = 'America/Denver';
+                    const todayMT = dayjs().tz(MT_ZONE).startOf('minute');  // current time, MT
 
-                  document.querySelectorAll('#timeline-section .timeline-card').forEach(card => {
-                    /* 1–extract date + time lines */
-                    const dateP = Array.from(card.querySelectorAll('p'))
-                                         .find(p => p.textContent.trim().startsWith('Date:'));
-                    const timeP = Array.from(card.querySelectorAll('p'))
-                                         .find(p => p.textContent.trim().startsWith('Time:'));
-                    if(!dateP || !timeP) return;    // malformed card, skip
+                    document.querySelectorAll('#timeline-section .timeline-card').forEach(card => {
+                        /* 1–extract date + time lines */
+                        const dateP = Array.from(card.querySelectorAll('p'))
+                                            .find(p => p.textContent.trim().startsWith('Date:'));
+                        const timeP = Array.from(card.querySelectorAll('p'))
+                                            .find(p => p.textContent.trim().startsWith('Time:'));
+                        if(!dateP || !timeP) return;    // malformed card, skip
 
-                    const dateTxt = dateP.textContent.replace(/^[^:]+:/,'').trim();        // e.g. Monday, June 23, 2025
-                    const timeTxt = (timeP.textContent.match(/([0-9]{1,2}:[0-9]{2})/)||[])[1]; // e.g. 08:00
-                    if(!timeTxt) return;
+                        const dateTxt = dateP.textContent.replace(/^[^:]+:/,'').trim();      // e.g. Monday, June 23, 2025
+                        const timeTxt = (timeP.textContent.match(/([0-9]{1,2}:[0-9]{2})/)||[])[1]; // e.g. 08:00
+                        
+                        if(!timeTxt) return;
 
-                    /* 2–build start‑of‑event DT in MT */
-                    const eventStart = dayjs.tz(`${dateTxt} ${timeTxt}`, 'dddd, MMMM D,YYYY HH:mm', MT_ZONE);
+                        /* 2–build start‑of‑event DT in MT */
+                        // Combine date and time, then parse with a specific format
+                        const eventDateTimeString = `${dateTxt} ${timeTxt}`;
+                        const eventStart = dayjs.tz(eventDateTimeString, 'dddd, MMMM D,YYYY HH:mm', MT_ZONE);
 
-                    /* 3–inject banner if event is in the past */
-                    if(todayMT.isAfter(eventStart)){
-                      const prettyDate = eventStart.format('MMMM D,YYYY');
-                      const bannerHTML = `
-                      <div class="completed-badge">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                          <rect width="22" height="22" x="1" y="1" rx="4" ry="4"></rect>
-                          <polyline points="5 13 9 17 19 7"></polyline>
-                        </svg>
-                        <div class="ml-3">
-                          <span class="block">This event was</span>
-                          <span class="block">successfully completed</span>
-                          <span class="block">on ${prettyDate}</span>
-                        </div>
-                      </div>`;
+                        // Ensure eventStart is a valid Day.js object before comparison
+                        if (!eventStart.isValid()) {
+                            console.warn(`Invalid date/time format for card: ${eventDateTimeString}. Skipping completion badge.`);
+                            return;
+                        }
 
-                      /* locate the folder‑link wrapper <p> */
-                      const folderRow = card.querySelector('.folder-link')?.parentElement;
-                      if(folderRow && !card.querySelector('.completed-badge')){
-                        folderRow.insertAdjacentHTML('afterend', bannerHTML);
-                      }
-                    }
-                  });
+                        /* 3–inject banner if event is in the past */
+                        if(todayMT.isAfter(eventStart)){
+                            const prettyDate = eventStart.format('MMMM D,YYYY');
+                            const bannerHTML = `
+                            <div class="completed-badge">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect width="22" height="22" x="1" y="1" rx="4" ry="4"></rect>
+                                    <polyline points="5 13 9 17 19 7"></polyline>
+                                </svg>
+                                <div class="ml-3">
+                                    <span class="block">This event was</span>
+                                    <span class="block">successfully completed</span>
+                                    <span class="block">on ${prettyDate}</span>
+                                </div>
+                            </div>`;
+
+                            /* locate the folder‑link wrapper <p> */
+                            // Insert the banner *before* the folder-link parent <p> for "above" placement
+                            const folderLinkParent = card.querySelector('.folder-link')?.parentElement;
+                            if(folderLinkParent && !card.querySelector('.completed-badge')){
+                                folderLinkParent.insertAdjacentHTML('beforebegin', bannerHTML);
+                            }
+                        }
+                    });
                 })();    // end addCompletionBadges
                 // ------------------------------------------------------
 
