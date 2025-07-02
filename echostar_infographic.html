@@ -1046,6 +1046,11 @@
             display:block;
             clear:both;
         }
+
+        /* Training & Communication (turquoise) */
+        .gantt-bar.training-comm{ background-color:#00CED1; }  /* turquoise */
+        .gantt-bar.training-comm .tooltip{ background:#00CED1; }
+        .gantt-bar.training-comm .tooltip::after{ border-color:#00CED1 transparent transparent transparent; }
     </style>
 </head>
 <body>
@@ -1342,18 +1347,20 @@
                                     </div>
                                   </div>
                                 </div>
-                                <!-- 8 ▸ Training & Communication  ───────────────────────────── -->
+                                <!-- 8 ▸ Training & Communication  ──────────────────────────── -->
                                 <div class="gantt-task-row">
                                   <div class="gantt-task-label">Training&nbsp;and&nbsp;Communication</div>
 
                                   <div class="gantt-bar-area">
-                                    <!-- no timecard yet ⇒ show a 5‑px stub bar just past July -->
                                     <div class="gantt-bar training-comm tooltip-container"
-                                         style="left:100%; width:5px;">   <!-- ⬅ outside 40‑day window -->
+                                         style="
+                                           left: calc(16 / var(--gantt-total-days-period) * 100%);   /* start at June↔July divider */
+                                           width: calc(24 / var(--gantt-total-days-period) * 100%); /* span day 16→40 (Aug + Sept) */
+                                         ">
 
                                       <span class="tooltip">
                                         <strong>Training&nbsp;and&nbsp;Communication</strong><br>
-                                        Date: August &amp; September&nbsp;2025<br>
+                                        Date: August &amp; September 2025<br>
                                         Time: TBD<br>
                                         Audience: EchoStar Users and Stakeholders
                                       </span>
@@ -2000,7 +2007,7 @@
              * @param {NodeListOf<Element>} allToggles - A NodeList of all collapsible toggle elements.
              * @param {HTMLElement} echostarLogo - The EchoStar logo element for shrinking/expanding.
              * @param {Array<HTMLElement>} mainCollapsibleTogglesForLogo - An array of primary section toggles affecting logo state.
-             * @param {HTMLElement} mainHeader - The main header element for visibility management.
+             * @param {HTMLElement} mainHeader - The main header element to control.
              * @param {HTMLElement} workshopsStructureContent - The content element of the 'Workshows & Workshops Structure' section.
              * @param {NodeListOf<Element>} spmModuleDetailPanels - A NodeList of all SPM module detail panel elements.
              * @param {Array<string>} otherMainSectionContentIds - An array of IDs for other primary section content elements.
